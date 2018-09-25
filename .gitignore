@@ -1,0 +1,7 @@
+/node_modules
+/yarn.lock
+/app/index.js
+*.js
+*.js.map
+
+!/app/nomodule.js

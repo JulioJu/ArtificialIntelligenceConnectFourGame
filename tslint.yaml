@@ -1,0 +1,78 @@
+# Inspired from JHipster 4.6.1 and angular-cli 1.7.2
+# Add custom rules.
+# Rules already in tslint:latest and tslint:recommanded on 07-03-2018 not added.
+---
+# rulesDirectory:
+# - node_modules/codelyzer
+extends:
+  # See https://github.com/palantir/tslint/tree/master/src/configs
+  "tslint:all"
+rules:
+  # TSLINT
+  # https://palantir.github.io/tslint/rules/
+  # https://github.com/palantir/tslint/tree/master/test/rules
+
+  # =========================
+  # |    TypeScript-specific
+  # |    These rules find errors related to TypeScript features:
+  # =========================
+
+  # # Traditional functions don’t bind lexical scope, which can lead to unexpected
+  # # behavior when accessing ‘this’.
+  # only-arrow-functions: false
+
+  # =========================
+  # |   Functionality
+  # |   These rules catch common errors in JS programming or otherwise confusing
+  # |   constructs that are prone to producing bugs:
+  # =========================
+
+  # use this rule sparingly. It’s better to have self-documenting names on
+  # components with single, consice responsibilities. Comments that only restate
+  # the names of variables add nothing to code, and can easily become outdated.
+  comment-format: false
+
+  no-console:
+    - false
+  no-void-expression:
+    - true
+    # If ignore-arrow-function-shorthand is provided, () => returnsVoid() will
+    # be allowed. Otherwise, it must be written as () => { returnsVoid(); }.
+    - ignore-arrow-function-shorthand
+
+  # =========================
+  # |   Maintainability
+  # |   These rules make code maintenance easier:
+  # =========================
+  indent:
+    - true
+    - spaces
+  max-line-length:
+    - true
+    - limit: 80
+      # Chararcter '*' or '\*' doesn't work
+      ignore-pattern: '^\s*// http://|^\s*// https://|^\s*// See http://|^\s*// See https://'
+  trailing-comma:
+    - true
+    - multiline:
+        objects: never
+        arrays: never
+        functions: never
+        typeLiterals: never
+      esSpecCompliant: true
+
+  # =========================
+  # |   Style
+  # |   These rules enforce consistent style across your codebase:
+  # =========================
+  newline-before-return: false
+
+  # Disallows parameter properties in class constructors. (private myvar)
+  no-parameter-properties: false
+
+  object-literal-sort-keys: false
+  ordered-imports: false
+  quotemark:
+    - true
+    - single
+  space-before-function-paren: false # not my style (myFunc())

@@ -1,0 +1,40 @@
+{
+    "compilerOptions": {
+        "module": "es6",
+        "target": "es2017",
+
+        "listEmittedFiles": true,
+        "preserveWatchOutput": true,
+        "pretty": true,
+
+        "sourceMap": true,
+        "inlineSourceMap": false,
+
+        "allowJs": false,
+        "baseUrl": ".",
+        "outDir": "./app",
+        "watch": true,
+
+        "alwaysStrict": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "strictNullChecks": true,
+        "strictFunctionTypes": true
+
+    },
+    "include": [
+        "app/typescript/*.ts",
+        "app/typescript/**/*.ts",
+        "app/typescript/*.ts"
+    ],
+    "exclude" : [
+        "./node_modules",
+        "./app/*.js",
+        "./app/*.map.js"
+    ]
+}
