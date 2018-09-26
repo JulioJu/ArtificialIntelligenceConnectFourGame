@@ -26,3 +26,19 @@
         https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS/Errors/CORSRequestNotHttp
         and "`Module source URI is not allowed in this document:
         “file:///home/julioju/DCISS/IA/ArtificialIntelligenceConnectFour/index.js”`"
+
+* To retrieve url parm see:
+    * https://developer.mozilla.org/en-US/docs/Web/API/HTMLHyperlinkElementUtils/search
+    * And https://developer.mozilla.org/en-US/docs/Web/API/URL
+
+### Notes
+* Form in index.ts is not validated before it is submits. As code is
+    client-side, and I only use radio buttons with a default check,
+    I believe it's not useful to process validation. If the user
+    want break the code with inspector or by change source code, it could ! ;-).
+    * Otherwise in connect-four-game.ts it could be interesting to validate
+        the URL.
+
+<!--
+vim: ts=4 sw=4 et:
+-->

@@ -21,6 +21,16 @@ rules:
   # # behavior when accessing ‘this’.
   # only-arrow-functions: false
 
+  # See https://github.com/palantir/tslint/issues/711 named
+  #     "'no-inferrable-types' and 'typedef' rules conflict"
+  no-inferrable-types:
+    - false
+    # allows specifying an inferrable type annotation for function params. This
+    # can be useful when combining with the typedef rule.
+    # - ignore-params
+    # allows specifying an inferrable type annotation for class properties.
+    # ignore-properties
+
   # =========================
   # |   Functionality
   # |   These rules catch common errors in JS programming or otherwise confusing
@@ -65,6 +75,20 @@ rules:
   # |   Style
   # |   These rules enforce consistent style across your codebase:
   # =========================
+
+  # Enforces vertical alignment.
+  align:
+    - true
+    - parameters
+    # - arguments
+    - statements
+    - members
+    - elements
+
+  file-name-casing:
+    - true
+    - kebab-case
+
   newline-before-return: false
 
   # Disallows parameter properties in class constructors. (private myvar)
@@ -72,6 +96,10 @@ rules:
 
   object-literal-sort-keys: false
   ordered-imports: false
+
+  # Prefer a template expression over string literal concatenation.
+  prefer-template: false
+
   quotemark:
     - true
     - single
