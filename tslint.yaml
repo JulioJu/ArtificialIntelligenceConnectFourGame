@@ -88,6 +88,7 @@ rules:
   file-name-casing:
     - true
     - kebab-case
+    - camel-case
 
   newline-before-return: false
 

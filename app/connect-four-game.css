@@ -1,0 +1,36 @@
+html, body, .column, .square {
+    width: 100%;
+    height: 100%;
+    padding: 0em 0em 0em 0em;
+    margin: 0em 0em 0em 0em;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: row;
+}
+
+.column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    filter: grayscale(0%);
+    transition: all 0.5s linear;
+}
+
+.column:hover {
+    filter: grayscale(60%);
+    cursor: pointer;
+}
+
+.square {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* http://angrytools.com/gradient/ */
+    background: linear-gradient(45deg,
+                                    rgba(255,255,0,1) 0%,
+                                    rgba(2,212,201,1) 100%);
+}

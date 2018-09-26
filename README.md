@@ -39,6 +39,9 @@
     * Otherwise in connect-four-game.ts it could be interesting to validate
         the URL.
 
+* In Firefox, when dev tools are open, the size of the `window` element
+    is has a hight a little bit taller than the real hight of the screen.
+
 <!--
 vim: ts=4 sw=4 et:
 -->
