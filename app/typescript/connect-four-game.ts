@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Wed 26 Sep 2018 01:11:08 PM CEST
- *       MODIFIED:
+ *       MODIFIED: Thu 27 Sep 2018 12:04:23 PM CEST
  *
  *          USAGE:
  *
@@ -11,6 +11,7 @@
  * ============================================================================
  */
 
+import { Square } from './Square.js';
 import { SquareValues } from './SquareValues.js';
 
 // See:
@@ -23,30 +24,32 @@ console.log('URL query param gamemode: ' +
 const gridColumnLength: number = 7;
 const gridRowLength: number = 6;
 
-const grid: SquareValues[][] = new Array(gridColumnLength);
+const grid: Square[][] = new Array(gridColumnLength);
 
 for (let columnIndex: number = 0 ;
         columnIndex < gridColumnLength ;
         columnIndex++) {
   grid[columnIndex] = new Array(gridRowLength);
   for (let rowIndex: number = 0 ; rowIndex < gridRowLength ; rowIndex++) {
-    grid[columnIndex][rowIndex] = 0;
+    grid[columnIndex][rowIndex] = new Square(rowIndex, columnIndex,
+        SquareValues.EMPTY_SQUARE);
   }
 }
 
 for (let columnIndex: number = 0 ;
-  columnIndex < gridColumnLength ;
-  columnIndex++) {
-  const column: HTMLElement = document.createElement('div');
-  column.classList.add('column');
+        columnIndex < gridColumnLength ;
+        columnIndex++) {
+  const columnHTMLElement: HTMLElement = document.createElement('div');
+  columnHTMLElement.classList.add('column');
   for (let rowIndex: number = 0 ; rowIndex < gridRowLength ; rowIndex++) {
     console.log(grid[columnIndex][rowIndex]);
     const square: HTMLElement = document.createElement('div');
-    square.textContent = SquareValues[grid[columnIndex][rowIndex]];
+    square.textContent = SquareValues[grid[columnIndex][rowIndex]
+      .squareValue];
     square.classList.add('square');
-    column.appendChild(square);
+    columnHTMLElement.appendChild(square);
   }
-  document.body.appendChild(column);
+  document.body.appendChild(columnHTMLElement);
 }
 
 // vim: ts=2 sw=2 et:

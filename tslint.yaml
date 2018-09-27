@@ -21,6 +21,9 @@ rules:
   # # behavior when accessing ‘this’.
   # only-arrow-functions: false
 
+  # Enforces member ordering. (public, private, fields, etc.)
+  member-ordering: false
+
   # See https://github.com/palantir/tslint/issues/711 named
   #     "'no-inferrable-types' and 'typedef' rules conflict"
   no-inferrable-types:
@@ -79,7 +82,7 @@ rules:
   # Enforces vertical alignment.
   align:
     - true
-    - parameters
+    # - parameters
     # - arguments
     - statements
     - members
@@ -105,3 +108,8 @@ rules:
     - true
     - single
   space-before-function-paren: false # not my style (myFunc())
+
+  variable-name:
+    - true
+    - ban-keyword
+    - allow-leading-underscore
