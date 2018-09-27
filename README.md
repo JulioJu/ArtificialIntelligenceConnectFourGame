@@ -1,31 +1,40 @@
 # How To
 
 * To use it:
-    1. (for TypeScript) `./node_modules/.bin/tsc`
-    2. (for Browsersync)
-    ```
-    cd app/
-    ../node_modules/.bin/browser-sync start --server --index ./index.html
-        --files *`
-    ```
-    * Thanks this, in WaterFox, I can debug the TypeScript files ! So cool ! ^^
-        I can also use break points… Soooo cooool ;-). And files are sync :-).
-    * `browser-sync` should be launch in `app/` because app is our root folder.
+    1. For TypeScript compiler: `./node_modules/.bin/tsc`
+        (watch mode could be configured in ./tsconfig.json)
+    2. Launch the app:
+        * EITHER (for Browsersync)
+            ```
+            pushd  app && ../node_modules/.bin/browser-sync start --server --index ./index.html --files ./ & popd
+            ```
+            * `browser-sync` should be launch in `app/` because app is our root folder.
+            * Thanks BrowserSync, each modification saved
+                automatically reload the app in the Browser :-).
+        * OR `firefox ./app/index.js`
+        * Note: In Firefox, we can debug the TypeScript files ! So cool ! ^^
+                We can also use break points… Soooo cooool ;-).
 
-* I use
-    https://stackoverflow.com/questions/950087/how-do-i-include-a-javascript-file-in-another-javascript-file
-    * With `Chromium` without `browser-sync`, use `chromium index.html` gives
-        error "`Origin null is not allowed by Access-Control-Allow-Origin`".
-    * With Firefox, we have not this error.
-        * We have a similar error if the
-        JavaScript file is in a parent parent folder (`../index.js`).  The error
-        is "`Cross-Origin Request Blocked: The Same Origin Policy disallows
-        reading the remote resource at
-        file:///home/julioju/DCISS/IA/ArtificialIntelligenceConnectFour/index.js.
-        (Reason: CORS request not http).`" with a link to
-        https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS/Errors/CORSRequestNotHttp
-        and "`Module source URI is not allowed in this document:
-        “file:///home/julioju/DCISS/IA/ArtificialIntelligenceConnectFour/index.js”`"
+* This app use Modules. Therefore, we must have a recent Browser
+        (e.g Firefox > 60).
+
+* We can't launch the app with `chromium ./app/index.html`, otherwise we have
+    error "`Origin null is not allowed by Access-Control-Allow-Origin`".
+    We must use a server with `chromium`, like `browser-sync`.
+* With Firefox, we have not this error, that's why we could use command
+    `firefox ./app/index.html` to launch the app. But, in this case,
+    `javascript` files must be under the folder that contains `index.html`.
+        If the javascript file is in a parent folder
+        (e.g. in index.html : `<script type="module" src="../index.js" />`)
+        we have the followings errors:
+            * "`Cross-Origin Request
+                Blocked: The Same Origin Policy disallows reading the remote
+                resource at
+                file:///home/julioju/DCISS/IA/ArtificialIntelligenceConnectFour/index.js.
+                (Reason: CORS request not http).`" with a link to
+                https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS/Errors/CORSRequestNotHttp
+            * and "`Module source URI is not allowed in this document:
+                “file:///home/julioju/DCISS/IA/ArtificialIntelligenceConnectFour/index.js”`"
 
 * To retrieve url parm see:
     * https://developer.mozilla.org/en-US/docs/Web/API/HTMLHyperlinkElementUtils/search

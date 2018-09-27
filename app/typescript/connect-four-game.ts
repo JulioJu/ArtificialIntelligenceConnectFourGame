@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Wed 26 Sep 2018 01:11:08 PM CEST
- *       MODIFIED: Thu 27 Sep 2018 06:08:06 PM CEST
+ *       MODIFIED: Fri 28 Sep 2018 09:22:00 AM CEST
  *
  *          USAGE:
  *
@@ -11,13 +11,12 @@
  * ============================================================================
  */
 
+import { GRID_COLUMN_LENGTH, GRID_ROW_LENGTH } from './constants.js'
 import { Square } from './Square.js';
 import { SquareValues } from './SquareValues.js';
+import { IsCurrentGamerWin } from './isCurrentGamerWin.js';
 
-const GRID_COLUMN_LENGTH: number = 7;
-const GRID_ROW_LENGTH: number = 6;
-
-let gamerIs: SquareValues = SquareValues.GAMER_RED;
+let currentGamer: SquareValues = SquareValues.GAMER_RED;
 
 // Should not be an arrow function, because `this'
 // doesn't exists in Arrow function
@@ -25,40 +24,45 @@ const squareOnClick:
     (this: Square, grid: Square[][]) => void
     = function(this: Square, grid: Square[][]): void {
   console.log('Square clicked: ', this);
-  let firstSquareEmptyOfColumn: Square | undefined;
+  let squareAdded: Square | undefined;
   for (let rowIndex: number = GRID_ROW_LENGTH - 1 ;
           rowIndex >= 0 ;
           rowIndex--) {
     const square: Square = grid[this.columnIndex][rowIndex];
     if (square.squareValue === SquareValues.EMPTY_SQUARE) {
-      firstSquareEmptyOfColumn = square;
+      squareAdded = square;
       break;
     }
   }
-  if (firstSquareEmptyOfColumn) {
+  if (squareAdded) {
     console.log('First Square empty on the bottom of the column clicked: ',
-      firstSquareEmptyOfColumn);
-    const htmlElementFirstSquareEmptyOfColumn: HTMLElement =
-      firstSquareEmptyOfColumn.squareHTMLElement;
+      squareAdded);
+    const squareAddedHTMLElement: HTMLElement =
+      squareAdded.squareHTMLElement;
     // tslint:disable-next-line:switch-default
-    switch (gamerIs) {
+    switch (currentGamer) {
       case SquareValues.GAMER_RED:
-        firstSquareEmptyOfColumn.squareValue = SquareValues.GAMER_RED;
-        htmlElementFirstSquareEmptyOfColumn.classList.remove('square_empty');
-        htmlElementFirstSquareEmptyOfColumn.classList.add('square_gamer_red');
-        htmlElementFirstSquareEmptyOfColumn.textContent =
+        squareAdded.squareValue = SquareValues.GAMER_RED;
+        squareAddedHTMLElement.classList.remove('square_empty');
+        squareAddedHTMLElement.classList.add('square_gamer_red');
+        squareAddedHTMLElement.textContent =
           SquareValues[SquareValues.GAMER_RED];
-        gamerIs = SquareValues.GAMER_YELLOW;
+        if (IsCurrentGamerWin(currentGamer, grid, squareAdded)) {
+          alert(SquareValues[currentGamer] + ' win!!!');
+        }
+        currentGamer = SquareValues.GAMER_YELLOW;
         console.log('red');
         break;
       case SquareValues.GAMER_YELLOW:
-        firstSquareEmptyOfColumn.squareValue = SquareValues.GAMER_YELLOW;
-        htmlElementFirstSquareEmptyOfColumn.classList.remove('square_empty');
-        htmlElementFirstSquareEmptyOfColumn.classList
-          .add('square_gamer_yellow');
-        htmlElementFirstSquareEmptyOfColumn.textContent =
+        squareAdded.squareValue = SquareValues.GAMER_YELLOW;
+        squareAddedHTMLElement.classList.remove('square_empty');
+        squareAddedHTMLElement.classList.add('square_gamer_yellow');
+        squareAddedHTMLElement.textContent =
           SquareValues[SquareValues.GAMER_YELLOW];
-        gamerIs = SquareValues.GAMER_RED;
+        if (IsCurrentGamerWin(currentGamer, grid, squareAdded)) {
+          alert(SquareValues[currentGamer] + ' win!!!');
+        }
+        currentGamer = SquareValues.GAMER_RED;
         console.log('yellow');
     }
   } else {
