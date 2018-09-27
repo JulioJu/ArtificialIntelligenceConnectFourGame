@@ -8,6 +8,7 @@
         <link href="./connect-four-game.css" rel="stylesheet" type="text/css">
     </head>
     <body>
+
         <noscript>
             <strong style="background-color: red">
                 Your browser does not support JavaScript!
@@ -16,9 +17,12 @@
             </strong>
         </noscript>
 
-        <script src="./connect-four-game.js" type="module" ></script>
-
         <script nomodule src="./nomodule.js"></script>
+
+        <script type="module" >
+            import { main } from './connect-four-game.js';
+            main();
+        </script>
 
     </body>
 </html>
