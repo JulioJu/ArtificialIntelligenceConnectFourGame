@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Wed 26 Sep 2018 01:11:08 PM CEST
- *       MODIFIED: Thu 27 Sep 2018 12:35:53 PM CEST
+ *       MODIFIED: Thu 27 Sep 2018 01:40:55 PM CEST
  *
  *          USAGE:
  *
@@ -13,6 +13,17 @@
 
 import { Square } from './Square.js';
 import { SquareValues } from './SquareValues.js';
+
+// const squareOnClick: () => void =
+//   (): void => {
+//     console.log(row);
+//   };
+
+// Should not be an arrow function, because `this'
+// doesn't exists in Arrow function
+const squareOnClick: () => void = function(this: Square): void {
+  console.log(this);
+};
 
 export const main: () => void = (): void => {
   // See:
@@ -32,7 +43,7 @@ export const main: () => void = (): void => {
           columnIndex++) {
     grid[columnIndex] = new Array(gridRowLength);
     for (let rowIndex: number = 0 ; rowIndex < gridRowLength ; rowIndex++) {
-      grid[columnIndex][rowIndex] = new Square(rowIndex, columnIndex,
+      grid[columnIndex][rowIndex] = new Square(columnIndex, rowIndex,
           SquareValues.EMPTY_SQUARE);
     }
   }
@@ -43,12 +54,17 @@ export const main: () => void = (): void => {
     const columnHTMLElement: HTMLElement = document.createElement('div');
     columnHTMLElement.classList.add('column');
     for (let rowIndex: number = 0 ; rowIndex < gridRowLength ; rowIndex++) {
-      console.log(grid[columnIndex][rowIndex]);
-      const square: HTMLElement = document.createElement('div');
-      square.textContent = SquareValues[grid[columnIndex][rowIndex]
+      const square: Square = grid[columnIndex][rowIndex];
+      console.log(square);
+      const squareHTMLElement: HTMLElement = document.createElement('div');
+      squareHTMLElement.textContent = SquareValues[grid[columnIndex][rowIndex]
         .squareValue];
-      square.classList.add('square');
-      columnHTMLElement.appendChild(square);
+      squareHTMLElement.classList.add('square');
+      squareHTMLElement.addEventListener('click', (e: Event) => {
+        e.preventDefault();
+        squareOnClick.call(square);
+      }, false);
+      columnHTMLElement.appendChild(squareHTMLElement);
     }
     document.body.appendChild(columnHTMLElement);
   }
