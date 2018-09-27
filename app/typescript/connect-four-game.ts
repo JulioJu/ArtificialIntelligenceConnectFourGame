@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Wed 26 Sep 2018 01:11:08 PM CEST
- *       MODIFIED: Thu 27 Sep 2018 01:40:55 PM CEST
+ *       MODIFIED: Thu 27 Sep 2018 05:01:49 PM CEST
  *
  *          USAGE:
  *
@@ -14,15 +14,30 @@
 import { Square } from './Square.js';
 import { SquareValues } from './SquareValues.js';
 
-// const squareOnClick: () => void =
-//   (): void => {
-//     console.log(row);
-//   };
+const GRID_COLUMN_LENGTH: number = 7;
+const GRID_ROW_LENGTH: number = 6;
 
 // Should not be an arrow function, because `this'
 // doesn't exists in Arrow function
-const squareOnClick: () => void = function(this: Square): void {
-  console.log(this);
+const squareOnClick: (this: Square, grid: Square[][]) => void =
+      function(this: Square, grid: Square[][]): void {
+  console.log('Square clicked: ', this);
+  let firstSquareEmptyOfColumn: Square | undefined;
+  for (let rowIndex: number = GRID_ROW_LENGTH - 1 ;
+          rowIndex >= 0 ;
+          rowIndex--) {
+    const square: Square = grid[this.columnIndex][rowIndex];
+    if (square.squareValue === SquareValues.EMPTY_SQUARE) {
+      firstSquareEmptyOfColumn = square;
+      break;
+    }
+  }
+  if (firstSquareEmptyOfColumn) {
+    console.log('First Square empty on the bottom of the column clicked: ',
+      firstSquareEmptyOfColumn);
+  } else {
+    console.log('No Square empty on the column: ', this.columnIndex);
+  }
 };
 
 export const main: () => void = (): void => {
@@ -33,36 +48,32 @@ export const main: () => void = (): void => {
   console.log('URL query param gamemode: ' +
     parsedUrl.searchParams.get('gamemode'));
 
-  const gridColumnLength: number = 7;
-  const gridRowLength: number = 6;
-
-  const grid: Square[][] = new Array(gridColumnLength);
+  const grid: Square[][] = new Array(GRID_COLUMN_LENGTH);
 
   for (let columnIndex: number = 0 ;
-          columnIndex < gridColumnLength ;
+          columnIndex < GRID_COLUMN_LENGTH ;
           columnIndex++) {
-    grid[columnIndex] = new Array(gridRowLength);
-    for (let rowIndex: number = 0 ; rowIndex < gridRowLength ; rowIndex++) {
+    grid[columnIndex] = new Array(GRID_ROW_LENGTH);
+    for (let rowIndex: number = 0 ; rowIndex < GRID_ROW_LENGTH ; rowIndex++) {
       grid[columnIndex][rowIndex] = new Square(columnIndex, rowIndex,
           SquareValues.EMPTY_SQUARE);
     }
   }
 
   for (let columnIndex: number = 0 ;
-          columnIndex < gridColumnLength ;
+          columnIndex < GRID_COLUMN_LENGTH ;
           columnIndex++) {
     const columnHTMLElement: HTMLElement = document.createElement('div');
     columnHTMLElement.classList.add('column');
-    for (let rowIndex: number = 0 ; rowIndex < gridRowLength ; rowIndex++) {
+    for (let rowIndex: number = 0 ; rowIndex < GRID_ROW_LENGTH ; rowIndex++) {
       const square: Square = grid[columnIndex][rowIndex];
-      console.log(square);
       const squareHTMLElement: HTMLElement = document.createElement('div');
       squareHTMLElement.textContent = SquareValues[grid[columnIndex][rowIndex]
         .squareValue];
       squareHTMLElement.classList.add('square');
       squareHTMLElement.addEventListener('click', (e: Event) => {
         e.preventDefault();
-        squareOnClick.call(square);
+        squareOnClick.call(square, grid);
       }, false);
       columnHTMLElement.appendChild(squareHTMLElement);
     }
