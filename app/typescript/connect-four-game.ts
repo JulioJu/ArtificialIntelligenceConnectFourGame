@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Wed 26 Sep 2018 01:11:08 PM CEST
- *       MODIFIED: Thu 27 Sep 2018 05:01:49 PM CEST
+ *       MODIFIED: Thu 27 Sep 2018 06:08:06 PM CEST
  *
  *          USAGE:
  *
@@ -17,10 +17,13 @@ import { SquareValues } from './SquareValues.js';
 const GRID_COLUMN_LENGTH: number = 7;
 const GRID_ROW_LENGTH: number = 6;
 
+let gamerIs: SquareValues = SquareValues.GAMER_RED;
+
 // Should not be an arrow function, because `this'
 // doesn't exists in Arrow function
-const squareOnClick: (this: Square, grid: Square[][]) => void =
-      function(this: Square, grid: Square[][]): void {
+const squareOnClick:
+    (this: Square, grid: Square[][]) => void
+    = function(this: Square, grid: Square[][]): void {
   console.log('Square clicked: ', this);
   let firstSquareEmptyOfColumn: Square | undefined;
   for (let rowIndex: number = GRID_ROW_LENGTH - 1 ;
@@ -35,6 +38,29 @@ const squareOnClick: (this: Square, grid: Square[][]) => void =
   if (firstSquareEmptyOfColumn) {
     console.log('First Square empty on the bottom of the column clicked: ',
       firstSquareEmptyOfColumn);
+    const htmlElementFirstSquareEmptyOfColumn: HTMLElement =
+      firstSquareEmptyOfColumn.squareHTMLElement;
+    // tslint:disable-next-line:switch-default
+    switch (gamerIs) {
+      case SquareValues.GAMER_RED:
+        firstSquareEmptyOfColumn.squareValue = SquareValues.GAMER_RED;
+        htmlElementFirstSquareEmptyOfColumn.classList.remove('square_empty');
+        htmlElementFirstSquareEmptyOfColumn.classList.add('square_gamer_red');
+        htmlElementFirstSquareEmptyOfColumn.textContent =
+          SquareValues[SquareValues.GAMER_RED];
+        gamerIs = SquareValues.GAMER_YELLOW;
+        console.log('red');
+        break;
+      case SquareValues.GAMER_YELLOW:
+        firstSquareEmptyOfColumn.squareValue = SquareValues.GAMER_YELLOW;
+        htmlElementFirstSquareEmptyOfColumn.classList.remove('square_empty');
+        htmlElementFirstSquareEmptyOfColumn.classList
+          .add('square_gamer_yellow');
+        htmlElementFirstSquareEmptyOfColumn.textContent =
+          SquareValues[SquareValues.GAMER_YELLOW];
+        gamerIs = SquareValues.GAMER_RED;
+        console.log('yellow');
+    }
   } else {
     console.log('No Square empty on the column: ', this.columnIndex);
   }
@@ -53,32 +79,37 @@ export const main: () => void = (): void => {
   for (let columnIndex: number = 0 ;
           columnIndex < GRID_COLUMN_LENGTH ;
           columnIndex++) {
-    grid[columnIndex] = new Array(GRID_ROW_LENGTH);
-    for (let rowIndex: number = 0 ; rowIndex < GRID_ROW_LENGTH ; rowIndex++) {
-      grid[columnIndex][rowIndex] = new Square(columnIndex, rowIndex,
-          SquareValues.EMPTY_SQUARE);
-    }
-  }
 
-  for (let columnIndex: number = 0 ;
-          columnIndex < GRID_COLUMN_LENGTH ;
-          columnIndex++) {
+    grid[columnIndex] = new Array(GRID_ROW_LENGTH);
+
     const columnHTMLElement: HTMLElement = document.createElement('div');
     columnHTMLElement.classList.add('column');
+
     for (let rowIndex: number = 0 ; rowIndex < GRID_ROW_LENGTH ; rowIndex++) {
-      const square: Square = grid[columnIndex][rowIndex];
+
       const squareHTMLElement: HTMLElement = document.createElement('div');
+
+      const square: Square = new Square(columnIndex, rowIndex,
+          SquareValues.EMPTY_SQUARE, squareHTMLElement);
+      grid[columnIndex][rowIndex] = square;
+
       squareHTMLElement.textContent = SquareValues[grid[columnIndex][rowIndex]
         .squareValue];
       squareHTMLElement.classList.add('square');
+      squareHTMLElement.classList.add('square_empty');
       squareHTMLElement.addEventListener('click', (e: Event) => {
         e.preventDefault();
         squareOnClick.call(square, grid);
       }, false);
+
       columnHTMLElement.appendChild(squareHTMLElement);
+
     }
+
     document.body.appendChild(columnHTMLElement);
+
   }
+
 };
 
 // vim: ts=2 sw=2 et:

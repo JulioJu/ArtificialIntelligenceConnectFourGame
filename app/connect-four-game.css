@@ -30,7 +30,22 @@ body {
     justify-content: center;
     align-items: center;
     /* http://angrytools.com/gradient/ */
+}
+
+.square_empty {
     background: linear-gradient(45deg,
                                     rgba(255,255,0,1) 0%,
                                     rgba(2,212,201,1) 100%);
+}
+
+.square_gamer_red {
+    background:radial-gradient(ellipse at center,
+                                    rgba(255,0,0,1) 0%,
+                                    rgba(0,0,0,1) 100%); /* w3c */
+}
+
+.square_gamer_yellow {
+    background:radial-gradient(ellipse at center,
+                                    rgba(255,255,0,1) 0%,
+                                    rgba(0,0,0,1) 100%); /* w3c */
 }
