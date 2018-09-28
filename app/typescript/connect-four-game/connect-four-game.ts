@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Wed 26 Sep 2018 01:11:08 PM CEST
- *       MODIFIED: Fri 28 Sep 2018 03:39:13 PM CEST
+ *       MODIFIED: Fri 28 Sep 2018 05:40:32 PM CEST
  *
  *          USAGE:
  *
@@ -51,6 +51,8 @@ const squareOnClick:
         }
 
         currentGamer = SquareValues.GAMER_YELLOW;
+        document.body.classList.remove('body-cursor-red');
+        document.body.classList.add('body-cursor-yellow');
 
         break;
       case SquareValues.GAMER_YELLOW:
@@ -63,6 +65,8 @@ const squareOnClick:
         }
 
         currentGamer = SquareValues.GAMER_RED;
+        document.body.classList.remove('body-cursor-yellow');
+        document.body.classList.add('body-cursor-red');
 
     }
   } else {
@@ -71,6 +75,9 @@ const squareOnClick:
 };
 
 export const main: () => void = (): void => {
+
+  document.body.classList.add('body-cursor-red');
+
   // See:
   // https://developer.mozilla.org/en-US/docs/Web/API/HTMLHyperlinkElementUtils/search
   // And https://developer.mozilla.org/en-US/docs/Web/API/URL
