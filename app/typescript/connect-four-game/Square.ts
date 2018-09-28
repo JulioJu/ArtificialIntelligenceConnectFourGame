@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Thu 27 Sep 2018 08:00:30 AM CEST
- *       MODIFIED: Fri 28 Sep 2018 12:01:33 PM CEST
+ *       MODIFIED: Fri 28 Sep 2018 03:06:28 PM CEST
  *
  *          USAGE:
  *
@@ -18,7 +18,7 @@ export class Square {
   public constructor (private readonly _columnIndex: number,
     private readonly _rowIndex: number,
       private _squareValue: SquareValues,
-      private readonly _squareHTMLElement: HTMLElement) {
+      private readonly _checkerHTMLElement: HTMLElement) {
   }
 
   public get rowIndex(): number {
@@ -37,8 +37,8 @@ export class Square {
     this._squareValue = _squareValue;
   }
 
-  public get squareHTMLElement(): HTMLElement {
-    return this._squareHTMLElement;
+  public get checkerHTMLElement(): HTMLElement {
+    return this._checkerHTMLElement;
   }
 
 }

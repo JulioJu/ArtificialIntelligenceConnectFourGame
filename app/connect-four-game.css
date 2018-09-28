@@ -1,6 +1,7 @@
-html, body, .column, .square {
+* {
     width: 100%;
     height: 100%;
+    border-width: 0em;
     padding: 0em 0em 0em 0em;
     margin: 0em 0em 0em 0em;
     overflow: hidden;
@@ -9,6 +10,11 @@ html, body, .column, .square {
 body {
     display: flex;
     flex-direction: row;
+    /* http://angrytools.com/gradient/ */
+    background: linear-gradient(45deg,
+                                        rgba(25,121,255,1) 0%,
+                                        rgba(0,128,128,1) 100%);
+
 }
 
 .column {
@@ -20,7 +26,7 @@ body {
 }
 
 .column:hover {
-    filter: grayscale(60%);
+    filter: grayscale(80%);
     cursor: pointer;
 }
 
@@ -29,23 +35,48 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* http://angrytools.com/gradient/ */
+    /* https://developer.mozilla.org/en-US/docs/Web/CSS/radial-gradient */
+    background: radial-gradient(circle closest-side,
+                                                    green 75%,
+                                                    transparent 95%);
 }
 
-.square_empty {
-    background: linear-gradient(45deg,
-                                    rgba(255,255,0,1) 0%,
-                                    rgba(2,212,201,1) 100%);
+.checker_empty {
+
 }
 
-.square_gamer_red {
-    background:radial-gradient(ellipse at center,
-                                    rgba(255,0,0,1) 0%,
-                                    rgba(0,0,0,1) 100%); /* w3c */
+.checker_red {
+    /* https://developer.mozilla.org/en-US/docs/Web/CSS/radial-gradient */
+    background: radial-gradient(circle closest-side,
+                                                    brown 75%,
+                                                    transparent 95%);
+    animation-duration: 3s;
+    animation-name: slidein;
+    animation-iteration-count: 1;
+    animation-direction: alternate;
 }
 
-.square_gamer_yellow {
-    background:radial-gradient(ellipse at center,
-                                    rgba(255,255,0,1) 0%,
-                                    rgba(0,0,0,1) 100%); /* w3c */
+.checker_yellow {
+    /* https://developer.mozilla.org/en-US/docs/Web/CSS/radial-gradient */
+    background: radial-gradient(circle closest-side,
+                                                    rgba(255, 255, 0, 1) 75%,
+                                                    transparent 95%);
+
+    animation-duration: 3s;
+    animation-name: slidein;
+    animation-iteration-count: 1;
+    animation-direction: alternate;
+}
+
+/* https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations/Using_CSS_animations */
+@keyframes slidein {
+  from {
+    /* margin-bottom:100%; */
+    width:0%
+  }
+
+  to {
+    /* margin-bottom:0%; */
+    width:100%;
+  }
 }
