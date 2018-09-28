@@ -51,6 +51,31 @@
 * In Firefox, when dev tools are open, the size of the `window` element
     is has a hight a little bit taller than the real hight of the screen.
 
+### Convention
+
+* In javascript / typescript folders, files that have the same name that a html
+    file are directly included to the html file
+    e.g. in `./app/connect-four-game.html`:
+    ```
+    <script type="module" >
+        import { main } from
+            './javascript/connect-four-game/connect-four-game.js';
+        main();
+    </script>
+    ```
+* In javascript / typescript folders, files that start by a lower
+    case contains only `Arrows functions`
+    (function that could not be used as constructor).
+
+* In javascript / typescript folders, file that start by an upper case contains
+    TypeScript Enum , es6 Class or es5 functions that are used as constructor.
+    * Notes, object could be instantiated in different ways, but only
+        instantiation with Constructor are advise:
+        https://tylermcginnis.com/object-creation-in-javascript-functional-instantiation-vs-prototypal-instantiation-vs-pseudo-e9287b6bbb32/
+        https://medium.com/dailyjs/instantiation-patterns-in-javascript-8fdcf69e8f9b
+
+* All exported functions start by an upper case letter.
+
 <!--
 vim: ts=4 sw=4 et:
 -->
