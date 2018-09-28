@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Fri 28 Sep 2018 09:06:49 AM CEST
-  *       MODIFIED: Fri 28 Sep 2018 09:21:13 AM CEST
+  *       MODIFIED: Fri 28 Sep 2018 11:23:45 AM CEST
   *
   *          USAGE:
   *
@@ -12,7 +12,7 @@
   */
 
 import { GRID_COLUMN_LENGTH, GRID_ROW_LENGTH, CHECKERS_ALIGN_TO_WIN }
-  from './constants.js'
+  from './constants.js';
 import { Square } from './Square.js';
 import { SquareValues } from './SquareValues.js';
 

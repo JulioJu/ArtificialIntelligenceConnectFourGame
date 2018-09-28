@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Wed 26 Sep 2018 01:11:08 PM CEST
- *       MODIFIED: Fri 28 Sep 2018 09:22:00 AM CEST
+ *       MODIFIED: Fri 28 Sep 2018 11:51:31 AM CEST
  *
  *          USAGE:
  *
@@ -11,7 +11,7 @@
  * ============================================================================
  */
 
-import { GRID_COLUMN_LENGTH, GRID_ROW_LENGTH } from './constants.js'
+import { GRID_COLUMN_LENGTH, GRID_ROW_LENGTH } from './constants.js';
 import { Square } from './Square.js';
 import { SquareValues } from './SquareValues.js';
 import { IsCurrentGamerWin } from './isCurrentGamerWin.js';
@@ -75,7 +75,7 @@ export const main: () => void = (): void => {
   // https://developer.mozilla.org/en-US/docs/Web/API/HTMLHyperlinkElementUtils/search
   // And https://developer.mozilla.org/en-US/docs/Web/API/URL
   const parsedUrl: URL = new URL(document.location.href);
-  console.log('URL query param gamemode: ' +
+  console.log('URL query param gamemode: ',
     parsedUrl.searchParams.get('gamemode'));
 
   const grid: Square[][] = new Array(GRID_COLUMN_LENGTH);

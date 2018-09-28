@@ -47,11 +47,35 @@ rules:
 
   no-console:
     - false
+
+  # Disallows unused imports, variables, functions and private class members.
+  # Similar to tsc’s –noUnusedParameters and –noUnusedLocals options.
+  # no-unused-variable is deprecated. Since TypeScript 2.9. Please use the
+  # built-in compiler checks instead.
+  # https://github.com/palantir/tslint/issues/4046
+  # https://github.com/palantir/tslint/pull/3919
+  no-unused-variable: false
+
   no-void-expression:
     - true
     # If ignore-arrow-function-shorthand is provided, () => returnsVoid() will
     # be allowed. Otherwise, it must be written as () => { returnsVoid(); }.
     - ignore-arrow-function-shorthand
+
+  # Restricts the types allowed in boolean expressions.
+  strict-boolean-expressions:
+    - true
+      # Allows union types containing undefined.
+      # It does not allow undefined itself.
+      # Without the ‘–strictNullChecks’ compiler option, this will allow
+      # anything other than a string, number, or enum.
+    - allow-undefined-union
+      # Allows boolean | undefined.
+      # Also allows true | false | undefined.
+      # Does not allow false | undefined.
+      # This option is a subset of allow-undefined-union, so you don’t need to
+      # enable both options at the same time.
+    - allow-boolean-or-undefined
 
   # =========================
   # |   Maintainability
@@ -88,6 +112,12 @@ rules:
     - members
     - elements
 
+  # TODO: should be true
+  completed-docs: false
+
+  # Ensures proper spacing between import statement keywords
+  import-spacing: false
+
   file-name-casing:
     - true
     - kebab-case
@@ -113,3 +143,4 @@ rules:
     - true
     - ban-keyword
     - allow-leading-underscore
+    - allow-pascal-case

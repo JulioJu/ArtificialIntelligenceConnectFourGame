@@ -13,7 +13,7 @@
         "allowJs": false,
         "baseUrl": ".",
         "outDir": "./app/javascript",
-        "watch": true,
+        "watch": false,
 
         "alwaysStrict": true,
         "forceConsistentCasingInFileNames": true,

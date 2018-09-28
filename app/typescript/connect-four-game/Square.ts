@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Thu 27 Sep 2018 08:00:30 AM CEST
- *       MODIFIED: Thu 27 Sep 2018 05:41:41 PM CEST
+ *       MODIFIED: Fri 28 Sep 2018 12:01:33 PM CEST
  *
  *          USAGE:
  *
@@ -15,8 +15,10 @@ import { SquareValues } from './SquareValues.js';
 
 export class Square {
 
-  public constructor (private _columnIndex: number, private _rowIndex: number,
-      private _squareValue: SquareValues, private _squareHTMLElement: HTMLElement) {
+  public constructor (private readonly _columnIndex: number,
+    private readonly _rowIndex: number,
+      private _squareValue: SquareValues,
+      private readonly _squareHTMLElement: HTMLElement) {
   }
 
   public get rowIndex(): number {

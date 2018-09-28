@@ -1,8 +1,6 @@
-# How To
-
+# Usage
 * To use it:
     1. For TypeScript compiler: `./node_modules/.bin/tsc`
-        (watch mode could be configured in ./tsconfig.json)
     2. Launch the app:
         * EITHER (for Browsersync)
             ```
@@ -11,12 +9,12 @@
             * `browser-sync` should be launch in `app/` because app is our root folder.
             * Thanks BrowserSync, each modification saved
                 automatically reload the app in the Browser :-).
-        * OR `firefox ./app/index.js`
+        * OR `firefox ./app/index.html` (or click on the file)
         * Note: In Firefox, we can debug the TypeScript files ! So cool ! ^^
                 We can also use break points… Soooo cooool ;-).
 
 * This app use Modules. Therefore, we must have a recent Browser
-        (e.g Firefox > 60).
+        (e.g ***Firefox > 60***).
 
 * We can't launch the app with `chromium ./app/index.html`, otherwise we have
     error "`Origin null is not allowed by Access-Control-Allow-Origin`".
@@ -36,11 +34,16 @@
             * and "`Module source URI is not allowed in this document:
                 “file:///home/julioju/DCISS/IA/ArtificialIntelligenceConnectFour/index.js”`"
 
+* We could also use scripts defined in `./package.json`.
+
+* In Vim, with the plugin `ALE`, do not forget that linter lint only one files…
+    Therefore, with Vim it's cool to run `yarn compileAndLint` for development.
+
+# Notes on code developed
 * To retrieve url parm see:
     * https://developer.mozilla.org/en-US/docs/Web/API/HTMLHyperlinkElementUtils/search
     * And https://developer.mozilla.org/en-US/docs/Web/API/URL
 
-### Notes
 * Form in index.ts is not validated before it is submits. As code is
     client-side, and I only use radio buttons with a default check,
     I believe it's not useful to process validation. If the user
@@ -51,8 +54,8 @@
 * In Firefox, when dev tools are open, the size of the `window` element
     is has a hight a little bit taller than the real hight of the screen.
 
-### Convention
 
+## Conventions
 * In javascript / typescript folders, files that have the same name that a html
     file are directly included to the html file
     e.g. in `./app/connect-four-game.html`:
@@ -75,6 +78,10 @@
         https://medium.com/dailyjs/instantiation-patterns-in-javascript-8fdcf69e8f9b
 
 * All exported functions start by an upper case letter.
+
+# TODO
+* We must command all exported methods and remove in `./tslint.yaml` the rule
+    `completed-docs: false`
 
 <!--
 vim: ts=4 sw=4 et:
