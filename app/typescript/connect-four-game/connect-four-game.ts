@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Wed 26 Sep 2018 01:11:08 PM CEST
- *       MODIFIED: Fri 28 Sep 2018 05:40:32 PM CEST
+ *       MODIFIED: Fri 28 Sep 2018 11:19:34 PM CEST
  *
  *          USAGE:
  *
@@ -87,6 +87,14 @@ export const main: () => void = (): void => {
 
   const grid: Square[][] = new Array(GRID_COLUMN_LENGTH);
 
+  const baseCent: number = 100;
+  const htmlStylElement: HTMLStyleElement = document.createElement('style');
+  htmlStylElement.type = 'text/css';
+  htmlStylElement.innerHTML = '.chacker_calculated { height: ' +
+    (baseCent / GRID_ROW_LENGTH) + '%; }';
+  document.getElementsByTagName('head')[0]
+    .appendChild(htmlStylElement);
+
   for (let columnIndex: number = 0 ;
           columnIndex < GRID_COLUMN_LENGTH ;
           columnIndex++) {
@@ -98,7 +106,18 @@ export const main: () => void = (): void => {
 
     for (let rowIndex: number = 0 ; rowIndex < GRID_ROW_LENGTH ; rowIndex++) {
 
+      if (columnIndex === 0) {
+        htmlStylElement.innerHTML += ' ' +
+          '.chacker_calculated_row_' + rowIndex +
+          '{ transform:translateY(' +
+          (baseCent * rowIndex) + '%); }';
+      }
+
       const checker: HTMLElement = document.createElement('div');
+      checker.classList.add('checker');
+      checker.classList.add('chacker_calculated');
+      checker.classList.add('chacker_calculated_row_'
+        + rowIndex);
       checker.classList.add('checker_empty');
       const square: Square = new Square(columnIndex, rowIndex,
           SquareValues.EMPTY_SQUARE, checker);
@@ -111,13 +130,16 @@ export const main: () => void = (): void => {
         squareOnClick.call(square, grid);
       }, false);
 
-      squareHTMLElement.appendChild(checker);
+      columnHTMLElement.appendChild(checker);
 
       columnHTMLElement.appendChild(squareHTMLElement);
 
     }
 
     document.body.appendChild(columnHTMLElement);
+
+    const squareRedHTMLElement: HTMLElement = document.createElement('div');
+    columnHTMLElement.appendChild(squareRedHTMLElement);
 
   }
 

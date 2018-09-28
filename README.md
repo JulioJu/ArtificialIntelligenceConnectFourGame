@@ -54,6 +54,12 @@
 * In Firefox, when dev tools are open, the size of the `window` element
     is has a hight a little bit taller than the real hight of the screen.
 
+## Documentation animation:
+
+* https://www.w3schools.com/css/css3_animations.asp (page advised in the website
+    angular.io at https://angular.io/api/animations/keyframes)
+* https://www.w3.org/blog/CSS/2017/12/20/how-should-we-resolve-percentage-margins-and-padding-on-grid-and-flex-items/
+* https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations
 
 ## Conventions
 * In javascript / typescript folders, files that have the same name that a html
