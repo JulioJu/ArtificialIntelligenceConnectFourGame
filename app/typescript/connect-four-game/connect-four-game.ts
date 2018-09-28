@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Wed 26 Sep 2018 01:11:08 PM CEST
- *       MODIFIED: Sat 29 Sep 2018 12:14:33 AM CEST
+ *       MODIFIED: Sat 29 Sep 2018 01:04:27 AM CEST
  *
  *          USAGE:
  *
@@ -18,13 +18,13 @@ import { IsCurrentGamerWin } from './isCurrentGamerWin.js';
 
 let currentGamer: SquareValues = SquareValues.GAMER_RED;
 
+let clickAnimated: number = 0;
+
 // Should not be an arrow function, because `this'
 // doesn't exists in Arrow function
 const squareOnClick:
-    (this: Square, grid: Square[][],
-          htmlStylElementKeyframes: HTMLStyleElement) => void
-    = function(this: Square, grid: Square[][],
-          htmlStylElementKeyframes: HTMLStyleElement): void {
+    (this: Square, grid: Square[][]) => void
+    = function(this: Square, grid: Square[][]): void {
   console.log('Square clicked: ', this);
   let squareAdded: Square | undefined;
   for (let rowIndex: number = GRID_ROW_LENGTH - 1 ;
@@ -42,7 +42,13 @@ const squareOnClick:
     const checkerAddedHTMLElement: HTMLElement =
       squareAdded.checkerHTMLElement;
 
-    htmlStylElementKeyframes.innerHTML = '@keyframes slidein { ' +
+    const htmlStylElementKeyframes: HTMLStyleElement =
+      document.createElement('style');
+    htmlStylElementKeyframes.type = 'text/css';
+    document.getElementsByTagName('head')[0]
+      .appendChild(htmlStylElementKeyframes);
+    htmlStylElementKeyframes.innerHTML =
+      '@keyframes slidein_' + clickAnimated + ' { ' +
       'from { margin-top: -' + (window.innerHeight -
         ((GRID_ROW_LENGTH - squareAdded.rowIndex)
          * squareAdded.checkerHTMLElement.offsetHeight) +
@@ -54,8 +60,15 @@ const squareOnClick:
       case SquareValues.GAMER_RED:
         console.log('red');
         squareAdded.squareValue = SquareValues.GAMER_RED;
+
         checkerAddedHTMLElement.classList.remove('checker_empty');
-        checkerAddedHTMLElement.classList.add('checker_red');
+        htmlStylElementKeyframes.innerHTML +=
+          '.checker_red_' + clickAnimated +
+            ' {background: radial-gradient(circle closest-side, ' +
+                  'brown 75%, transparent 95%);' +
+          'animation-name: slidein_'  + clickAnimated + ' ;}';
+        checkerAddedHTMLElement.classList.add('checker_red_' + clickAnimated);
+
         if (IsCurrentGamerWin(currentGamer, grid, squareAdded)) {
           alert(SquareValues[currentGamer] + ' win!!!');
         }
@@ -68,8 +81,16 @@ const squareOnClick:
       case SquareValues.GAMER_YELLOW:
         console.log('yellow');
         squareAdded.squareValue = SquareValues.GAMER_YELLOW;
+
         checkerAddedHTMLElement.classList.remove('checker_empty');
-        checkerAddedHTMLElement.classList.add('checker_yellow');
+        htmlStylElementKeyframes.innerHTML +=
+          '.checker_yellow_' + clickAnimated +
+            ' {background: radial-gradient(circle closest-side, ' +
+                  'rgba(255, 255, 0, 1) 75%, transparent 95%);' +
+          'animation-name: slidein_'  + clickAnimated + ' ;}';
+        checkerAddedHTMLElement.classList.add('checker_yellow_' +
+          clickAnimated);
+
         if (IsCurrentGamerWin(currentGamer, grid, squareAdded)) {
           alert(SquareValues[currentGamer] + ' win!!!');
         }
@@ -79,6 +100,8 @@ const squareOnClick:
         document.body.classList.add('body-cursor-red');
 
     }
+
+    clickAnimated++;
   } else {
     console.log('No Square empty on the column: ', this.columnIndex);
   }
@@ -105,12 +128,6 @@ export const main: () => void = (): void => {
   document.getElementsByTagName('head')[0]
     .appendChild(htmlStylElement);
 
-  const htmlStylElementKeyframes: HTMLStyleElement =
-    document.createElement('style');
-  htmlStylElementKeyframes.type = 'text/css';
-  document.getElementsByTagName('head')[0]
-    .appendChild(htmlStylElementKeyframes);
-
   for (let columnIndex: number = 0 ;
           columnIndex < GRID_COLUMN_LENGTH ;
           columnIndex++) {
@@ -123,10 +140,12 @@ export const main: () => void = (): void => {
     for (let rowIndex: number = 0 ; rowIndex < GRID_ROW_LENGTH ; rowIndex++) {
 
       if (columnIndex === 0) {
+
         htmlStylElement.innerHTML += ' ' +
           '.chacker_calculated_row_' + rowIndex +
           '{ transform:translateY(' +
           (baseCent * rowIndex) + '%); }';
+
       }
 
       const checker: HTMLElement = document.createElement('div');
@@ -143,7 +162,7 @@ export const main: () => void = (): void => {
       squareHTMLElement.classList.add('square');
       squareHTMLElement.addEventListener('click', (e: Event) => {
         e.preventDefault();
-        squareOnClick.call(square, grid, htmlStylElementKeyframes);
+        squareOnClick.call(square, grid);
       }, false);
 
       columnHTMLElement.appendChild(checker);

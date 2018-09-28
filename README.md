@@ -39,6 +39,16 @@
 * In Vim, with the plugin `ALE`, do not forget that linter lint only one files…
     Therefore, with Vim it's cool to run `yarn compileAndLint` for development.
 
+## Cool functionality
+
+* You could see that when you click several time very quickly with your mouse
+    you add each time a new checker ! Contrary to before, checkers that are
+    still animated when a new checker is added don't jump ! It's because
+    each checker has it's own `@keyframes`.
+    * Note that each checker start to
+        move on the top of the screen !!! Even if you resize your Browser
+        window !!! And this behaviour works for each row !!!!!
+
 # Notes on code developed
 * To retrieve url parm see:
     * https://developer.mozilla.org/en-US/docs/Web/API/HTMLHyperlinkElementUtils/search
@@ -53,6 +63,12 @@
 
 * In Firefox, when dev tools are open, the size of the `window` element
     is has a hight a little bit taller than the real hight of the screen.
+
+* In page `connect-four-game.html`, when we see headers Developpers tools,
+    each time we click to add a checker, a new tag style is created
+    that correspond to the checker added. In Firefox 52, style tags
+    are not displayed with cool `\n`, little bit hard to read if all definitions
+    are in the same tag. That's why I create a tag per checker added.
 
 ## Documentation animation:
 

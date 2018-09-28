@@ -66,24 +66,19 @@ body {
     background-color: transparant;
 }
 
-.checker_red {
-    /* https://developer.mozilla.org/en-US/docs/Web/CSS/radial-gradient */
-    background: radial-gradient(circle closest-side,
-                                                    brown 75%,
-                                                    transparent 95%);
-    animation-name: slidein;
-}
+/* BELOW, style implemented in JavaScript */
+/* ====================================== */
 
-.checker_yellow {
-    /* https://developer.mozilla.org/en-US/docs/Web/CSS/radial-gradient */
-    background: radial-gradient(circle closest-side,
-                                                    rgba(255, 255, 0, 1) 75%,
-                                                    transparent 95%);
+/* .checker_red { */
+/*     background: radial-gradient(circle closest-side, brown 75%, transparent 95%); */
+/*     animation-name: slidein; */
+/* } */
+/*  */
+/* .checker_yellow { */
+/*     background: radial-gradient(circle closest-side, rgba(255, 255, 0, 1) 75%, transparent 95%); */
+/*     animation-name: slidein; */
+/* } */
 
-    animation-name: slidein;
-}
-
-/* IMPLEMENTED in JavaScript */
 /* https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations/Using_CSS_animations  */
 /* @keyframes slidein { */
 /*     TODO see: */
