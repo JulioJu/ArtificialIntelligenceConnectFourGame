@@ -55,6 +55,11 @@ body {
     position: absolute;
     width: 100%;
     /* `transform:translateY' and `height' are calculated in javascript */
+    animation-duration: 3s;
+    animation-iteration-count: 1;
+    animation-direction: alternate;
+    animation-timing-function: ease-in;
+    z-index: 20
 }
 
 .checker_empty {
@@ -66,13 +71,7 @@ body {
     background: radial-gradient(circle closest-side,
                                                     brown 75%,
                                                     transparent 95%);
-    animation-duration: 3s;
     animation-name: slidein;
-    animation-iteration-count: 1;
-    animation-direction: alternate;
-    animation-timing-function: ease-in;
-
-    z-index: 20
 }
 
 .checker_yellow {
@@ -81,26 +80,20 @@ body {
                                                     rgba(255, 255, 0, 1) 75%,
                                                     transparent 95%);
 
-    animation-duration: 3s;
     animation-name: slidein;
-    animation-iteration-count: 1;
-    animation-direction: normal;
-    animation-timing-function: ease-in;
-
-    z-index: 20
 }
 
-/* https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations/Using_CSS_animations */
-@keyframes slidein {
-    /* TODO see:
-    https://www.w3.org/blog/CSS/2017/12/20/how-should-we-resolve-percentage-margins-and-padding-on-grid-and-flex-items/ */
-    from {
-        margin-top:-126%
-        /* width:0% */
-    }
-
-    to {
-        margin-top:0%;
-        /* width:100%; */
-    }
-}
+/* IMPLEMENTED in JavaScript */
+/* https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations/Using_CSS_animations  */
+/* @keyframes slidein { */
+/*     TODO see: */
+/*     https://www.w3.org/blog/CSS/2017/12/20/how-should-we-resolve-percentage-margins-and-padding-on-grid-and-flex-items/  */
+/*     from { */
+/*         margin-top: -340px; */
+/*         /* width:0% */ */
+/*     } */
+/*     to { */
+/*         margin-top: 0px; */
+/*         /* width:100%; */ */
+/*     } */
+/* } */

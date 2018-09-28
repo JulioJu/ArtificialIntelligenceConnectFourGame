@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Wed 26 Sep 2018 01:11:08 PM CEST
- *       MODIFIED: Fri 28 Sep 2018 11:19:34 PM CEST
+ *       MODIFIED: Sat 29 Sep 2018 12:14:33 AM CEST
  *
  *          USAGE:
  *
@@ -21,8 +21,10 @@ let currentGamer: SquareValues = SquareValues.GAMER_RED;
 // Should not be an arrow function, because `this'
 // doesn't exists in Arrow function
 const squareOnClick:
-    (this: Square, grid: Square[][]) => void
-    = function(this: Square, grid: Square[][]): void {
+    (this: Square, grid: Square[][],
+          htmlStylElementKeyframes: HTMLStyleElement) => void
+    = function(this: Square, grid: Square[][],
+          htmlStylElementKeyframes: HTMLStyleElement): void {
   console.log('Square clicked: ', this);
   let squareAdded: Square | undefined;
   for (let rowIndex: number = GRID_ROW_LENGTH - 1 ;
@@ -39,6 +41,14 @@ const squareOnClick:
       squareAdded);
     const checkerAddedHTMLElement: HTMLElement =
       squareAdded.checkerHTMLElement;
+
+    htmlStylElementKeyframes.innerHTML = '@keyframes slidein { ' +
+      'from { margin-top: -' + (window.innerHeight -
+        ((GRID_ROW_LENGTH - squareAdded.rowIndex)
+         * squareAdded.checkerHTMLElement.offsetHeight) +
+        squareAdded.checkerHTMLElement.offsetHeight) +
+      'px; } to { margin-top: 0px; } }';
+
     // tslint:disable-next-line:switch-default
     switch (currentGamer) {
       case SquareValues.GAMER_RED:
@@ -95,6 +105,12 @@ export const main: () => void = (): void => {
   document.getElementsByTagName('head')[0]
     .appendChild(htmlStylElement);
 
+  const htmlStylElementKeyframes: HTMLStyleElement =
+    document.createElement('style');
+  htmlStylElementKeyframes.type = 'text/css';
+  document.getElementsByTagName('head')[0]
+    .appendChild(htmlStylElementKeyframes);
+
   for (let columnIndex: number = 0 ;
           columnIndex < GRID_COLUMN_LENGTH ;
           columnIndex++) {
@@ -127,7 +143,7 @@ export const main: () => void = (): void => {
       squareHTMLElement.classList.add('square');
       squareHTMLElement.addEventListener('click', (e: Event) => {
         e.preventDefault();
-        squareOnClick.call(square, grid);
+        squareOnClick.call(square, grid, htmlStylElementKeyframes);
       }, false);
 
       columnHTMLElement.appendChild(checker);
