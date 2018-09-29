@@ -39,6 +39,11 @@
 * In Vim, with the plugin `ALE`, do not forget that linter lint only one files…
     Therefore, with Vim it's cool to run `yarn compileAndLint` for development.
 
+* To use under Chrome or for `Firefox < 60` without server
+    simply compile with `tsc` with options `--outFile whatever.js` and
+    `--module AMD`. JQuery is compiled with AMD modules and `require.js`.
+    Using a fat compiler chain with Gulp and WebPack isn't interesting.
+
 ## Cool functionality
 
 * You could see that when you click several time very quickly with your mouse
@@ -101,9 +106,18 @@
 
 * All exported functions start by an upper case letter.
 
-# TODO
+# TODO (not important for the teacher)
 * We must command all exported methods and remove in `./tslint.yaml` the rule
     `completed-docs: false`
+
+* I don't know why when we remove rule `greyscale()` in
+    `./app/connect-four-game.css` it doesn't work.
+
+* If we want improve column background, we must work with SVG.
+
+* To improve animation, we could use Velocity. Or simply css function
+    `cubic-bezier()`
+
 
 <!--
 vim: ts=4 sw=4 et:

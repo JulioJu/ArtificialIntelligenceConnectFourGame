@@ -31,13 +31,22 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    /* TODO add animation as explained in w3 schools and rgba */
+    /* I don't know why when we remove rule `greyscale()` in  */
+    /* `./app/connect-four-game.css` it doesn't work. */
     filter: grayscale(0%);
-    transition: all 0.5s linear;
+    border: 4px solid #26759E;
+    box-shadow: #878787 0px 2px 2px;
+    border-radius: 23px;
+    background-color: #3093C7;
+    background-image: linear-gradient(to bottom, #3093C7, #1C5A85);
 }
 
 .column:hover {
-    filter: grayscale(80%);
+    /* I don't know why when we remove rule `greyscale()` in  */
+    /* `./app/connect-four-game.css` it doesn't work. */
+    filter: grayscale(0%);
+    background-color: #26759E;
+    background-image: linear-gradient(to bottom, #26759E, #133D5B);
 }
 
 .square {
