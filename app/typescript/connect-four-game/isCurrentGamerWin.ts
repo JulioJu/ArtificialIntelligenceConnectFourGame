@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Fri 28 Sep 2018 09:06:49 AM CEST
-  *       MODIFIED: Fri 28 Sep 2018 11:23:45 AM CEST
+  *       MODIFIED: Sun 30 Sep 2018 11:36:09 AM CEST
   *
   *          USAGE:
   *
@@ -14,19 +14,19 @@
 import { GRID_COLUMN_LENGTH, GRID_ROW_LENGTH, CHECKERS_ALIGN_TO_WIN }
   from './constants.js';
 import { Square } from './Square.js';
-import { SquareValues } from './SquareValues.js';
+import { storeSingleton } from './store-singleton.js';
 
-const isFourCheckerOfCurrentGamerHorizontally:
-    (currentGamer: SquareValues, grid: Square[][], squareAdded: Square)
-            => boolean
-        = (currentGamer: SquareValues, grid: Square[][], squareAdded: Square):
-            boolean => {
+type IsCurrentGamerWinType = (squareAdded: Square) => boolean;
+
+const isFourCheckerOfCurrentGamerHorizontally: IsCurrentGamerWinType
+      = (squareAdded: Square): boolean => {
   let checkersHorizontal: number = 1;
   // Horizontal, on the east of the squareAdded
   for (let columnIndex: number = squareAdded.columnIndex + 1;
       columnIndex < GRID_COLUMN_LENGTH ;
       columnIndex++) {
-    if (grid[columnIndex][squareAdded.rowIndex].squareValue === currentGamer) {
+    if (storeSingleton.grid[columnIndex][squareAdded.rowIndex].squareValue
+          === storeSingleton.currentGamer) {
       checkersHorizontal++;
     } else {
       break;
@@ -39,7 +39,8 @@ const isFourCheckerOfCurrentGamerHorizontally:
   for (let columnIndex: number = squareAdded.columnIndex - 1;
       columnIndex >= 0 ;
       columnIndex--) {
-    if (grid[columnIndex][squareAdded.rowIndex].squareValue === currentGamer) {
+    if (storeSingleton.grid[columnIndex][squareAdded.rowIndex].squareValue
+          === storeSingleton.currentGamer) {
       checkersHorizontal++;
     } else {
       break;
@@ -51,11 +52,8 @@ const isFourCheckerOfCurrentGamerHorizontally:
   return false;
 };
 
-const isFourCheckerOfCurrentGamerOnNorthWestSouthEast:
-    (currentGamer: SquareValues, grid: Square[][], squareAdded: Square)
-            => boolean
-        = (currentGamer: SquareValues, grid: Square[][], squareAdded: Square):
-            boolean => {
+const isFourCheckerOfCurrentGamerOnNorthWestSouthEast: IsCurrentGamerWinType
+      = (squareAdded: Square): boolean => {
   // DIAGONAL NORTH-WEST / SOUTH-EAST
   let checkersNorthWestSouthEast: number = 1;
   // Diagonal north-west of the squareAdded
@@ -64,8 +62,9 @@ const isFourCheckerOfCurrentGamerOnNorthWestSouthEast:
           || squareAdded.rowIndex - index === -1) {
       break;
     }
-    if (grid[squareAdded.columnIndex - index][squareAdded.rowIndex - index]
-          .squareValue === currentGamer) {
+    if (storeSingleton.grid[squareAdded.columnIndex - index]
+          [squareAdded.rowIndex - index].squareValue
+              === storeSingleton.currentGamer) {
       checkersNorthWestSouthEast++;
     } else {
       break;
@@ -80,8 +79,9 @@ const isFourCheckerOfCurrentGamerOnNorthWestSouthEast:
           || squareAdded.rowIndex + index === GRID_ROW_LENGTH) {
       break;
     }
-    if (grid[squareAdded.columnIndex + index][squareAdded.rowIndex + index]
-          .squareValue === currentGamer) {
+    if (storeSingleton.grid[squareAdded.columnIndex + index]
+          [squareAdded.rowIndex + index].squareValue
+              === storeSingleton.currentGamer) {
       checkersNorthWestSouthEast++;
     } else {
       break;
@@ -93,11 +93,8 @@ const isFourCheckerOfCurrentGamerOnNorthWestSouthEast:
   return false;
 };
 
-const isFourCheckerOfCurrentGamerOnNorthEastSouthWest:
-    (currentGamer: SquareValues, grid: Square[][], squareAdded: Square)
-            => boolean
-        = (currentGamer: SquareValues, grid: Square[][], squareAdded: Square):
-            boolean => {
+const isFourCheckerOfCurrentGamerOnNorthEastSouthWest: IsCurrentGamerWinType
+      = (squareAdded: Square): boolean => {
   // DIAGONAL NORTH-EAST / SOUTH-WEST
   let checkersNorthEastSouthWest: number = 1;
   // Diagonal north-east of the squareAdded
@@ -106,8 +103,9 @@ const isFourCheckerOfCurrentGamerOnNorthEastSouthWest:
           || squareAdded.rowIndex - index === -1) {
       break;
     }
-    if (grid[squareAdded.columnIndex + index][squareAdded.rowIndex - index]
-          .squareValue === currentGamer) {
+    if (storeSingleton.grid[squareAdded.columnIndex + index]
+          [squareAdded.rowIndex - index].squareValue
+              === storeSingleton.currentGamer) {
       checkersNorthEastSouthWest++;
     } else {
       break;
@@ -122,8 +120,9 @@ const isFourCheckerOfCurrentGamerOnNorthEastSouthWest:
           || squareAdded.rowIndex + index === GRID_ROW_LENGTH) {
       break;
     }
-    if (grid[squareAdded.columnIndex - index][squareAdded.rowIndex + index]
-          .squareValue === currentGamer) {
+    if (storeSingleton.grid[squareAdded.columnIndex - index]
+          [squareAdded.rowIndex + index].squareValue
+              === storeSingleton.currentGamer) {
       checkersNorthEastSouthWest++;
     } else {
       break;
@@ -135,17 +134,15 @@ const isFourCheckerOfCurrentGamerOnNorthEastSouthWest:
   return false;
 };
 
-const isFourCheckerOfCurrentGamerOnSouth:
-    (currentGamer: SquareValues, grid: Square[][], squareAdded: Square)
-            => boolean
-        = (currentGamer: SquareValues, grid: Square[][], squareAdded: Square):
-            boolean => {
+const isFourCheckerOfCurrentGamerOnSouth: IsCurrentGamerWinType
+      = (squareAdded: Square): boolean => {
   let checkersSouth: number = 1;
   // Vertical, on the south of the squareAdded
   for (let rowIndex: number = squareAdded.rowIndex + 1;
       rowIndex < GRID_ROW_LENGTH ;
       rowIndex++) {
-    if (grid[squareAdded.columnIndex][rowIndex].squareValue === currentGamer) {
+    if (storeSingleton.grid[squareAdded.columnIndex][rowIndex].squareValue
+        === storeSingleton.currentGamer) {
       checkersSouth++;
     } else {
       break;
@@ -157,25 +154,18 @@ const isFourCheckerOfCurrentGamerOnSouth:
   return false;
 };
 
-export const IsCurrentGamerWin:
-    (currentGamer: SquareValues, grid: Square[][], squareAdded: Square)
-            => boolean
-        = (currentGamer: SquareValues, grid: Square[][], squareAdded: Square):
-            boolean => {
-  if (isFourCheckerOfCurrentGamerHorizontally(currentGamer, grid,
-        squareAdded)) {
+export const IsCurrentGamerWin: IsCurrentGamerWinType
+      = (squareAdded: Square): boolean => {
+  if (isFourCheckerOfCurrentGamerHorizontally(squareAdded)) {
     return true;
   }
-  if (isFourCheckerOfCurrentGamerOnNorthWestSouthEast(currentGamer, grid,
-        squareAdded)) {
+  if (isFourCheckerOfCurrentGamerOnNorthWestSouthEast(squareAdded)) {
     return true;
   }
-  if (isFourCheckerOfCurrentGamerOnNorthEastSouthWest(currentGamer, grid,
-        squareAdded)) {
+  if (isFourCheckerOfCurrentGamerOnNorthEastSouthWest(squareAdded)) {
     return true;
   }
-  if (isFourCheckerOfCurrentGamerOnSouth(currentGamer, grid,
-        squareAdded)) {
+  if (isFourCheckerOfCurrentGamerOnSouth(squareAdded)) {
     return true;
   }
   return false;

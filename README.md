@@ -93,18 +93,31 @@
         main();
     </script>
     ```
-* In javascript / typescript folders, files that start by a lower
-    case contains only `Arrows functions`
-    (function that could not be used as constructor).
-
-* In javascript / typescript folders, file that start by an upper case contains
-    TypeScript Enum , es6 Class or es5 functions that are used as constructor.
+* In javascript / typescript folders, files that start by a lower case
+    contains either:
+    * `Arrows functions` (function that could not be used as constructor). It's
+        because they could be seen as `static class` in Java-like languages.
+    * `Object initializer` (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer)
+        * Note: in our case, an object initialized with an object
+            initializer should be seen as a SINGLETON.
+* In javascript / typescript folders, file that start by an upper contains
+    either:
+        * TypeScript Enum
+        * es6 Class
+        * es5 functions that are used as constructor (constructor function)
+            (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function)
     * Notes, object could be instantiated in different ways, but only
-        instantiation with Constructor are advise:
+        instantiation with Object initializer or with Constructor are advise:
+        https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects
         https://tylermcginnis.com/object-creation-in-javascript-functional-instantiation-vs-prototypal-instantiation-vs-pseudo-e9287b6bbb32/
         https://medium.com/dailyjs/instantiation-patterns-in-javascript-8fdcf69e8f9b
 
-* All exported functions start by an upper case letter.
+* The name of all exported functions start by an upper case letter because
+    in Java-like languages they could be seen as a `static class`.
+* The name of exported objects instantiated with
+    an Object initializer start by a lower case because in Java-like languages
+    they could be seen as an instantiated object. An example is
+    `./app/typescript/connect-four-game/store-singleton.ts`.
 
 # TODO (not important for the teacher)
 * We must command all exported methods and remove in `./tslint.yaml` the rule

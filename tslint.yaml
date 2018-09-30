@@ -62,6 +62,12 @@ rules:
     # be allowed. Otherwise, it must be written as () => { returnsVoid(); }.
     - ignore-arrow-function-shorthand
 
+  # When adding two variables, operands must both be of type number or of type
+  # string.
+  # (NOTE by me: bad idea to restrict-plus-operand: if we accenditally
+  #     add an object and a string, we will have a weird thing.
+  # restrict-plus-operands: false
+
   # Restricts the types allowed in boolean expressions.
   strict-boolean-expressions:
     - true
