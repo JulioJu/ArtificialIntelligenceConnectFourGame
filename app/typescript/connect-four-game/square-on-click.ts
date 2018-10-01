@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Sun 30 Sep 2018 10:17:56 AM CEST
-  *       MODIFIED: Mon 01 Oct 2018 09:50:09 PM CEST
+  *       MODIFIED: Mon 01 Oct 2018 11:12:58 PM CEST
   *
   *          USAGE:
   *
@@ -19,31 +19,25 @@ import { IsCurrentGamerWin } from './isCurrentGamerWin.js';
 import { storeSingleton } from './store-singleton.js';
 
 const clickAction: (squareAdded: Square,
-    checkerAddedHTMLElement: HTMLElement,
-    htmlStylElementKeyframes: HTMLElement) => void
+    animationName: string) => void
     = (squareAdded: Square,
-      checkerAddedHTMLElement: HTMLElement,
-      htmlStylElementKeyframes: HTMLElement): void => {
+      animationName: string): void => {
+
+  const checkerAddedHTMLElement: HTMLElement = squareAdded.checkerHTMLElement;
 
   let gamerColor: string = SquareValues[storeSingleton.currentGamer]
           .toLowerCase();
 
-  const colorRGB: string =
+  const checkerColor: string =
           storeSingleton.currentGamer === SquareValues.GAMER_RED
-          ? 'rgb(217, 41, 0)'
-          : 'rgb(241, 204, 0)';
-  const numberOfClick: string = storeSingleton.numberOfClick.toString();
+          ? 'checker_red'
+          : 'checker_yellow';
 
   squareAdded.squareValue = storeSingleton.currentGamer;
 
   checkerAddedHTMLElement.classList.remove('checker_empty');
-  htmlStylElementKeyframes.innerHTML +=
-  '.checker_' + gamerColor + numberOfClick +
-  ' {background: radial-gradient(circle closest-side, '
-          + colorRGB + '75%, transparent 95%);' +
-  'animation-name: slidein_'  + numberOfClick + ' ;}';
-  checkerAddedHTMLElement.classList.add('checker_' + gamerColor +
-  numberOfClick);
+  checkerAddedHTMLElement.classList.add(checkerColor);
+  checkerAddedHTMLElement.style.animationName = animationName;
 
   if (IsCurrentGamerWin(squareAdded)) {
     alert(gamerColor + ' win!!!');
@@ -65,8 +59,8 @@ const clickAction: (squareAdded: Square,
 // Should not be an arrow function, because `this'
 // doesn't exists in Arrow function
 export const SquareOnClick:
-    (this: Square) => void
-    = function(this: Square): void {
+    (this: Square, htmlStylElement: HTMLStyleElement) => void
+    = function(this: Square, htmlStylElement: HTMLStyleElement): void {
   console.log('Square clicked: ', this);
   let squareAdded: Square | undefined;
   for (let rowIndex: number = GRID_ROW_LENGTH - 1 ;
@@ -86,27 +80,28 @@ export const SquareOnClick:
       ', the first Square empty on the bottom of the column clicked is: ',
       squareAdded);
 
-    const htmlStylElementKeyframes: HTMLStyleElement =
-      document.createElement('style');
-    document.getElementsByTagName('head')[0]
-      .appendChild(htmlStylElementKeyframes);
     const calculatedkeyFramesMarginTop: string = (window.innerHeight
       - ((GRID_ROW_LENGTH - squareAdded.rowIndex)
             * squareAdded.checkerHTMLElement.offsetHeight)
       + squareAdded.checkerHTMLElement.offsetHeight
     ).toString();
-    htmlStylElementKeyframes.innerHTML =
-      '@keyframes slidein_' + numberOfClick + ' { ' +
+    const keyframeRuleName: string = 'slidein_' + numberOfClick;
+
+    const styleSheet: CSSStyleSheet =
+      (htmlStylElement.sheet as CSSStyleSheet);
+    styleSheet.insertRule('@keyframes '  + keyframeRuleName  + ' { ' +
       'from { margin-top: -' + calculatedkeyFramesMarginTop  +
-      'px; } to { margin-top: 0px; } }';
+      'px; } to { margin-top: 0px; } }', styleSheet.cssRules.length);
+
+    const cssKeyframRules: CSSKeyframesRule =
+      styleSheet.cssRules[styleSheet.cssRules.length - 1] as CSSKeyframesRule;
+    console.log(cssKeyframRules);
 
     storeSingleton.currentGamer === SquareValues.GAMER_RED
         /* tslint:disable-next-line:no-void-expression */
-        ?  clickAction(squareAdded, squareAdded.checkerHTMLElement,
-          htmlStylElementKeyframes)
+        ?  clickAction(squareAdded, keyframeRuleName)
         /* tslint:disable-next-line:no-void-expression */
-        : clickAction(squareAdded, squareAdded.checkerHTMLElement,
-          htmlStylElementKeyframes);
+        : clickAction(squareAdded, keyframeRuleName);
 
   } else {
     console.log('No Square empty on the column: ', this.columnIndex);

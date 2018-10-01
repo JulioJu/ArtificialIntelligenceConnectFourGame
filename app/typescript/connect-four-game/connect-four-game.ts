@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Wed 26 Sep 2018 01:11:08 PM CEST
- *       MODIFIED: Mon 01 Oct 2018 12:53:16 PM CEST
+ *       MODIFIED: Tue 02 Oct 2018 09:34:53 AM CEST
  *
  *          USAGE:
  *
@@ -28,12 +28,15 @@ export const main: () => void = (): void => {
   console.log('URL query param gamemode: ',
     parsedUrl.searchParams.get('gamemode'));
 
+  const htmlStylElement: HTMLStyleElement =
+    document.getElementById('generatedByCSSOM') as HTMLStyleElement;
+
+  // htmlStylElement.innerHTML = '.checker_calculated { height: ' +
+  //   (baseCent / GRID_ROW_LENGTH).toString() + '%; }';
+  const styleSheet: CSSStyleSheet = htmlStylElement.sheet as CSSStyleSheet;
   const baseCent: number = 100;
-  const htmlStylElement: HTMLStyleElement = document.createElement('style');
-  htmlStylElement.innerHTML = '.checker_calculated { height: ' +
-    (baseCent / GRID_ROW_LENGTH).toString() + '%; }';
-  document.getElementsByTagName('head')[0]
-    .appendChild(htmlStylElement);
+  (styleSheet.cssRules[0] as CSSStyleRule).style.height =
+    (baseCent / GRID_ROW_LENGTH).toString() + '%';
 
   for (let columnIndex: number = 0 ;
           columnIndex < GRID_COLUMN_LENGTH ;
@@ -47,18 +50,20 @@ export const main: () => void = (): void => {
     for (let rowIndex: number = 0 ; rowIndex < GRID_ROW_LENGTH ; rowIndex++) {
 
       if (columnIndex === 0) {
-
-        htmlStylElement.innerHTML += ' ' +
-          '.checker_calculated_row' + rowIndex.toString() +
-          '{ transform:translateY(' +
-          (baseCent * rowIndex).toString() + '%); }';
-
+        styleSheet.insertRule('.checker_calculated_row_index_' +
+          rowIndex.toString() +
+              '{ transform:translateY(' +
+              (baseCent * rowIndex).toString() + '%); }',
+          styleSheet.cssRules.length);
+        if (rowIndex === GRID_ROW_LENGTH - 1) {
+          console.log(styleSheet);
+        }
       }
 
       const checker: HTMLElement = document.createElement('div');
       checker.classList.add('checker');
       checker.classList.add('checker_calculated');
-      checker.classList.add('checker_calculated_row'
+      checker.classList.add('checker_calculated_row_index_'
         + rowIndex.toString());
       checker.classList.add('checker_empty');
       const square: Square = new Square(columnIndex, rowIndex,
@@ -69,7 +74,7 @@ export const main: () => void = (): void => {
       squareHTMLElement.classList.add('square');
       squareHTMLElement.addEventListener('click', (e: Event) => {
         e.preventDefault();
-        SquareOnClick.call(square);
+        SquareOnClick.call(square, htmlStylElement);
       }, false);
 
       columnHTMLElement.appendChild(checker);
