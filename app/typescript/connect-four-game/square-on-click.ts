@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Sun 30 Sep 2018 10:17:56 AM CEST
-  *       MODIFIED: Mon 01 Oct 2018 11:12:58 PM CEST
+  *       MODIFIED: Tue 02 Oct 2018 07:28:26 PM CEST
   *
   *          USAGE:
   *
@@ -59,8 +59,8 @@ const clickAction: (squareAdded: Square,
 // Should not be an arrow function, because `this'
 // doesn't exists in Arrow function
 export const SquareOnClick:
-    (this: Square, htmlStylElement: HTMLStyleElement) => void
-    = function(this: Square, htmlStylElement: HTMLStyleElement): void {
+    (this: Square, styleSheet: CSSStyleSheet) => void
+    = function(this: Square, styleSheet: CSSStyleSheet): void {
   console.log('Square clicked: ', this);
   let squareAdded: Square | undefined;
   for (let rowIndex: number = GRID_ROW_LENGTH - 1 ;
@@ -87,8 +87,6 @@ export const SquareOnClick:
     ).toString();
     const keyframeRuleName: string = 'slidein_' + numberOfClick;
 
-    const styleSheet: CSSStyleSheet =
-      (htmlStylElement.sheet as CSSStyleSheet);
     styleSheet.insertRule('@keyframes '  + keyframeRuleName  + ' { ' +
       'from { margin-top: -' + calculatedkeyFramesMarginTop  +
       'px; } to { margin-top: 0px; } }', styleSheet.cssRules.length);

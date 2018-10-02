@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Wed 26 Sep 2018 01:11:08 PM CEST
- *       MODIFIED: Tue 02 Oct 2018 09:34:53 AM CEST
+ *       MODIFIED: Tue 02 Oct 2018 07:27:23 PM CEST
  *
  *          USAGE:
  *
@@ -74,7 +74,7 @@ export const main: () => void = (): void => {
       squareHTMLElement.classList.add('square');
       squareHTMLElement.addEventListener('click', (e: Event) => {
         e.preventDefault();
-        SquareOnClick.call(square, htmlStylElement);
+        SquareOnClick.call(square, styleSheet);
       }, false);
 
       columnHTMLElement.appendChild(checker);

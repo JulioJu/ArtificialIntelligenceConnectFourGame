@@ -14,7 +14,8 @@
                 We can also use break points… Soooo cooool ;-).
 
 * This app use Modules. Therefore, we must have a recent Browser
-        (e.g ***Firefox > 60***).
+        (e.g ***Firefox >= 60***, and ***Firefox >= 61*** to the support by the
+        DevTools).
 
 * We can't launch the app with `chromium ./app/index.html`, otherwise we have
     error "`Origin null is not allowed by Access-Control-Allow-Origin`".
@@ -43,6 +44,10 @@
     simply compile with `tsc` with options `--outFile whatever.js` and
     `--module AMD`. JQuery is compiled with AMD modules and `require.js`.
     Using a fat compiler chain with Gulp and WebPack isn't interesting.
+
+* In Firefox, when page is loaded, we must close then open again
+    DevTools to see TypeScript files in the console and Debugger. See also:
+    https://bugzilla.mozilla.org/show_bug.cgi?id=1443247:
 
 ## Cool functionality
 
