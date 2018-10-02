@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Sun 30 Sep 2018 10:17:56 AM CEST
-  *       MODIFIED: Tue 02 Oct 2018 07:28:26 PM CEST
+  *       MODIFIED: Tue 02 Oct 2018 07:45:14 PM CEST
   *
   *          USAGE:
   *
@@ -15,8 +15,8 @@ import { GRID_ROW_LENGTH } from './constants.js';
 import { Square } from './Square.js';
 import { SquareValues } from './SquareValues.js';
 import { IsCurrentGamerWin } from './isCurrentGamerWin.js';
-
 import { storeSingleton } from './store-singleton.js';
+import { SquarePlayable } from './artificial-intelligence/squares-playable.js';
 
 const clickAction: (squareAdded: Square,
     animationName: string) => void
@@ -42,6 +42,8 @@ const clickAction: (squareAdded: Square,
   if (IsCurrentGamerWin(squareAdded)) {
     alert(gamerColor + ' win!!!');
   }
+
+  console.log(SquarePlayable());
 
   // Change gamer
   storeSingleton.currentGamer =
