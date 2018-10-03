@@ -1,9 +1,13 @@
-.body-cursor-red {
+.cursor-gamer_red {
     cursor: url(cursor-red.svg), crosshair;
 }
 
-.body-cursor-yellow {
+.cursor-gamer_yellow {
     cursor: url(cursor-yellow.svg), crosshair;
+}
+
+.cursor-not-allowed {
+    cursor: not-allowed;
 }
 
 html, body, .column, .square, .checker_empty, .checker_red, .checker_yellow {

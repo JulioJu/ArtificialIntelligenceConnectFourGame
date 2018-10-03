@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Wed 26 Sep 2018 01:11:08 PM CEST
- *       MODIFIED: Wed 03 Oct 2018 11:22:00 AM CEST
+ *       MODIFIED: Wed 03 Oct 2018 09:19:30 PM CEST
  *
  *          USAGE:
  *
@@ -48,7 +48,7 @@ const parseUrlQueryParam: () => void = (): void => {
 
 export const main: () => void = (): void => {
 
-  document.body.classList.add('body-cursor-red');
+  document.body.classList.add('cursor-gamer_red');
 
   parseUrlQueryParam();
 
@@ -80,7 +80,7 @@ export const main: () => void = (): void => {
               (baseCent * rowIndex).toString() + '%); }',
           styleSheet.cssRules.length);
         if (rowIndex === GRID_ROW_LENGTH - 1) {
-          console.log(styleSheet);
+          console.debug(styleSheet);
         }
       }
 

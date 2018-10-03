@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Sat 29 Sep 2018 01:42:30 PM CEST
-  *       MODIFIED: Tue 02 Oct 2018 07:44:58 PM CEST
+  *       MODIFIED: Wed 03 Oct 2018 06:40:39 PM CEST
   *
   *          USAGE:
   *
@@ -35,6 +35,6 @@ export const SquarePlayable: () => Square[] = (): Square[] => {
     }
   }
   return squarePlayable;
-  };
+};
 
 // vim: ts=2 sw=2 et:
