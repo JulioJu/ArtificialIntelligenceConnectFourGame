@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Wed 26 Sep 2018 01:11:08 PM CEST
- *       MODIFIED: Tue 02 Oct 2018 07:27:23 PM CEST
+ *       MODIFIED: Wed 03 Oct 2018 11:22:00 AM CEST
  *
  *          USAGE:
  *
@@ -15,18 +15,42 @@ import { GRID_COLUMN_LENGTH, GRID_ROW_LENGTH } from './constants.js';
 import { Square } from './Square.js';
 import { SquareValues } from './SquareValues.js';
 import { SquareOnClick } from './square-on-click.js';
-import { storeSingleton } from './store-singleton.js';
+import { GameMode, storeSingleton } from './store-singleton.js';
+
+const parseUrlQueryParam: () => void = (): void => {
+  // See:
+  // https://developer.mozilla.org/en-US/docs/Web/API/HTMLHyperlinkElementUtils/search
+  // And https://developer.mozilla.org/en-US/docs/Web/API/URL
+  const parsedUrl: URL = new URL(document.location.href);
+  let gameModeParam: string | null = parsedUrl.searchParams.get('gamemode');
+  console.info('URL query param "gamemode": ', gameModeParam);
+  if (gameModeParam) {
+    gameModeParam = gameModeParam.toUpperCase();
+    switch (gameModeParam) {
+      case GameMode[GameMode.MULTIPLAYER]:
+        storeSingleton.gameMode = GameMode.MULTIPLAYER;
+        break;
+      case GameMode[GameMode.VSCOMPUTER]:
+        storeSingleton.gameMode = GameMode.VSCOMPUTER;
+        break;
+      case GameMode[GameMode.ONLY_COMPUTER]:
+        storeSingleton.gameMode = GameMode.ONLY_COMPUTER;
+        break;
+      default:
+        console.warn('The URL param "gamemode" has not an expected value.',
+          'Therefore the game will be "multiplayer"');
+    }
+  } else {
+    console.warn('The URL param "gamemode" doesn\'t exist.',
+      'Therefore the game will be "multiplayer"');
+  }
+};
 
 export const main: () => void = (): void => {
 
   document.body.classList.add('body-cursor-red');
 
-  // See:
-  // https://developer.mozilla.org/en-US/docs/Web/API/HTMLHyperlinkElementUtils/search
-  // And https://developer.mozilla.org/en-US/docs/Web/API/URL
-  const parsedUrl: URL = new URL(document.location.href);
-  console.log('URL query param gamemode: ',
-    parsedUrl.searchParams.get('gamemode'));
+  parseUrlQueryParam();
 
   const htmlStylElement: HTMLStyleElement =
     document.getElementById('generatedByCSSOM') as HTMLStyleElement;
