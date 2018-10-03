@@ -168,6 +168,12 @@
     https://developer.mozilla.org/en-US/docs/Web/API/AnimationEvent
 * To describe css Rules in JSON read:
 
+### CSS colors / images
+
+* https://cssgradientbutton.com/
+
+* http://angrytools.com/gradient/
+
 ## Conventions
     * In javascript / typescript folders, files that have the same name that a html
         file are directly included to the html file

@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Tue 25 Sep 2018 02:42:40 PM CEST
-  *       MODIFIED: Fri 28 Sep 2018 10:40:17 AM CEST
+  *       MODIFIED: Wed 03 Oct 2018 09:38:47 AM CEST
   *
   *          USAGE:
   *
@@ -11,18 +11,9 @@
   * ============================================================================
   */
 
-import { Hello } from './indexModule.js';
-
 interface IFormGame extends HTMLFormControlsCollection {
   gamemode: RadioNodeList;
 }
-
-const div: HTMLElement = document.createElement('div');
-div.textContent = Hello();
-document.body.appendChild(div);
-console.log('coucou');
-
-console.log('hello', Hello());
 
 // Could be null. But don't crash if it's null (id deleted in source code)
 // If id is deleted in inspector, continue to work (event is already
