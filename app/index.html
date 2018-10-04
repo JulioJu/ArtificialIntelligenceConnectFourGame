@@ -10,12 +10,12 @@
 
 <body>
     <form id="customizeGame" name="customizeGameName" >
+        <section>
         <fieldset>
             <div class="radio">
                 <label>
                     <input type="radio"
                            name="gamemode"
-                           id="multiplayer"
                            value="multiplayer"
                            checked />
                     Multiplayer
@@ -25,7 +25,6 @@
                 <label>
                     <input type="radio"
                            name="gamemode"
-                           id="vscomputer"
                            value="vscomputer"
                            />
                     Gamer vs computer
@@ -35,13 +34,59 @@
                 <label>
                     <input type="radio"
                            name="gamemode"
-                           id="only_computer"
                            value="only_computer"
+                           disabled
                            />
                     Computer vs computer
                 </label>
             </div>
         </fieldset>
+        </section>
+        <section id="is_computer_to_start">
+            <fieldset>
+                <div class="radio">
+                    <label>
+                        <input type="radio"
+                            name="is_computer_to_start"
+                            value="true"
+                            checked />
+                        The computer start the game.
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio"
+                            name="is_computer_to_start"
+                            value="false"
+                            />
+                        The gamer start the game.
+                    </label>
+                </div>
+            </fieldset>
+        </section>
+        <section>
+            <fieldset>
+                <div class="radio">
+                    <label>
+                        <input type="radio"
+                            name="first_gamer"
+                            value="gamer_red"
+                            checked />
+                        The first gamer is "Red".
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio"
+                            name="first_gamer"
+                            value="gamer_yellow"
+                            />
+                        The first gamer is "Yellow".
+                    </label>
+                    </label>
+                </div>
+            </fieldset>
+        </section>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 

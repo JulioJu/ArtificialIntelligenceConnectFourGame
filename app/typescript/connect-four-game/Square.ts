@@ -11,13 +11,13 @@
  * ============================================================================
  */
 
-import { SquareValues } from './SquareValues.js';
+import { SquareChecker } from './constants.js';
 
 export class Square {
 
   public constructor (private readonly _columnIndex: number,
     private readonly _rowIndex: number,
-      private _squareValue: SquareValues,
+      private _squareValue: SquareChecker,
       private readonly _checkerHTMLElement: HTMLElement) {
   }
 
@@ -29,11 +29,11 @@ export class Square {
     return this._columnIndex;
   }
 
-  public get squareValue(): SquareValues {
+  public get squareValue(): SquareChecker {
     return this._squareValue;
   }
 
-  public set squareValue(_squareValue: SquareValues) {
+  public set squareValue(_squareValue: SquareChecker) {
     this._squareValue = _squareValue;
   }
 

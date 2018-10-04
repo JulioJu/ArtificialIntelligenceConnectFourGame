@@ -18,6 +18,27 @@ form {
     text-align: center;
 }
 
+form > * {
+    overflow: hidden;
+}
+
+section {
+    animation-duration: 3s;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+section.collapsed {
+    animation-name: collapse;
+    animation-direction: normal;
+}
+
+section.expended {
+    animation-name: expend;
+    animation-direction: normal;
+}
+
 fieldset {
     text-align: left;
     margin: 2em;
@@ -38,6 +59,7 @@ button {
     box-shadow: #878787 0px 2px 2px;
     border:1px solid #7eb9d0;
     padding: 1em 4em;
+    margin: 2em 0em 0em 0em;
     background-image: linear-gradient(to bottom, #a7cfdf, #23538a);
     display: inline-block
 }
@@ -45,4 +67,40 @@ button {
 button:hover {
     border:1px solid #5d7fbc;
     background-image: linear-gradient(to bottom, #819bcb, #536f9d);
+}
+
+@keyframes collapse {
+    0% {
+        visibility: visible;
+        opacity: 1;
+        max-height: 20em;
+    }
+    50% {
+        visibility: hidden;
+        opacity: 0;
+        max-height: 20em;
+    }
+    100% {
+        visibility: hidden;
+        opacity: 0;
+        max-height: 0em;
+    }
+}
+
+@keyframes expend {
+    0% {
+        visibility: hidden;
+        opacity: 0;
+        max-height: 0em;
+    }
+    50% {
+        visibility: hidden;
+        opacity: 0;
+        max-height: 20em;
+    }
+    100% {
+        visibility: visible;
+        opacity: 1;
+        max-height: 20em;
+    }
 }

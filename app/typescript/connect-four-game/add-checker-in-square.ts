@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Wed 03 Oct 2018 08:04:32 PM CEST
-  *       MODIFIED: Wed 03 Oct 2018 09:29:34 PM CEST
+  *       MODIFIED: Thu 04 Oct 2018 09:21:48 AM CEST
   *
   *          USAGE:
   *
@@ -11,13 +11,12 @@
   * ============================================================================
   */
 
-import { GRID_ROW_LENGTH } from './constants.js';
+import { GRID_ROW_LENGTH, SquareChecker } from './constants.js';
 import { Square } from './Square.js';
-import { SquareValues } from './SquareValues.js';
 import { IsCurrentGamerWin } from './is-current-gamer-win.js';
-import { GameMode, storeSingleton } from './store-singleton.js';
+import { storeSingleton } from './store-singleton.js';
 
-const clickAction: (squareWithCheckerAdded: Square,
+const performAnimation: (squareWithCheckerAdded: Square,
     animationName: string) => void
     = (squareWithCheckerAdded: Square,
       animationName: string): void => {
@@ -25,11 +24,11 @@ const clickAction: (squareWithCheckerAdded: Square,
   const checkerAddedHTMLElement: HTMLElement =
           squareWithCheckerAdded.checkerHTMLElement;
 
-  let gamerColor: string = SquareValues[storeSingleton.currentGamer]
+  const gamerColor: string = SquareChecker[storeSingleton.currentGamer]
           .toLowerCase();
 
   const checkerColor: string =
-          storeSingleton.currentGamer === SquareValues.GAMER_RED
+          storeSingleton.currentGamer === SquareChecker.GAMER_RED
           ? 'checker_red'
           : 'checker_yellow';
 
@@ -45,21 +44,10 @@ const clickAction: (squareWithCheckerAdded: Square,
 
   // Change gamer
   storeSingleton.currentGamer =
-          storeSingleton.currentGamer === SquareValues.GAMER_RED
-          ?  storeSingleton.currentGamer = SquareValues.GAMER_YELLOW
-          :  storeSingleton.currentGamer = SquareValues.GAMER_RED;
+          storeSingleton.currentGamer === SquareChecker.GAMER_RED
+          ?  storeSingleton.currentGamer = SquareChecker.GAMER_YELLOW
+          :  storeSingleton.currentGamer = SquareChecker.GAMER_RED;
 
-  // Change cursor color
-  document.body.classList.remove('cursor-' + gamerColor);
-  document.body.classList.remove('cursor-not-allowed');
-  if (storeSingleton.gameMode === GameMode.VSCOMPUTER
-    && storeSingleton.currentGamer === SquareValues.GAMER_YELLOW) {
-      document.body.classList.add('cursor-not-allowed');
-  } else {
-    gamerColor = SquareValues[storeSingleton.currentGamer]
-            .toLowerCase();
-    document.body.classList.add('cursor-' + gamerColor);
-  }
 };
 
 export const AddCheckerInSquare: (squareWithCheckerAdded: Square,
@@ -86,11 +74,11 @@ export const AddCheckerInSquare: (squareWithCheckerAdded: Square,
     styleSheet.cssRules[styleSheet.cssRules.length - 1] as CSSKeyframesRule;
   console.debug(cssKeyframRules);
 
-  storeSingleton.currentGamer === SquareValues.GAMER_RED
+  storeSingleton.currentGamer === SquareChecker.GAMER_RED
       /* tslint:disable-next-line:no-void-expression */
-      ?  clickAction(squareWithCheckerAdded, keyframeRuleName)
+      ?  performAnimation(squareWithCheckerAdded, keyframeRuleName)
       /* tslint:disable-next-line:no-void-expression */
-      : clickAction(squareWithCheckerAdded, keyframeRuleName);
+      : performAnimation(squareWithCheckerAdded, keyframeRuleName);
 };
 
 // vim: ts=2 sw=2 et:

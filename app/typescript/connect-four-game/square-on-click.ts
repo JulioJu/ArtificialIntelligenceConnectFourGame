@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Sun 30 Sep 2018 10:17:56 AM CEST
-  *       MODIFIED: Wed 03 Oct 2018 09:19:43 PM CEST
+  *       MODIFIED: Fri 05 Oct 2018 01:19:22 PM CEST
   *
   *          USAGE:
   *
@@ -11,12 +11,46 @@
   * ============================================================================
   */
 
-import { GRID_ROW_LENGTH } from './constants.js';
+import { GRID_ROW_LENGTH, GameMode, SquareChecker } from './constants.js';
 import { Square } from './Square.js';
-import { SquareValues } from './SquareValues.js';
-import { GameMode, storeSingleton } from './store-singleton.js';
+import { storeSingleton } from './store-singleton.js';
 import { AddCheckerInSquare } from './add-checker-in-square.js';
 import { AIRandomTurn } from './artificial-intelligence/ai-random-turn.js';
+
+export const CursorColor: () => void = (): void => {
+  document.body.classList.remove('cursor-gamer_red');
+  document.body.classList.remove('cursor-gamer_yellow');
+  document.body.classList.remove('cursor-not-allowed');
+  if (storeSingleton.gameMode === GameMode.VSCOMPUTER
+          && storeSingleton.isComputerToPlay) {
+      document.body.classList.add('cursor-not-allowed');
+  } else {
+    const gamerColor: string = SquareChecker[storeSingleton.currentGamer]
+            .toLowerCase();
+    document.body.classList.add('cursor-' + gamerColor);
+  }
+};
+
+export const GameModeVsComputerComputerTurn:
+      (styleSheet: CSSStyleSheet) => void
+      = (styleSheet: CSSStyleSheet): void => {
+  AIRandomTurn()
+    .then((square: Square) => {
+      square.checkerHTMLElement.addEventListener(
+        'animationend', (eInner: Event) => {
+          eInner.preventDefault();
+          // After the animation time of the computer turn, the
+          // gamer can play again.
+          storeSingleton.isComputerToPlay = false;
+          CursorColor();
+        }
+        , false
+      );
+      AddCheckerInSquare(square, styleSheet);
+    }
+    )
+    .catch((error: Error) => console.error(error));
+};
 
 // Should not be an arrow function, because `this'
 // doesn't exists in Arrow function
@@ -25,7 +59,7 @@ export const SquareOnClick:
       = function(this: Square, styleSheet: CSSStyleSheet): void {
 
   if (storeSingleton.gameMode === GameMode.VSCOMPUTER
-    && storeSingleton.currentGamer === SquareValues.GAMER_YELLOW) {
+        && storeSingleton.isComputerToPlay) {
     return;
   }
 
@@ -35,17 +69,28 @@ export const SquareOnClick:
           rowIndex >= 0 ;
           rowIndex--) {
     const square: Square = storeSingleton.grid[this.columnIndex][rowIndex];
-    if (square.squareValue === SquareValues.EMPTY_SQUARE) {
+    if (square.squareValue === SquareChecker.EMPTY_SQUARE) {
       squareWithCheckerAdded = square;
       break;
     }
   }
   if (squareWithCheckerAdded) {
-
+    if (storeSingleton.gameMode === GameMode.VSCOMPUTER) {
+      // Forbid immediatly action to onclick
+      storeSingleton.isComputerToPlay = true;
+      CursorColor();
+      squareWithCheckerAdded.checkerHTMLElement.addEventListener(
+        'animationend', (e: Event) => {
+          e.preventDefault();
+          GameModeVsComputerComputerTurn(styleSheet);
+        }
+        , false
+      );
+    }
     AddCheckerInSquare(squareWithCheckerAdded, styleSheet);
-
-    AIRandomTurn(styleSheet);
-
+    if (storeSingleton.gameMode === GameMode.MULTIPLAYER) {
+      CursorColor();
+    }
   } else {
     console.info('No Square empty on the column: ', this.columnIndex);
   }

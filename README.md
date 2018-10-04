@@ -166,7 +166,12 @@
     * Better: read `./app/typescript/connect-four-game/square-on-click.ts`
 * For AnimationEvent see
     https://developer.mozilla.org/en-US/docs/Web/API/AnimationEvent
+    And an example at:
+    https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations/Tips
 * To describe css Rules in JSON read:
+
+* We can't restart an animation simply: see
+    https://css-tricks.com/restart-css-animation/
 
 ### CSS colors / images
 

@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Sat 29 Sep 2018 03:38:08 PM CEST
-  *       MODIFIED: Wed 03 Oct 2018 11:12:57 AM CEST
+  *       MODIFIED: Thu 04 Oct 2018 07:33:25 AM CEST
   *
   *          USAGE:
   *
@@ -11,24 +11,21 @@
   * ============================================================================
   */
 
+import { GRID_COLUMN_LENGTH, GameMode, SquareChecker } from './constants.js';
 import { Square } from './Square.js';
-import { GRID_COLUMN_LENGTH } from './constants.js';
-import { SquareValues } from './SquareValues.js';
 
 interface IStoreSingleton {
-    currentGamer: SquareValues;
+    currentGamer: SquareChecker;
     numberOfClick: number;
     grid: Square[][];
     gameMode: GameMode;
-}
-
-export enum GameMode {
-    MULTIPLAYER, VSCOMPUTER, ONLY_COMPUTER
+    isComputerToPlay: boolean;
 }
 
 export const storeSingleton: IStoreSingleton = {
-    currentGamer: SquareValues.GAMER_RED,
+    currentGamer: SquareChecker.GAMER_RED,
     numberOfClick: 0,
     grid: new Array(GRID_COLUMN_LENGTH),
-    gameMode: GameMode.MULTIPLAYER
+    gameMode: GameMode.MULTIPLAYER,
+    isComputerToPlay: false
 };

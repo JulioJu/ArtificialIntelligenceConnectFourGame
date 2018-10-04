@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Wed 26 Sep 2018 01:11:08 PM CEST
- *       MODIFIED: Wed 03 Oct 2018 09:19:30 PM CEST
+ *       MODIFIED: Fri 05 Oct 2018 01:54:15 PM CEST
  *
  *          USAGE:
  *
@@ -11,17 +11,64 @@
  * ============================================================================
  */
 
-import { GRID_COLUMN_LENGTH, GRID_ROW_LENGTH } from './constants.js';
+import { GRID_COLUMN_LENGTH, GRID_ROW_LENGTH, GameMode, SquareChecker }
+    from './constants.js';
 import { Square } from './Square.js';
-import { SquareValues } from './SquareValues.js';
-import { SquareOnClick } from './square-on-click.js';
-import { GameMode, storeSingleton } from './store-singleton.js';
+import { SquareOnClick, CursorColor, GameModeVsComputerComputerTurn }
+    from './square-on-click.js';
+import { storeSingleton } from './store-singleton.js';
 
-const parseUrlQueryParam: () => void = (): void => {
-  // See:
-  // https://developer.mozilla.org/en-US/docs/Web/API/HTMLHyperlinkElementUtils/search
-  // And https://developer.mozilla.org/en-US/docs/Web/API/URL
-  const parsedUrl: URL = new URL(document.location.href);
+const parseUrlQueryParamIsComputerToStart: (parsedUrl: URL) => void
+      = (parsedUrl: URL): void => {
+  const isComputerToStartParam: string | null =
+          parsedUrl.searchParams.get('is_computer_to_start');
+  console.info('URL query param "is_computer_to_start": ',
+    isComputerToStartParam);
+  if (isComputerToStartParam) {
+    switch (isComputerToStartParam) {
+      case 'true':
+        storeSingleton.isComputerToPlay = true;
+        break;
+      case 'false':
+        storeSingleton.isComputerToPlay = false;
+        break;
+      default:
+        console.warn('The URL param "is_computer_to_start',
+          'has not an expected value.',
+          'Therefore the first player will be the gamer and not the computer');
+    }
+  } else {
+    console.warn('The URL param "is_computer_to_start" doesn\'t exist.',
+      'Therefore the first player will be the gamer and not the computer');
+  }
+};
+
+const parseUrlQueryParamFirstGamer: (parsedUrl: URL) => void
+      = (parsedUrl: URL): void => {
+  let firstGamerParam: string | null =
+          parsedUrl.searchParams.get('first_gamer');
+  console.info('URL query param "first_gamer": ', firstGamerParam);
+  if (firstGamerParam) {
+    firstGamerParam = firstGamerParam.toUpperCase();
+    switch (firstGamerParam) {
+      case SquareChecker[SquareChecker.GAMER_RED]:
+        storeSingleton.currentGamer = SquareChecker.GAMER_RED;
+        break;
+      case SquareChecker[SquareChecker.GAMER_YELLOW]:
+        storeSingleton.currentGamer = SquareChecker.GAMER_YELLOW;
+        break;
+      default:
+        console.warn('The URL param "first_gamer" has not an expected value.',
+          'Therefore the first player will be "red"');
+    }
+  } else {
+    console.warn('The URL param "first_gamer" doesn\'t exist.',
+      'Therefore the first player will be "red"');
+  }
+};
+
+const parseUrlQueryParamGamemode: (parsedUrl: URL) => void
+      = (parsedUrl: URL): void => {
   let gameModeParam: string | null = parsedUrl.searchParams.get('gamemode');
   console.info('URL query param "gamemode": ', gameModeParam);
   if (gameModeParam) {
@@ -46,11 +93,26 @@ const parseUrlQueryParam: () => void = (): void => {
   }
 };
 
+const parseUrlQueryParam: () => void = (): void => {
+  // See:
+  // https://developer.mozilla.org/en-US/docs/Web/API/HTMLHyperlinkElementUtils/search
+  // And https://developer.mozilla.org/en-US/docs/Web/API/URL
+  const parsedUrl: URL = new URL(document.location.href);
+  parseUrlQueryParamGamemode(parsedUrl);
+  parseUrlQueryParamFirstGamer(parsedUrl);
+  if (storeSingleton.gameMode === GameMode.VSCOMPUTER) {
+    parseUrlQueryParamIsComputerToStart(parsedUrl);
+  } else {
+    storeSingleton.isComputerToPlay = false;
+  }
+};
+
 export const main: () => void = (): void => {
 
-  document.body.classList.add('cursor-gamer_red');
-
   parseUrlQueryParam();
+
+  // Should be after `parseUrlQueryParam()`
+  CursorColor();
 
   const htmlStylElement: HTMLStyleElement =
     document.getElementById('generatedByCSSOM') as HTMLStyleElement;
@@ -91,7 +153,7 @@ export const main: () => void = (): void => {
         + rowIndex.toString());
       checker.classList.add('checker_empty');
       const square: Square = new Square(columnIndex, rowIndex,
-          SquareValues.EMPTY_SQUARE, checker);
+          SquareChecker.EMPTY_SQUARE, checker);
       storeSingleton.grid[columnIndex][rowIndex] = square;
 
       const squareHTMLElement: HTMLElement = document.createElement('div');
@@ -112,6 +174,10 @@ export const main: () => void = (): void => {
     const squareRedHTMLElement: HTMLElement = document.createElement('div');
     columnHTMLElement.appendChild(squareRedHTMLElement);
 
+  }
+
+  if (storeSingleton.isComputerToPlay) {
+    GameModeVsComputerComputerTurn(styleSheet);
   }
 
 };
