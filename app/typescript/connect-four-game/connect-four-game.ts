@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Wed 26 Sep 2018 01:11:08 PM CEST
- *       MODIFIED: Fri 05 Oct 2018 01:54:15 PM CEST
+ *       MODIFIED: Fri 05 Oct 2018 01:55:09 PM CEST
  *
  *          USAGE:
  *
@@ -17,6 +17,7 @@ import { Square } from './Square.js';
 import { SquareOnClick, CursorColor, GameModeVsComputerComputerTurn }
     from './square-on-click.js';
 import { storeSingleton } from './store-singleton.js';
+import { GameModeComputerVsComputer } from './computer-vs-computer.js';
 
 const parseUrlQueryParamIsComputerToStart: (parsedUrl: URL) => void
       = (parsedUrl: URL): void => {
@@ -110,9 +111,12 @@ const parseUrlQueryParam: () => void = (): void => {
 export const main: () => void = (): void => {
 
   parseUrlQueryParam();
-
-  // Should be after `parseUrlQueryParam()`
-  CursorColor();
+  if (storeSingleton.gameMode !== GameMode.ONLY_COMPUTER) {
+    // Should be after `parseUrlQueryParam()`
+    CursorColor();
+  } else {
+    document.body.classList.add('cursor-not-allowed');
+  }
 
   const htmlStylElement: HTMLStyleElement =
     document.getElementById('generatedByCSSOM') as HTMLStyleElement;
@@ -158,10 +162,12 @@ export const main: () => void = (): void => {
 
       const squareHTMLElement: HTMLElement = document.createElement('div');
       squareHTMLElement.classList.add('square');
-      squareHTMLElement.addEventListener('click', (e: Event) => {
-        e.preventDefault();
-        SquareOnClick.call(square, styleSheet);
-      }, false);
+      if (storeSingleton.gameMode !== GameMode.ONLY_COMPUTER) {
+        squareHTMLElement.addEventListener('click', (e: Event) => {
+          e.preventDefault();
+          SquareOnClick.call(square, styleSheet);
+        }, false);
+      }
 
       columnHTMLElement.appendChild(checker);
 
@@ -176,8 +182,11 @@ export const main: () => void = (): void => {
 
   }
 
-  if (storeSingleton.isComputerToPlay) {
+  if (storeSingleton.gameMode === GameMode.VSCOMPUTER
+        && storeSingleton.isComputerToPlay) {
     GameModeVsComputerComputerTurn(styleSheet);
+  } else if (storeSingleton.gameMode === GameMode.ONLY_COMPUTER) {
+    GameModeComputerVsComputer(styleSheet);
   }
 
 };
