@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Wed 03 Oct 2018 08:04:32 PM CEST
-  *       MODIFIED: Thu 04 Oct 2018 09:21:48 AM CEST
+  *       MODIFIED: Fri 05 Oct 2018 04:35:55 PM CEST
   *
   *          USAGE:
   *
@@ -16,6 +16,34 @@ import { Square } from './Square.js';
 import { IsCurrentGamerWin } from './is-current-gamer-win.js';
 import { storeSingleton } from './store-singleton.js';
 
+const popupWin: () => void = (): void => {
+  const popupWinHtmlElement: HTMLElement | null =
+    document.getElementById('popup_win');
+  if (popupWinHtmlElement) {
+    popupWinHtmlElement.classList.remove('overlay_');
+    popupWinHtmlElement.classList.add('overlay_visible');
+    const contentHtmlElement: HTMLElement | null =
+      document.querySelector('#popup_win > .popup > .content');
+    if (contentHtmlElement) {
+      if (storeSingleton.currentGamer === SquareChecker.GAMER_RED) {
+        contentHtmlElement.innerText = 'Gamer red win!!!';
+        contentHtmlElement.classList.add('gamer_red_win');
+      } else {
+        contentHtmlElement.innerText = 'Gamer yellow win!!!';
+        contentHtmlElement.classList.add('gamer_yellow_win');
+      }
+    }
+    const closePopupHtmlElement: HTMLElement | null =
+      document.querySelector('#popup_win > .popup > .close');
+    if (closePopupHtmlElement) {
+      closePopupHtmlElement.addEventListener('click', () => {
+        popupWinHtmlElement.classList.add('overlay_');
+        popupWinHtmlElement.classList.remove('overlay_visible');
+      });
+    }
+  }
+};
+
 const performAnimation: (squareWithCheckerAdded: Square,
     animationName: string) => void
     = (squareWithCheckerAdded: Square,
@@ -23,9 +51,6 @@ const performAnimation: (squareWithCheckerAdded: Square,
 
   const checkerAddedHTMLElement: HTMLElement =
           squareWithCheckerAdded.checkerHTMLElement;
-
-  const gamerColor: string = SquareChecker[storeSingleton.currentGamer]
-          .toLowerCase();
 
   const checkerColor: string =
           storeSingleton.currentGamer === SquareChecker.GAMER_RED
@@ -39,7 +64,7 @@ const performAnimation: (squareWithCheckerAdded: Square,
   checkerAddedHTMLElement.style.animationName = animationName;
 
   if (IsCurrentGamerWin(squareWithCheckerAdded)) {
-    alert(gamerColor + ' win!!!');
+    popupWin();
   }
 
   // Change gamer

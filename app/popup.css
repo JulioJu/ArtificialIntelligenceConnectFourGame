@@ -1,0 +1,92 @@
+/* Inspired from https://codepen.io/imprakash/pen/GgNMXO */
+
+#popup_win {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    animation-duration: 6s;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+.overlay_invisible {
+    visibility: hidden;
+    opacity: 0;
+}
+.overlay_visible {
+    animation-name: display;
+    z-index: 200;
+    cursor: default;
+}
+
+.popup {
+    position: relative;
+    margin: 0 auto;
+    padding: 2em;
+
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 30%;
+
+    border: 4px solid #26759E;
+    box-shadow: #878787 0px 2px 2px;
+    border-radius: 23px;
+    background-image: linear-gradient(to bottom, #3093C7, #1C5A85);
+
+    transition: all 5s ease-in-out;
+}
+.popup > .close {
+    position: absolute;
+    top: 0.6em;
+    right: 1em;
+    font-size: 2em;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+    transition: all 200ms;
+}
+.popup > .close:hover {
+    color: #06D85F;
+}
+.popup > .content {
+    max-height: 30%;
+    font-weight: bold;
+}
+
+.popup > .gamer_red_win {
+    color: brown;
+}
+
+.popup > .gamer_yellow_win {
+    color: rgb(251, 190, 0);
+}
+
+
+@media screen and (max-width: 700px){
+    .box{
+        width: 70%;
+    }
+    .popup{
+        width: 70%;
+    }
+}
+
+@keyframes display {
+    0% {
+        visibility: visible;
+        opacity: 0;
+    }
+    50% {
+        visibility: visible;
+        opacity: 0;
+    }
+    100% {
+        visibility: visible;
+        opacity: 1;
+    }
+}
