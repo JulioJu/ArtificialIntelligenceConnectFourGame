@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Tue 25 Sep 2018 02:42:40 PM CEST
-  *       MODIFIED: Thu 04 Oct 2018 04:40:33 PM CEST
+  *       MODIFIED: Fri 05 Oct 2018 02:54:12 PM CEST
   *
   *          USAGE:
   *
@@ -63,21 +63,14 @@ form.addEventListener('submit',
   (e: Event) => {
     e.preventDefault();
     const formElement: IFormGame = form.elements as IFormGame;
-    const url: string = 'connect-four-game.html?gamemode=' +
-      formElement.gamemode.value + '&first_gamer=' +
-      formElement.first_gamer.value + '&is_computer_to_start=' +
-      formElement.is_computer_to_start.value;
-    if (! window.history.state) {
-      const messageError: string = 'You\'re browser does not support history' +
-        ' functionnality for local website' +
-        '(e.g. you can\'t use Back button to come back ' +
-        'to the current page). If your are interested by this ' +
-        'functionnality, use Firefox or use a local server' +
-        '(e.g Browsersync). See README.md for more informations.';
-      console.error(messageError);
-      alert (messageError);
+    let url: string;
+    if (formElement.gamemode.value === 'vscomputer') {
+      url = 'connect-four-game.html?gamemode=' + formElement.gamemode.value +
+        '&first_gamer=' + formElement.first_gamer.value +
+        '&is_computer_to_start=' + formElement.is_computer_to_start.value;
     } else {
-      history.pushState(undefined, undefined, url);
+      url = 'connect-four-game.html?gamemode=' + formElement.gamemode.value +
+        '&first_gamer=' + formElement.first_gamer.value;
     }
     document.location.assign(url);
   },

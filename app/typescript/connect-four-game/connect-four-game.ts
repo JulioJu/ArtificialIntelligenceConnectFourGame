@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Wed 26 Sep 2018 01:11:08 PM CEST
- *       MODIFIED: Fri 05 Oct 2018 01:55:09 PM CEST
+ *       MODIFIED: Fri 05 Oct 2018 01:55:56 PM CEST
  *
  *          USAGE:
  *
@@ -190,5 +190,7 @@ export const main: () => void = (): void => {
   }
 
 };
+
+main();
 
 // vim: ts=2 sw=2 et:

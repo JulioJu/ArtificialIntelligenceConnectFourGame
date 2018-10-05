@@ -1,6 +1,8 @@
 # Usage
 * To use it:
-    1. For TypeScript compiler: `./node_modules/.bin/tsc`
+    1. Compile with the TypeScript compiler: `./node_modules/.bin/tsc`
+    2. Download require.js (see https://requirejs.org/docs/start.html) into
+        `./app/requirejs/lib/`
     2. Launch the app:
         * EITHER (for Browsersync)
             ```
@@ -9,9 +11,48 @@
             * `browser-sync` should be launch in `app/` because app is our root folder.
             * Thanks BrowserSync, each modification saved
                 automatically reload the app in the Browser :-).
+            * We could also symply use `yarn browsersync`
+                or `npm browsersync`.
         * OR `firefox ./app/index.html` (or click on the file)
-        * Note: In Firefox, we can debug the TypeScript files ! So cool ! ^^
-                We can also use break points… Soooo cooool ;-).
+
+### Google Chrome issues with history
+
+* Note before read this section: finally it seems our app does not need
+    `history.pushState`. `document.location.assign(url);` seems to be
+    enough on Chromium 69, Firefox 62 and Waterfox 56.
+
+* Chrome does not support history feature when the app is launched without
+    servers.
+    * Interesting links:
+        * https://bugs.chromium.org/p/chromium/issues/detail?id=301210 ()
+        * https://stackoverflow.com/questions/32508198/systrace-error-uncaught-securityerror-failed-to-execute-pushstate-on-histor
+        * https://stackoverflow.com/questions/8456538/origin-null-is-not-allowed-by-access-control-allow-origin/13262673#13262673
+    * In this app, when the functionality is needed,
+        this app display a message in the Browser about this issue without
+        crash.
+    * To have this functionality in Chrome, you could use Browsersync or another
+        server like https://developer.mozilla.org/en-US/docs/Learn/Server-side/Node_server_without_framework
+    * Firefox works perfect !! :-). The easier solution is simply: use Firefox.
+
+* If we need `history.pushState()`, use following code:
+    try {
+      history.pushState(undefined, undefined, url);
+    } catch (e) {
+      const messageError: string = 'You\'re browser does not support history' +
+        ' functionnality for local website' +
+        '(e.g. you can\'t use Back button to come back ' +
+        'to the current page). If your are interested by this ' +
+        'functionnality, use Firefox or use a local server' +
+        '(e.g Browsersync). See README.md for more informations.';
+      console.error(messageError);
+      console.error(e);
+      alert (messageError);
+    }
+
+### Note about es6 Modules in Browsers (deprecated)
+
+***THIS SECTION IS DEPRECATED*** , now the app use require.js and no longer
+    es6 modules in compiled code.
 
 * This app use Modules. Therefore, we must have a recent Browser
         (e.g ***Firefox >= 60***, and ***Firefox >= 61*** to the support by the
@@ -48,6 +89,11 @@
 * In Firefox, when page is loaded, we must close then open again
     DevTools to see TypeScript files in the console and Debugger. See also:
     https://bugzilla.mozilla.org/show_bug.cgi?id=1443247:
+
+* Tested also with:
+    `https://developer.mozilla.org/en-US/docs/Learn/Server-side/Node_server_without_framework`
+    as for resolve AJAX errors with Chrome
+    (https://developer.mozilla.org/en-US/docs/Learn/Server-side/Node_server_without_framework ). Without reslults.
 
 ## Cool functionality
 

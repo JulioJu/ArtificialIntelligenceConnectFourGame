@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "module": "es6",
+        "module": "amd",
         "target": "es2017",
 
         "listEmittedFiles": true,
@@ -27,14 +27,5 @@
         "strictFunctionTypes": true
 
     },
-    "include": [
-        "app/typescript/*.ts",
-        "app/typescript/**/*.ts",
-        "app/typescript/*.ts"
-    ],
-    "exclude" : [
-        "./node_modules",
-        "./app/*.js",
-        "./app/*.map.js"
-    ]
+    "rootDir": "./app/typescript/"
 }
