@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Sun 30 Sep 2018 10:17:56 AM CEST
-  *       MODIFIED: Sat 06 Oct 2018 01:15:55 PM CEST
+  *       MODIFIED: Sat 06 Oct 2018 02:15:49 PM CEST
   *
   *          USAGE:
   *
@@ -60,6 +60,11 @@ export const SquareOnClick:
 
   if (storeSingleton.gameMode === GameMode.VSCOMPUTER
         && storeSingleton.isComputerToPlay) {
+    console.info('Wait until the computer turn is finished.');
+    return;
+  }
+  if (storeSingleton.gameIsTerminated) {
+    console.info('Game is terminated, your click has no effect.');
     return;
   }
 
@@ -82,6 +87,11 @@ export const SquareOnClick:
       squareWithCheckerAdded.checkerHTMLElement.addEventListener(
         'animationend', (e: Event) => {
           e.preventDefault();
+          if (storeSingleton.gameIsTerminated) {
+            console.info('It\'s the computer turn, but the game',
+              'is terminated.');
+            return;
+          }
           GameModeVsComputerComputerTurn(styleSheet);
         }
         , false

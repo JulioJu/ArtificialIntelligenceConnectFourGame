@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Wed 03 Oct 2018 08:04:32 PM CEST
-  *       MODIFIED: Sat 06 Oct 2018 02:02:25 PM CEST
+  *       MODIFIED: Sat 06 Oct 2018 02:21:52 PM CEST
   *
   *          USAGE:
   *
@@ -93,12 +93,14 @@ const performAnimation: (squareWithCheckerAdded: Square,
 
 };
 
+/**
+ * Should be launch if it's not the end of the game
+ * (storeSingleton.gameIsTerminated !== false)
+ * DO NOT FORGET TO DO THE TEST
+ */
 export const AddCheckerInSquare: (squareWithCheckerAdded: Square,
         styleSheet: CSSStyleSheet) => void
         = (squareWithCheckerAdded: Square, styleSheet: CSSStyleSheet): void => {
-  if (storeSingleton.gameIsTerminated) {
-    return ;
-  }
   storeSingleton.numberOfClick++;
   const numberOfClick: string = storeSingleton.numberOfClick.toString();
   console.info('For click number ', numberOfClick,

@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Thu 04 Oct 2018 08:46:56 PM CEST
-  *       MODIFIED: Sat 06 Oct 2018 01:16:20 PM CEST
+  *       MODIFIED: Sat 06 Oct 2018 02:22:53 PM CEST
   *
   *          USAGE:
   *
@@ -13,11 +13,17 @@
 
 import { Square } from './Square.js';
 import { AddCheckerInSquare } from './square-add-checker.js';
+import { storeSingleton } from './store-singleton.js';
 import { AIRandomTurn } from './artificial-intelligence/ai-random-turn.js';
 
 export const GameModeComputerVsComputer:
       (styleSheet: CSSStyleSheet) => void
       = (styleSheet: CSSStyleSheet): void => {
+  if (storeSingleton.gameIsTerminated) {
+    console.info('It\'s the computer turn, but the game',
+      'is terminated.');
+    return;
+  }
   AIRandomTurn()
     .then((square: Square) => {
       square.checkerHTMLElement.addEventListener(
