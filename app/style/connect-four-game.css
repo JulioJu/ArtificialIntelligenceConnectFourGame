@@ -1,11 +1,23 @@
+/* =============================================================================
+  *         AUTHOR: JulioJu
+  *         GITHUB: https://github.com/JulioJu
+  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
+  *        CREATED: October 2018
+  *
+  *          USAGE:
+  *
+  *    DESCRIPTION:
+  * ============================================================================
+  */
+
 @import './popup.css';
 
 .cursor-gamer_red {
-    cursor: url(cursor-red.svg), crosshair;
+    cursor: url(../image/cursor-red.svg), crosshair;
 }
 
 .cursor-gamer_yellow {
-    cursor: url(cursor-yellow.svg), crosshair;
+    cursor: url(../image/cursor-yellow.svg), crosshair;
 }
 
 .cursor-not-allowed {

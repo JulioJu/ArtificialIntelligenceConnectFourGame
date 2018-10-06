@@ -281,6 +281,20 @@
 
 * Test the compilated version on IE 11.
 
+# Credits
+
+* © JulioJu (https://github.com/JulioJu). Licence MIT.
+* ./app/image/Connect_Four.gif was uploaded from Wikipedia:
+    * File:Connect Four.gif. (2016, February 11).
+        Wikimedia Commons, the free media repository.
+        Retrieved 12:46, October 6, 2018 from
+        https://commons.wikimedia.org/w/index.php?title=File:Connect_Four.gif&oldid=187353232.
+    * Licensed under the Creative Commons Attribution-Share Alike 3.0 Unported
+
+* All parts of this application is original. Some parts are
+    inspired by documentation found on Internet. This pages are referenced in
+    the code, but no copy and past was done.
+
 
 <!--
 vim: ts=4 sw=4 et:

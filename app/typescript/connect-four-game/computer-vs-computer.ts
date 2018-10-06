@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Thu 04 Oct 2018 08:46:56 PM CEST
-  *       MODIFIED: Sat 06 Oct 2018 02:22:53 PM CEST
+  *       MODIFIED: Sat 06 Oct 2018 03:30:40 PM CEST
   *
   *          USAGE:
   *
@@ -36,6 +36,8 @@ export const GameModeComputerVsComputer:
       AddCheckerInSquare(square, styleSheet);
     }
     )
+    // https://en.wikipedia.org/wiki/Defensive_programming
+    // Should never be triggered.
     .catch((drawnMatches: Error) => console.info(drawnMatches.message));
 };
 

@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Wed 26 Sep 2018 01:11:08 PM CEST
- *       MODIFIED: Sat 06 Oct 2018 01:34:21 PM CEST
+ *       MODIFIED: Sat 06 Oct 2018 03:29:52 PM CEST
  *
  *          USAGE:
  *
@@ -106,15 +106,6 @@ const parseUrlQueryParam: () => void = (): void => {
   } else {
     storeSingleton.isComputerToPlay = false;
   }
-};
-
-const instantiateSquaresPlayableEmpty: () => Square[]
-        = (): Square[] => {
-  const squaresEmptyPlayable: Square[] = new Array(GRID_COLUMN_LENGTH);
-  for (let i: number = 0 ; i < GRID_COLUMN_LENGTH ; i++) {
-    squaresEmptyPlayable[i] = storeSingleton.grid[i][GRID_ROW_LENGTH];
-  }
-  return squaresEmptyPlayable;
 };
 
 export const main: () => void = (): void => {
