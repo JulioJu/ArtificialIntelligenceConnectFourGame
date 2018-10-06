@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Wed 26 Sep 2018 01:11:08 PM CEST
- *       MODIFIED: Fri 05 Oct 2018 01:55:56 PM CEST
+ *       MODIFIED: Sat 06 Oct 2018 01:34:21 PM CEST
  *
  *          USAGE:
  *
@@ -108,6 +108,15 @@ const parseUrlQueryParam: () => void = (): void => {
   }
 };
 
+const instantiateSquaresPlayableEmpty: () => Square[]
+        = (): Square[] => {
+  const squaresEmptyPlayable: Square[] = new Array(GRID_COLUMN_LENGTH);
+  for (let i: number = 0 ; i < GRID_COLUMN_LENGTH ; i++) {
+    squaresEmptyPlayable[i] = storeSingleton.grid[i][GRID_ROW_LENGTH];
+  }
+  return squaresEmptyPlayable;
+};
+
 export const main: () => void = (): void => {
 
   parseUrlQueryParam();
@@ -159,6 +168,11 @@ export const main: () => void = (): void => {
       const square: Square = new Square(columnIndex, rowIndex,
           SquareChecker.EMPTY_SQUARE, checker);
       storeSingleton.grid[columnIndex][rowIndex] = square;
+
+      if (rowIndex === GRID_ROW_LENGTH - 1) {
+        storeSingleton.squaresEmptyPlayable[columnIndex] =
+          storeSingleton.grid[columnIndex][GRID_ROW_LENGTH - 1];
+      }
 
       const squareHTMLElement: HTMLElement = document.createElement('div');
       squareHTMLElement.classList.add('square');

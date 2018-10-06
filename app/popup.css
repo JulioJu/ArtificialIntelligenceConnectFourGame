@@ -1,6 +1,6 @@
 /* Inspired from https://codepen.io/imprakash/pen/GgNMXO */
 
-#popup_win {
+#popup_container {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -13,17 +13,17 @@
     animation-timing-function: linear;
     animation-fill-mode: forwards;
 }
-.overlay_invisible {
+#popup_container.overlay_invisible {
     visibility: hidden;
     opacity: 0;
 }
-.overlay_visible {
+#popup_container.overlay_visible {
     animation-name: display;
     z-index: 200;
     cursor: default;
 }
 
-.popup {
+#popup_container > .popup {
     position: relative;
     margin: 0 auto;
     padding: 2em;
@@ -40,7 +40,23 @@
 
     transition: all 5s ease-in-out;
 }
-.popup > .close {
+
+/*  */
+#popup_container > .popup > span.content {
+    max-height: 30%;
+    font-weight: bold;
+}
+#popup_container > .popup > span.content.drawn_matches {
+    color: grey;
+}
+#popup_container > .popup > span.content.gamer_red_win {
+    color: brown;
+}
+#popup_container > .popup > span.content.gamer_yellow_win {
+    color: rgb(251, 190, 0);
+}
+
+#popup_container > .popup > a.close {
     position: absolute;
     top: 0.6em;
     right: 1em;
@@ -50,27 +66,11 @@
     color: #333;
     transition: all 200ms;
 }
-.popup > .close:hover {
+#popup_container > .popup > a.close:hover {
     color: #06D85F;
 }
-.popup > .content {
-    max-height: 30%;
-    font-weight: bold;
-}
-
-.popup > .gamer_red_win {
-    color: brown;
-}
-
-.popup > .gamer_yellow_win {
-    color: rgb(251, 190, 0);
-}
-
 
 @media screen and (max-width: 700px){
-    .box{
-        width: 70%;
-    }
     .popup{
         width: 70%;
     }

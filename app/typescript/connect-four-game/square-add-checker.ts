@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Wed 03 Oct 2018 08:04:32 PM CEST
-  *       MODIFIED: Fri 05 Oct 2018 04:35:55 PM CEST
+  *       MODIFIED: Sat 06 Oct 2018 02:02:25 PM CEST
   *
   *          USAGE:
   *
@@ -13,28 +13,26 @@
 
 import { GRID_ROW_LENGTH, SquareChecker } from './constants.js';
 import { Square } from './Square.js';
+import { PopulateSquareEmptyPlayables } from
+    './squares-empty-playable-populate.js';
 import { IsCurrentGamerWin } from './is-current-gamer-win.js';
 import { storeSingleton } from './store-singleton.js';
 
-const popupWin: () => void = (): void => {
+const displayPopup: (callback: (contentHtmlElement: HTMLElement) => void)
+          => void
+      = (callback: (contentHtmlElement: HTMLElement) => void): void => {
   const popupWinHtmlElement: HTMLElement | null =
-    document.getElementById('popup_win');
+    document.getElementById('popup_container');
   if (popupWinHtmlElement) {
     popupWinHtmlElement.classList.remove('overlay_');
     popupWinHtmlElement.classList.add('overlay_visible');
     const contentHtmlElement: HTMLElement | null =
-      document.querySelector('#popup_win > .popup > .content');
+      document.querySelector('#popup_container > .popup > .content');
     if (contentHtmlElement) {
-      if (storeSingleton.currentGamer === SquareChecker.GAMER_RED) {
-        contentHtmlElement.innerText = 'Gamer red win!!!';
-        contentHtmlElement.classList.add('gamer_red_win');
-      } else {
-        contentHtmlElement.innerText = 'Gamer yellow win!!!';
-        contentHtmlElement.classList.add('gamer_yellow_win');
-      }
+      callback(contentHtmlElement);
     }
     const closePopupHtmlElement: HTMLElement | null =
-      document.querySelector('#popup_win > .popup > .close');
+      document.querySelector('#popup_container > .popup > .close');
     if (closePopupHtmlElement) {
       closePopupHtmlElement.addEventListener('click', () => {
         popupWinHtmlElement.classList.add('overlay_');
@@ -42,6 +40,25 @@ const popupWin: () => void = (): void => {
       });
     }
   }
+};
+
+const popupDrawnMatches: () => void = (): void => {
+  displayPopup((contentHtmlElement: HTMLElement) => {
+    contentHtmlElement.innerText = 'Drawn matches!!!';
+    contentHtmlElement.classList.add('drawn_matches');
+  });
+};
+
+const popupWin: () => void = (): void => {
+  displayPopup((contentHtmlElement: HTMLElement) => {
+    if (storeSingleton.currentGamer === SquareChecker.GAMER_RED) {
+      contentHtmlElement.innerText = 'Gamer red win!!!';
+      contentHtmlElement.classList.add('gamer_red_win');
+    } else {
+      contentHtmlElement.innerText = 'Gamer yellow win!!!';
+      contentHtmlElement.classList.add('gamer_yellow_win');
+    }
+  });
 };
 
 const performAnimation: (squareWithCheckerAdded: Square,
@@ -64,6 +81,7 @@ const performAnimation: (squareWithCheckerAdded: Square,
   checkerAddedHTMLElement.style.animationName = animationName;
 
   if (IsCurrentGamerWin(squareWithCheckerAdded)) {
+    storeSingleton.gameIsTerminated = true;
     popupWin();
   }
 
@@ -78,6 +96,9 @@ const performAnimation: (squareWithCheckerAdded: Square,
 export const AddCheckerInSquare: (squareWithCheckerAdded: Square,
         styleSheet: CSSStyleSheet) => void
         = (squareWithCheckerAdded: Square, styleSheet: CSSStyleSheet): void => {
+  if (storeSingleton.gameIsTerminated) {
+    return ;
+  }
   storeSingleton.numberOfClick++;
   const numberOfClick: string = storeSingleton.numberOfClick.toString();
   console.info('For click number ', numberOfClick,
@@ -104,6 +125,13 @@ export const AddCheckerInSquare: (squareWithCheckerAdded: Square,
       ?  performAnimation(squareWithCheckerAdded, keyframeRuleName)
       /* tslint:disable-next-line:no-void-expression */
       : performAnimation(squareWithCheckerAdded, keyframeRuleName);
+
+  storeSingleton.squaresEmptyPlayable = PopulateSquareEmptyPlayables();
+  if (storeSingleton.squaresEmptyPlayable.length === 0) {
+    storeSingleton.gameIsTerminated = true;
+    popupDrawnMatches();
+  }
+
 };
 
 // vim: ts=2 sw=2 et:

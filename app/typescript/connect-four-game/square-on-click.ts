@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Sun 30 Sep 2018 10:17:56 AM CEST
-  *       MODIFIED: Fri 05 Oct 2018 01:19:22 PM CEST
+  *       MODIFIED: Sat 06 Oct 2018 01:15:55 PM CEST
   *
   *          USAGE:
   *
@@ -14,7 +14,7 @@
 import { GRID_ROW_LENGTH, GameMode, SquareChecker } from './constants.js';
 import { Square } from './Square.js';
 import { storeSingleton } from './store-singleton.js';
-import { AddCheckerInSquare } from './add-checker-in-square.js';
+import { AddCheckerInSquare } from './square-add-checker.js';
 import { AIRandomTurn } from './artificial-intelligence/ai-random-turn.js';
 
 export const CursorColor: () => void = (): void => {
@@ -49,7 +49,7 @@ export const GameModeVsComputerComputerTurn:
       AddCheckerInSquare(square, styleSheet);
     }
     )
-    .catch((error: Error) => console.error(error));
+    .catch((drawnMatches: Error) => console.info(drawnMatches.message));
 };
 
 // Should not be an arrow function, because `this'

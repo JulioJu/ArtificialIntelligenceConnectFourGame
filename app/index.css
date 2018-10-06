@@ -3,6 +3,12 @@ html, body {
     height: 100%;
 }
 
+* {
+    border-width: 0em;
+    padding: 0em 0em 0em 0em;
+    margin: 0em 0em 0em 0em;
+}
+
 body {
     display: flex;
     flex-direction: row;
@@ -10,8 +16,8 @@ body {
     justify-content: center;
     /* http://angrytools.com/gradient/ */
     background: linear-gradient(45deg,
-        rgba(153,218,255,1) 0%,
-        rgba(0,128,128,1) 95%); /* w3c */
+    rgba(153,218,255,1) 0%,
+    rgba(0,128,128,1) 95%); /* w3c */
 }
 
 form {

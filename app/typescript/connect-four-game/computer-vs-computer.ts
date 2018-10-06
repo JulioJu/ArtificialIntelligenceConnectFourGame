@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Thu 04 Oct 2018 08:46:56 PM CEST
-  *       MODIFIED: Thu 04 Oct 2018 09:02:03 PM CEST
+  *       MODIFIED: Sat 06 Oct 2018 01:16:20 PM CEST
   *
   *          USAGE:
   *
@@ -12,7 +12,7 @@
   */
 
 import { Square } from './Square.js';
-import { AddCheckerInSquare } from './add-checker-in-square.js';
+import { AddCheckerInSquare } from './square-add-checker.js';
 import { AIRandomTurn } from './artificial-intelligence/ai-random-turn.js';
 
 export const GameModeComputerVsComputer:
@@ -30,7 +30,7 @@ export const GameModeComputerVsComputer:
       AddCheckerInSquare(square, styleSheet);
     }
     )
-    .catch((error: Error) => console.error(error));
+    .catch((drawnMatches: Error) => console.info(drawnMatches.message));
 };
 
 // vim: ts=2 sw=2 et:
