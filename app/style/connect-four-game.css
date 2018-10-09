@@ -12,11 +12,11 @@
 
 @import './popup.css';
 
-.cursor-gamer_red {
+.cursor-red {
     cursor: url(../image/cursor-red.svg), crosshair;
 }
 
-.cursor-gamer_yellow {
+.cursor-yellow {
     cursor: url(../image/cursor-yellow.svg), crosshair;
 }
 

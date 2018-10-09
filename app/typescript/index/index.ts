@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Tue 25 Sep 2018 02:42:40 PM CEST
-  *       MODIFIED: Fri 05 Oct 2018 02:54:12 PM CEST
+  *       MODIFIED: Tue 09 Oct 2018 01:07:37 PM CEST
   *
   *          USAGE:
   *
@@ -72,7 +72,14 @@ form.addEventListener('submit',
       url = 'connect-four-game.html?gamemode=' + formElement.gamemode.value +
         '&first_gamer=' + formElement.first_gamer.value;
     }
-    document.location.assign(url);
+    if (document.location) {
+      document.location.assign(url);
+    } else {
+      const messageError: string =
+        'FATAL ERROR. Can\'t access to the `document.location\' object';
+      alert (messageError);
+      console.error(messageError);
+    }
   },
   false);
 

@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Wed 26 Sep 2018 01:11:08 PM CEST
- *       MODIFIED: Sat 06 Oct 2018 03:29:52 PM CEST
+ *       MODIFIED: Tue 09 Oct 2018 01:28:40 PM CEST
  *
  *          USAGE:
  *
@@ -11,7 +11,7 @@
  * ============================================================================
  */
 
-import { GRID_COLUMN_LENGTH, GRID_ROW_LENGTH, GameMode, SquareChecker }
+import { GRID_COLUMN_LENGTH, GRID_ROW_LENGTH, GameMode, Checker }
     from './constants.js';
 import { Square } from './Square.js';
 import { SquareOnClick, CursorColor, GameModeVsComputerComputerTurn }
@@ -52,11 +52,11 @@ const parseUrlQueryParamFirstGamer: (parsedUrl: URL) => void
   if (firstGamerParam) {
     firstGamerParam = firstGamerParam.toUpperCase();
     switch (firstGamerParam) {
-      case SquareChecker[SquareChecker.GAMER_RED]:
-        storeSingleton.currentGamer = SquareChecker.GAMER_RED;
+      case Checker[Checker.RED]:
+        storeSingleton.currentGamer = Checker.RED;
         break;
-      case SquareChecker[SquareChecker.GAMER_YELLOW]:
-        storeSingleton.currentGamer = SquareChecker.GAMER_YELLOW;
+      case Checker[Checker.YELLOW]:
+        storeSingleton.currentGamer = Checker.YELLOW;
         break;
       default:
         console.warn('The URL param "first_gamer" has not an expected value.',
@@ -95,16 +95,23 @@ const parseUrlQueryParamGamemode: (parsedUrl: URL) => void
 };
 
 const parseUrlQueryParam: () => void = (): void => {
-  // See:
-  // https://developer.mozilla.org/en-US/docs/Web/API/HTMLHyperlinkElementUtils/search
-  // And https://developer.mozilla.org/en-US/docs/Web/API/URL
-  const parsedUrl: URL = new URL(document.location.href);
-  parseUrlQueryParamGamemode(parsedUrl);
-  parseUrlQueryParamFirstGamer(parsedUrl);
-  if (storeSingleton.gameMode === GameMode.VSCOMPUTER) {
-    parseUrlQueryParamIsComputerToStart(parsedUrl);
+  if (document.location) {
+    // See:
+    // https://developer.mozilla.org/en-US/docs/Web/API/HTMLHyperlinkElementUtils/search
+    // And https://developer.mozilla.org/en-US/docs/Web/API/URL
+    const parsedUrl: URL = new URL(document.location.href);
+    parseUrlQueryParamGamemode(parsedUrl);
+    parseUrlQueryParamFirstGamer(parsedUrl);
+    if (storeSingleton.gameMode === GameMode.VSCOMPUTER) {
+      parseUrlQueryParamIsComputerToStart(parsedUrl);
+    } else {
+      storeSingleton.isComputerToPlay = false;
+    }
   } else {
-    storeSingleton.isComputerToPlay = false;
+    const messageError: string =
+      'FATAL ERROR. Can\'t access to the `document.location\' object';
+    alert (messageError);
+    console.error(messageError);
   }
 };
 
@@ -157,7 +164,7 @@ export const main: () => void = (): void => {
         + rowIndex.toString());
       checker.classList.add('checker_empty');
       const square: Square = new Square(columnIndex, rowIndex,
-          SquareChecker.EMPTY_SQUARE, checker);
+          Checker.EMPTY, checker);
       storeSingleton.grid[columnIndex][rowIndex] = square;
 
       if (rowIndex === GRID_ROW_LENGTH - 1) {

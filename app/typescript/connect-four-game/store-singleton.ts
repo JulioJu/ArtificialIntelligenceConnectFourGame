@@ -11,13 +11,13 @@
   * ============================================================================
   */
 
-import { GRID_COLUMN_LENGTH, GameMode, SquareChecker } from './constants.js';
+import { GRID_COLUMN_LENGTH, GameMode, Checker } from './constants.js';
 import { Square } from './Square.js';
 
 interface IStoreSingleton {
   gameMode: GameMode;
   grid: Square[][];
-  currentGamer: SquareChecker;
+  currentGamer: Checker;
   isComputerToPlay: boolean;
   gameIsTerminated: boolean;
   squaresEmptyPlayable: Square[];
@@ -32,7 +32,7 @@ export const storeSingleton: IStoreSingleton = {
   grid: new Array(GRID_COLUMN_LENGTH),
 
   // Values changed each time square-add-checker.ts is called:
-  currentGamer: SquareChecker.GAMER_RED,
+  currentGamer: Checker.RED,
   isComputerToPlay: false,
   gameIsTerminated: false,
   squaresEmptyPlayable: new Array(GRID_COLUMN_LENGTH),

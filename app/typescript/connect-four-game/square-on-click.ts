@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Sun 30 Sep 2018 10:17:56 AM CEST
-  *       MODIFIED: Sat 06 Oct 2018 03:30:54 PM CEST
+  *       MODIFIED: Tue 09 Oct 2018 01:23:24 PM CEST
   *
   *          USAGE:
   *
@@ -11,21 +11,21 @@
   * ============================================================================
   */
 
-import { GRID_ROW_LENGTH, GameMode, SquareChecker } from './constants.js';
+import { GRID_ROW_LENGTH, GameMode, Checker } from './constants.js';
 import { Square } from './Square.js';
 import { storeSingleton } from './store-singleton.js';
 import { AddCheckerInSquare } from './square-add-checker.js';
-import { AIRandomTurn } from './artificial-intelligence/ai-random-turn.js';
+import { AIHeuristic1 } from './artificial-intelligence/ai-heuristic1.js';
 
 export const CursorColor: () => void = (): void => {
-  document.body.classList.remove('cursor-gamer_red');
-  document.body.classList.remove('cursor-gamer_yellow');
+  document.body.classList.remove('cursor-red');
+  document.body.classList.remove('cursor-yellow');
   document.body.classList.remove('cursor-not-allowed');
   if (storeSingleton.gameMode === GameMode.VSCOMPUTER
           && storeSingleton.isComputerToPlay) {
       document.body.classList.add('cursor-not-allowed');
   } else {
-    const gamerColor: string = SquareChecker[storeSingleton.currentGamer]
+    const gamerColor: string = Checker[storeSingleton.currentGamer]
             .toLowerCase();
     document.body.classList.add('cursor-' + gamerColor);
   }
@@ -34,7 +34,7 @@ export const CursorColor: () => void = (): void => {
 export const GameModeVsComputerComputerTurn:
       (styleSheet: CSSStyleSheet) => void
       = (styleSheet: CSSStyleSheet): void => {
-  AIRandomTurn()
+  AIHeuristic1()
     .then((square: Square) => {
       square.checkerHTMLElement.addEventListener(
         'animationend', (eInner: Event) => {
@@ -47,8 +47,7 @@ export const GameModeVsComputerComputerTurn:
         , false
       );
       AddCheckerInSquare(square, styleSheet);
-    }
-    )
+    })
     // https://en.wikipedia.org/wiki/Defensive_programming
     // Should never be triggered.
     .catch((drawnMatches: Error) => console.info(drawnMatches.message));
@@ -76,7 +75,7 @@ export const SquareOnClick:
           rowIndex >= 0 ;
           rowIndex--) {
     const square: Square = storeSingleton.grid[this.columnIndex][rowIndex];
-    if (square.squareValue === SquareChecker.EMPTY_SQUARE) {
+    if (square.squareValue === Checker.EMPTY) {
       squareWithCheckerAdded = square;
       break;
     }

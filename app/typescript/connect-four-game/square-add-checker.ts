@@ -11,7 +11,7 @@
   * ============================================================================
   */
 
-import { GRID_ROW_LENGTH, SquareChecker } from './constants.js';
+import { GRID_ROW_LENGTH, Checker } from './constants.js';
 import { Square } from './Square.js';
 import { PopulateSquareEmptyPlayables } from
     './squares-empty-playable-populate.js';
@@ -51,7 +51,7 @@ const popupDrawnMatches: () => void = (): void => {
 
 const popupWin: () => void = (): void => {
   displayPopup((contentHtmlElement: HTMLElement) => {
-    if (storeSingleton.currentGamer === SquareChecker.GAMER_RED) {
+    if (storeSingleton.currentGamer === Checker.RED) {
       contentHtmlElement.innerText = 'Gamer red win!!!';
       contentHtmlElement.classList.add('gamer_red_win');
     } else {
@@ -70,7 +70,7 @@ const performAnimation: (squareWithCheckerAdded: Square,
           squareWithCheckerAdded.checkerHTMLElement;
 
   const checkerColor: string =
-          storeSingleton.currentGamer === SquareChecker.GAMER_RED
+          storeSingleton.currentGamer === Checker.RED
           ? 'checker_red'
           : 'checker_yellow';
 
@@ -87,9 +87,9 @@ const performAnimation: (squareWithCheckerAdded: Square,
 
   // Change gamer
   storeSingleton.currentGamer =
-          storeSingleton.currentGamer === SquareChecker.GAMER_RED
-          ?  storeSingleton.currentGamer = SquareChecker.GAMER_YELLOW
-          :  storeSingleton.currentGamer = SquareChecker.GAMER_RED;
+          storeSingleton.currentGamer === Checker.RED
+          ?  storeSingleton.currentGamer = Checker.YELLOW
+          :  storeSingleton.currentGamer = Checker.RED;
 
 };
 
@@ -122,7 +122,7 @@ export const AddCheckerInSquare: (squareWithCheckerAdded: Square,
     styleSheet.cssRules[styleSheet.cssRules.length - 1] as CSSKeyframesRule;
   console.debug(cssKeyframRules);
 
-  storeSingleton.currentGamer === SquareChecker.GAMER_RED
+  storeSingleton.currentGamer === Checker.RED
       /* tslint:disable-next-line:no-void-expression */
       ?  performAnimation(squareWithCheckerAdded, keyframeRuleName)
       /* tslint:disable-next-line:no-void-expression */

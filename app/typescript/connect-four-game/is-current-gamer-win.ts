@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Fri 28 Sep 2018 09:06:49 AM CEST
-  *       MODIFIED: Sun 30 Sep 2018 11:36:09 AM CEST
+  *       MODIFIED: Mon 08 Oct 2018 05:52:09 AM CEST
   *
   *          USAGE:
   *
@@ -21,10 +21,10 @@ type IsCurrentGamerWinType = (squareAdded: Square) => boolean;
 const isFourCheckerOfCurrentGamerHorizontally: IsCurrentGamerWinType
       = (squareAdded: Square): boolean => {
   let checkersHorizontal: number = 1;
-  // Horizontal, on the east of the squareAdded
-  for (let columnIndex: number = squareAdded.columnIndex + 1;
-      columnIndex < GRID_COLUMN_LENGTH ;
-      columnIndex++) {
+  // Horizontal, on the west of the squareAdded
+  for (let columnIndex: number = squareAdded.columnIndex - 1;
+      columnIndex >= 0 ;
+      columnIndex--) {
     if (storeSingleton.grid[columnIndex][squareAdded.rowIndex].squareValue
           === storeSingleton.currentGamer) {
       checkersHorizontal++;
@@ -35,10 +35,10 @@ const isFourCheckerOfCurrentGamerHorizontally: IsCurrentGamerWinType
   if (checkersHorizontal === CHECKERS_ALIGN_TO_WIN) {
     return true;
   }
-  // Horizontal, on the west of the squareAdded
-  for (let columnIndex: number = squareAdded.columnIndex - 1;
-      columnIndex >= 0 ;
-      columnIndex--) {
+  // Horizontal, on the east of the squareAdded
+  for (let columnIndex: number = squareAdded.columnIndex + 1;
+      columnIndex < GRID_COLUMN_LENGTH ;
+      columnIndex++) {
     if (storeSingleton.grid[columnIndex][squareAdded.rowIndex].squareValue
           === storeSingleton.currentGamer) {
       checkersHorizontal++;

@@ -11,7 +11,7 @@
   * ============================================================================
   */
 
-import { GRID_COLUMN_LENGTH, GRID_ROW_LENGTH, SquareChecker }
+import { GRID_COLUMN_LENGTH, GRID_ROW_LENGTH, Checker }
     from './constants.js';
 import { storeSingleton } from './store-singleton.js';
 import { Square } from './Square.js';
@@ -25,7 +25,7 @@ export const PopulateSquareEmptyPlayables: () => Square[] = (): Square[] => {
       rowIndex >= 0 ;
       rowIndex--) {
       if (storeSingleton.grid[columnIndex][rowIndex].squareValue
-            === SquareChecker.EMPTY_SQUARE) {
+            === Checker.EMPTY) {
         squaresEmptyPlayable.push(storeSingleton.grid[columnIndex][rowIndex]);
         break;
       }

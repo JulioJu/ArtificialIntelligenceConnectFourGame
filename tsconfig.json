@@ -27,5 +27,9 @@
         "strictFunctionTypes": true
 
     },
-    "rootDir": "./app/typescript/"
+    "rootDir": "./app/typescript/",
+
+    "exclude": [
+        "./app/typescript/connect-four-game/artificial-intelligence/ParseLineResult.ts"
+    ]
 }
