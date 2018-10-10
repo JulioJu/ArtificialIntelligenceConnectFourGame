@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Sat 06 Oct 2018 06:09:31 PM CEST
-  *       MODIFIED: Wed 10 Oct 2018 07:13:05 AM CEST
+  *       MODIFIED: Wed 10 Oct 2018 06:12:06 PM CEST
   *
   *          USAGE:
   *
@@ -43,19 +43,22 @@ const parseLineResultBlocBuild:
       } else {
         parseLineResult.opponentIsTheWinner = true;
       }
+    } else if (parseLineResultBloc.numberOfEmptySquare ===
+          // tslint:disable-next-line:no-magic-numbers
+          CHECKERS_ALIGN_TO_WIN - 2) {
+      // tslint:disable-next-line:no-magic-numbers
+      parseLineResult.score += 25;
+    } else if (storeSingleton.currentGamer === checkerOfLoop) {
+      parseLineResult.score += CHECKERS_ALIGN_TO_WIN
+        // tslint:disable-next-line:no-magic-numbers
+        - parseLineResultBloc.numberOfEmptySquare + 15;
+    } else if (checkerOfLoop === Checker.EMPTY) {
+      parseLineResult.score += CHECKERS_ALIGN_TO_WIN
+        // tslint:disable-next-line:no-magic-numbers
+        - parseLineResultBloc.numberOfEmptySquare + 10;
     } else {
-      if (storeSingleton.currentGamer === checkerOfLoop) {
-        parseLineResult.score += CHECKERS_ALIGN_TO_WIN
-          // tslint:disable-next-line:no-magic-numbers
-          - parseLineResultBloc.numberOfEmptySquare + 3;
-      } else if (checkerOfLoop === Checker.EMPTY) {
-        parseLineResult.score += CHECKERS_ALIGN_TO_WIN
-          // tslint:disable-next-line:no-magic-numbers
-          - parseLineResultBloc.numberOfEmptySquare + 5;
-      } else {
-        parseLineResult.score += CHECKERS_ALIGN_TO_WIN
-          - parseLineResultBloc.numberOfEmptySquare + 1;
-      }
+      parseLineResult.score += CHECKERS_ALIGN_TO_WIN
+        - parseLineResultBloc.numberOfEmptySquare + 1;
     }
   }
   return false;
