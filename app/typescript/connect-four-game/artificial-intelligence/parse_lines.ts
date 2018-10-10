@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Sat 06 Oct 2018 06:09:31 PM CEST
-  *       MODIFIED: Tue 09 Oct 2018 06:57:58 PM CEST
+  *       MODIFIED: Wed 10 Oct 2018 07:13:05 AM CEST
   *
   *          USAGE:
   *
@@ -44,8 +44,18 @@ const parseLineResultBlocBuild:
         parseLineResult.opponentIsTheWinner = true;
       }
     } else {
-      parseLineResult.score += CHECKERS_ALIGN_TO_WIN
-        - parseLineResultBloc.numberOfEmptySquare + 1;
+      if (storeSingleton.currentGamer === checkerOfLoop) {
+        parseLineResult.score += CHECKERS_ALIGN_TO_WIN
+          // tslint:disable-next-line:no-magic-numbers
+          - parseLineResultBloc.numberOfEmptySquare + 3;
+      } else if (checkerOfLoop === Checker.EMPTY) {
+        parseLineResult.score += CHECKERS_ALIGN_TO_WIN
+          // tslint:disable-next-line:no-magic-numbers
+          - parseLineResultBloc.numberOfEmptySquare + 5;
+      } else {
+        parseLineResult.score += CHECKERS_ALIGN_TO_WIN
+          - parseLineResultBloc.numberOfEmptySquare + 1;
+      }
     }
   }
   return false;
@@ -60,8 +70,10 @@ const parseCurrentSquareOfTheLoop: (checkerOfLoop: Checker,
           parseLineResultBloc: ParseLineResultBloc): boolean => {
 
   if (checkerOfLoop !== Checker.EMPTY
+      && (parseLineResult.checkerAlreadyEncountredInThisSide
+              !== Checker.EMPTY
           && checkerOfLoop
-            !== parseLineResult.checkerAlreadyEncountredInThisSide) {
+            !== parseLineResult.checkerAlreadyEncountredInThisSide)) {
     return false;
   }
 
