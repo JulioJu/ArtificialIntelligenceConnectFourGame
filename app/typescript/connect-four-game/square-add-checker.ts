@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Wed 03 Oct 2018 08:04:32 PM CEST
-  *       MODIFIED: Sat 06 Oct 2018 02:21:52 PM CEST
+  *       MODIFIED: Wed 10 Oct 2018 02:11:02 PM CEST
   *
   *          USAGE:
   *
@@ -98,9 +98,8 @@ const performAnimation: (squareWithCheckerAdded: Square,
  * (storeSingleton.gameIsTerminated !== false)
  * DO NOT FORGET TO DO THE TEST
  */
-export const AddCheckerInSquare: (squareWithCheckerAdded: Square,
-        styleSheet: CSSStyleSheet) => void
-        = (squareWithCheckerAdded: Square, styleSheet: CSSStyleSheet): void => {
+export const AddCheckerInSquare: (squareWithCheckerAdded: Square) => void
+        = (squareWithCheckerAdded: Square): void => {
   storeSingleton.numberOfClick++;
   const numberOfClick: string = storeSingleton.numberOfClick.toString();
   console.info('For click number ', numberOfClick,
@@ -114,13 +113,15 @@ export const AddCheckerInSquare: (squareWithCheckerAdded: Square,
   ).toString();
   const keyframeRuleName: string = 'slidein_' + numberOfClick;
 
-  styleSheet.insertRule('@keyframes '  + keyframeRuleName  + ' { ' +
-    'from { margin-top: -' + calculatedkeyFramesMarginTop  +
-    'px; } to { margin-top: 0px; } }', styleSheet.cssRules.length);
+  storeSingleton.styleSheet.insertRule('@keyframes '  + keyframeRuleName  +
+    ' { ' + 'from { margin-top: -' + calculatedkeyFramesMarginTop  +
+    'px; } to { margin-top: 0px; } }',
+    storeSingleton.styleSheet.cssRules.length);
 
-  const cssKeyframRules: CSSKeyframesRule =
-    styleSheet.cssRules[styleSheet.cssRules.length - 1] as CSSKeyframesRule;
-  console.debug(cssKeyframRules);
+  // const cssKeyframRules: CSSKeyframesRule =
+  //   storeSingleton.styleSheet.cssRules[storeSingleton
+  //     .styleSheet.cssRules.length - 1] as CSSKeyframesRule;
+  // console.debug(cssKeyframRules);
 
   storeSingleton.currentGamer === Checker.RED
       /* tslint:disable-next-line:no-void-expression */

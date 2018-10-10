@@ -153,28 +153,25 @@
         const styleEl: HTMLStyleElement = document.createElement('style');
         document.head.appendChild(styleEl);
     ```
-    * It's not interesting to use CSS Object Model API:
+    * It's interesting to use CSS Object Model API:
         ```
             const styleSheet: CSSStyleSheet = (styleEl.sheet as CSSStyleSheet);
             styleSheet.insertRule('...', styleSheet.cssRules.length);
         ```
-        because we can't see the modification in the DOM, it's only a
-        modification of "the internal representation of the document.".
         (see https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model/Using_dynamic_styling_information
         and https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/insertRule .)
-    * My personal opinion is it's a little better to use directly:
+    * My personal opinion is it's NOT  better to use directly:
     ```
         styleSheet.innerHTML = '...'
     ```
-    even if it modify the DOM (maybe more cost consuming?).  Because rightly, we
-    could see the modification in the DOM, and not only in the computed style
-    (https://developer.mozilla.org/en-US/docs/Web/API/Window/getComputedStyle ).
-    Not that `at-rules` can't be seen in computed style.
+    Firefox as Chrome doesn't display well tag `<style>` in a html page
+        (without carriage return).
+    As `at-rules` can be seen in computed style pane, it's betters
+        to investigate at-rules in computed style pane of devtools.
     * I've tested with Chromium and Firefox 62.
     * In this project ***I've used pure CSSOM*** (no `innerHTML` property)
         because as it we could understand exactly what is CSSRules and
-        CSSKeyframesRule. StyleSheet generated is logged at startup, then each
-        new keyframes created is log at each click.
+        CSSKeyframesRule.
     * Remember this advise from Mozilla:
         ***"it may be better practice to dynamically change classes, so style
         information can be kept in genuine stylesheets and avoid adding extra

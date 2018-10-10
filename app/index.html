@@ -25,7 +25,6 @@
 
 <body>
     <form id="customizeGame" name="customizeGameName" >
-        <section>
         <fieldset>
             <div class="radio">
                 <label>
@@ -55,51 +54,54 @@
                 </label>
             </div>
         </fieldset>
-        </section>
-        <section id="is_computer_to_start">
-            <fieldset>
-                <div class="radio">
-                    <label>
-                        <input type="radio"
-                            name="is_computer_to_start"
-                            value="true"
-                            checked />
-                        The computer start the game.
-                    </label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio"
-                            name="is_computer_to_start"
-                            value="false"
-                            />
-                        The gamer start the game.
-                    </label>
-                </div>
-            </fieldset>
-        </section>
-        <section>
-            <fieldset>
-                <div class="radio">
-                    <label>
-                        <input type="radio"
-                            name="first_gamer"
-                            value="red"
-                            checked />
-                        The first gamer is "Red".
-                    </label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio"
-                            name="first_gamer"
-                            value="yellow"
-                            />
-                        The first gamer is "Yellow".
-                    </label>
-                </div>
-            </fieldset>
-        </section>
+        <fieldset id="is_computer_to_start" class="collapsable">
+            <div class="radio">
+                <label>
+                    <input type="radio"
+                        name="is_computer_to_start"
+                        value="true"
+                        checked />
+                    The computer start the game.
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    <input type="radio"
+                        name="is_computer_to_start"
+                        value="false"
+                        />
+                    The gamer start the game.
+                </label>
+            </div>
+        </fieldset>
+        <fieldset>
+            <div class="radio">
+                <label>
+                    <input type="radio"
+                        name="first_gamer"
+                        value="red"
+                        checked />
+                    The first gamer is "Red".
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    <input type="radio"
+                        name="first_gamer"
+                        value="yellow"
+                        />
+                    The first gamer is "Yellow".
+                </label>
+            </div>
+        </fieldset>
+        <p id="notice_for_human_gamer" class="collapsable">
+            Type on key "c" to trigger manually
+            <br />
+            artificial intelligence.
+            <br />
+            <em>(You could press several times quickly.)</em>
+            <br />
+        </p>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 

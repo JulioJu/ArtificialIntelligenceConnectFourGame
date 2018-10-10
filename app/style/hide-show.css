@@ -1,0 +1,70 @@
+.collapsable {
+    animation-duration: 3s;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+.collapsable.collapsed {
+    animation-name: collapse;
+    animation-direction: normal;
+}
+
+.collapsable.expended {
+    animation-name: expend;
+    animation-direction: normal;
+}
+
+@keyframes collapse {
+    0% {
+        opacity: 1;
+
+        display: block;
+        /* visibility: visible; */
+        max-height: 20em;
+    }
+    50% {
+        opacity: 0;
+
+        display: block;
+        /* visibility: visible; */
+        max-height: 20em;
+    }
+    100% {
+        opacity: 0;
+
+        display: none;
+        /* visibility: hidden; */
+        max-height: 0;
+        margin: 0;
+        padding: 0;
+        border-width: 0;
+    }
+}
+
+@keyframes expend {
+    0% {
+        opacity: 0;
+
+        display: none;
+        /* visibility: hidden; */
+        max-height: 0em;
+        margin: 0;
+        padding: 0;
+        border-width: 0;
+    }
+    50% {
+        opacity: 0;
+
+        display: block;
+        /* visibility: visible; */
+        max-height: 20em;
+    }
+    100% {
+        opacity: 1;
+
+        display: block;
+        /* visibility: visible; */
+        max-height: 20em;
+    }
+}

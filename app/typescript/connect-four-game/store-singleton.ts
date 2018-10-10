@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Sat 29 Sep 2018 03:38:08 PM CEST
-  *       MODIFIED: Sat 06 Oct 2018 01:58:44 PM CEST
+  *       MODIFIED: Wed 10 Oct 2018 02:09:14 PM CEST
   *
   *          USAGE:
   *
@@ -22,7 +22,16 @@ interface IStoreSingleton {
   gameIsTerminated: boolean;
   squaresEmptyPlayable: Square[];
   numberOfClick: number;
+
+  styleSheet: CSSStyleSheet ;
 }
+
+const instantiateStyleSheet: () => CSSStyleSheet = (): CSSStyleSheet => {
+  const htmlStylElement: HTMLStyleElement =
+    document.getElementById('generatedByCSSOM') as HTMLStyleElement;
+
+  return htmlStylElement.sheet as CSSStyleSheet;
+};
 
 // All are instantiated in ./connect-four-game.ts
 export const storeSingleton: IStoreSingleton = {
@@ -36,8 +45,9 @@ export const storeSingleton: IStoreSingleton = {
   isComputerToPlay: false,
   gameIsTerminated: false,
   squaresEmptyPlayable: new Array(GRID_COLUMN_LENGTH),
-  numberOfClick: 0
+  numberOfClick: 0,
 
+  styleSheet: instantiateStyleSheet()
 };
 
 // vim: ts=2 sw=2 et:

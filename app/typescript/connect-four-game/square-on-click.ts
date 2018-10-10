@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Sun 30 Sep 2018 10:17:56 AM CEST
-  *       MODIFIED: Tue 09 Oct 2018 01:23:24 PM CEST
+  *       MODIFIED: Wed 10 Oct 2018 02:10:21 PM CEST
   *
   *          USAGE:
   *
@@ -31,9 +31,7 @@ export const CursorColor: () => void = (): void => {
   }
 };
 
-export const GameModeVsComputerComputerTurn:
-      (styleSheet: CSSStyleSheet) => void
-      = (styleSheet: CSSStyleSheet): void => {
+export const GameModeVsComputerComputerTurn: () => void = (): void => {
   AIHeuristic1()
     .then((square: Square) => {
       square.checkerHTMLElement.addEventListener(
@@ -46,7 +44,7 @@ export const GameModeVsComputerComputerTurn:
         }
         , false
       );
-      AddCheckerInSquare(square, styleSheet);
+      AddCheckerInSquare(square);
     })
     // https://en.wikipedia.org/wiki/Defensive_programming
     // Should never be triggered.
@@ -56,8 +54,7 @@ export const GameModeVsComputerComputerTurn:
 // Should not be an arrow function, because `this'
 // doesn't exists in Arrow function
 export const SquareOnClick:
-      (this: Square, styleSheet: CSSStyleSheet) => void
-      = function(this: Square, styleSheet: CSSStyleSheet): void {
+      (this: Square) => void = function(this: Square): void {
 
   if (storeSingleton.gameMode === GameMode.VSCOMPUTER
         && storeSingleton.isComputerToPlay) {
@@ -93,12 +90,12 @@ export const SquareOnClick:
               'is terminated.');
             return;
           }
-          GameModeVsComputerComputerTurn(styleSheet);
+          GameModeVsComputerComputerTurn();
         }
         , false
       );
     }
-    AddCheckerInSquare(squareWithCheckerAdded, styleSheet);
+    AddCheckerInSquare(squareWithCheckerAdded);
     if (storeSingleton.gameMode === GameMode.MULTIPLAYER) {
       CursorColor();
     }

@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Wed 26 Sep 2018 01:11:08 PM CEST
- *       MODIFIED: Tue 09 Oct 2018 01:28:40 PM CEST
+ *       MODIFIED: Wed 10 Oct 2018 02:16:01 PM CEST
  *
  *          USAGE:
  *
@@ -115,24 +115,29 @@ const parseUrlQueryParam: () => void = (): void => {
   }
 };
 
+const triggerComputerGame: () => void = (): void => {
+  document.addEventListener('keydown', (event: KeyboardEvent) => {
+    const keyName: string = event.key;
+    if (keyName === 'c') {
+      GameModeVsComputerComputerTurn();
+      return;
+    }
+  }, false);
+};
+
 export const main: () => void = (): void => {
 
   parseUrlQueryParam();
   if (storeSingleton.gameMode !== GameMode.ONLY_COMPUTER) {
+    triggerComputerGame();
     // Should be after `parseUrlQueryParam()`
     CursorColor();
   } else {
     document.body.classList.add('cursor-not-allowed');
   }
 
-  const htmlStylElement: HTMLStyleElement =
-    document.getElementById('generatedByCSSOM') as HTMLStyleElement;
-
-  // htmlStylElement.innerHTML = '.checker_calculated { height: ' +
-  //   (baseCent / GRID_ROW_LENGTH).toString() + '%; }';
-  const styleSheet: CSSStyleSheet = htmlStylElement.sheet as CSSStyleSheet;
   const baseCent: number = 100;
-  (styleSheet.cssRules[0] as CSSStyleRule).style.height =
+  (storeSingleton.styleSheet.cssRules[0] as CSSStyleRule).style.height =
     (baseCent / GRID_ROW_LENGTH).toString() + '%';
 
   for (let columnIndex: number = 0 ;
@@ -147,14 +152,14 @@ export const main: () => void = (): void => {
     for (let rowIndex: number = 0 ; rowIndex < GRID_ROW_LENGTH ; rowIndex++) {
 
       if (columnIndex === 0) {
-        styleSheet.insertRule('.checker_calculated_row_index_' +
+        storeSingleton.styleSheet.insertRule('.checker_calculated_row_index_' +
           rowIndex.toString() +
               '{ transform:translateY(' +
               (baseCent * rowIndex).toString() + '%); }',
-          styleSheet.cssRules.length);
-        if (rowIndex === GRID_ROW_LENGTH - 1) {
-          console.debug(styleSheet);
-        }
+          storeSingleton.styleSheet.cssRules.length);
+        // if (rowIndex === GRID_ROW_LENGTH - 1) {
+        //   console.debug(styleSheet);
+        // }
       }
 
       const checker: HTMLElement = document.createElement('div');
@@ -177,7 +182,7 @@ export const main: () => void = (): void => {
       if (storeSingleton.gameMode !== GameMode.ONLY_COMPUTER) {
         squareHTMLElement.addEventListener('click', (e: Event) => {
           e.preventDefault();
-          SquareOnClick.call(square, styleSheet);
+          SquareOnClick.call(square, storeSingleton.styleSheet);
         }, false);
       }
 
@@ -196,9 +201,9 @@ export const main: () => void = (): void => {
 
   if (storeSingleton.gameMode === GameMode.VSCOMPUTER
         && storeSingleton.isComputerToPlay) {
-    GameModeVsComputerComputerTurn(styleSheet);
+    GameModeVsComputerComputerTurn();
   } else if (storeSingleton.gameMode === GameMode.ONLY_COMPUTER) {
-    GameModeComputerVsComputer(styleSheet);
+    GameModeComputerVsComputer();
   }
 
 };

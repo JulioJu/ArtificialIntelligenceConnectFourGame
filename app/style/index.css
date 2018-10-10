@@ -10,9 +10,11 @@
   * ============================================================================
   */
 
+@import './hide-show.css';
+
 html, body {
-    width: 100%;
-    height: 100%;
+  min-height: 100vh;
+  min-width: 100vh;
 }
 
 * {
@@ -27,9 +29,9 @@ body {
     align-items: center;
     justify-content: center;
     /* http://angrytools.com/gradient/ */
-    background: linear-gradient(45deg,
-    rgba(153,218,255,1) 0%,
-    rgba(0,128,128,1) 95%); /* w3c */
+    background-image: linear-gradient(45deg,
+        rgba(153,218,255,1) 0%,
+        rgba(0,128,128,1) 95%); /* w3c */
 }
 
 form {
@@ -40,32 +42,16 @@ form > * {
     overflow: hidden;
 }
 
-section {
-    animation-duration: 3s;
-    animation-iteration-count: 1;
-    animation-timing-function: linear;
-    animation-fill-mode: forwards;
-}
-
-section.collapsed {
-    animation-name: collapse;
-    animation-direction: normal;
-}
-
-section.expended {
-    animation-name: expend;
-    animation-direction: normal;
-}
-
 fieldset {
     text-align: left;
     margin: 2em;
-    border: 4px solid #26759E;
+    border: 0.25em solid #26759E;
     box-shadow: #878787 0px 2px 2px;
     border-radius: 23px;
     /* background-color: #3093C7; */
     background-image: linear-gradient(to bottom, #3093C7, #1C5A85);
     padding: 2em;
+
 }
 
 fieldset:hover {
@@ -85,40 +71,4 @@ button {
 button:hover {
     border:1px solid #5d7fbc;
     background-image: linear-gradient(to bottom, #819bcb, #536f9d);
-}
-
-@keyframes collapse {
-    0% {
-        visibility: visible;
-        opacity: 1;
-        max-height: 20em;
-    }
-    50% {
-        visibility: hidden;
-        opacity: 0;
-        max-height: 20em;
-    }
-    100% {
-        visibility: hidden;
-        opacity: 0;
-        max-height: 0em;
-    }
-}
-
-@keyframes expend {
-    0% {
-        visibility: hidden;
-        opacity: 0;
-        max-height: 0em;
-    }
-    50% {
-        visibility: hidden;
-        opacity: 0;
-        max-height: 20em;
-    }
-    100% {
-        visibility: visible;
-        opacity: 1;
-        max-height: 20em;
-    }
 }
