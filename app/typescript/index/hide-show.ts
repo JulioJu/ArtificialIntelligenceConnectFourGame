@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Wed 10 Oct 2018 04:36:45 PM CEST
-  *       MODIFIED: Wed 10 Oct 2018 04:38:09 PM CEST
+  *       MODIFIED: Fri 12 Oct 2018 04:56:09 PM CEST
   *
   *          USAGE:
   *
@@ -56,7 +56,6 @@ export const ShowHideElementTriggeredByRadioButton:
             if (radioButtonHtmlElementLoop.checked
                   && radioButtonHtmlElementLoop.value
                       === valueOfTheRadioButton) {
-              console.log('coucou');
               elementToHideOrShowHtmlElement.classList
                 .add(actionIfRadioChecked);
               elementToHideOrShowHtmlElement.classList

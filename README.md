@@ -251,6 +251,7 @@
         https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects
         https://tylermcginnis.com/object-creation-in-javascript-functional-instantiation-vs-prototypal-instantiation-vs-pseudo-e9287b6bbb32/
         https://medium.com/dailyjs/instantiation-patterns-in-javascript-8fdcf69e8f9b
+        https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain (very very interesting)
 
 * The name of all exported functions start by an upper case letter because
     in Java-like languages they could be seen as a `static class`.

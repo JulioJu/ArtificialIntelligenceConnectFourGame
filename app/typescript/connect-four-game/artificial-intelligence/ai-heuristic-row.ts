@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Sat 06 Oct 2018 05:48:31 PM CEST
- *       MODIFIED: Tue 09 Oct 2018 01:12:17 PM CEST
+ *       MODIFIED: Fri 12 Oct 2018 10:32:51 AM CEST
  *
  *          USAGE:
  *
@@ -16,7 +16,7 @@ import { storeSingleton } from '../store-singleton.js';
 import { ParseLineResult } from '../artificial-intelligence/ParseLineResult.js';
 import { parseHorizontally } from '../artificial-intelligence/parse_lines.js';
 
-export const AIHeuristic1: () => Promise<Square>
+export const AIHeuristicRow: () => Promise<Square>
       = async (): Promise<Square> =>
   new Promise<Square>((resolve: (square: Square) => void,
         reject: (drawnMatches: Error) => void): void => {

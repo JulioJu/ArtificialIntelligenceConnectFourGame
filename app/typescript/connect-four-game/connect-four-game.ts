@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Wed 26 Sep 2018 01:11:08 PM CEST
- *       MODIFIED: Wed 10 Oct 2018 02:16:01 PM CEST
+ *       MODIFIED: Fri 12 Oct 2018 04:51:51 PM CEST
  *
  *          USAGE:
  *
@@ -11,13 +11,17 @@
  * ============================================================================
  */
 
-import { GRID_COLUMN_LENGTH, GRID_ROW_LENGTH, GameMode, Checker }
+import { GRID_COLUMN_LENGTH, GRID_ROW_LENGTH, GameMode, ArtificialIntelligence,
+      Checker }
     from './constants.js';
 import { Square } from './Square.js';
-import { SquareOnClick, CursorColor, GameModeVsComputerComputerTurn }
+import { SquareOnClick, CursorColor }
     from './square-on-click.js';
 import { storeSingleton } from './store-singleton.js';
-import { GameModeComputerVsComputer } from './computer-vs-computer.js';
+import { ComputerTurn } from './computer-turn.js';
+
+import { AIRandomTurn } from './artificial-intelligence/ai-random-turn.js';
+import { AIHeuristicRow } from './artificial-intelligence/ai-heuristic-row.js';
 
 const parseUrlQueryParamIsComputerToStart: (parsedUrl: URL) => void
       = (parsedUrl: URL): void => {
@@ -94,6 +98,41 @@ const parseUrlQueryParamGamemode: (parsedUrl: URL) => void
   }
 };
 
+const parseUrlQueryParamArtificialIntelligenceGamerRed: (parsedUrl: URL,
+      paramName: string)
+          => void
+      = (parsedUrl: URL, paramName: string): void => {
+  let aiParam: string | null = parsedUrl.searchParams.get(paramName);
+  console.info('URL query param "' + paramName + '": ', aiParam);
+  if (aiParam) {
+    aiParam = aiParam.toUpperCase();
+    switch (aiParam) {
+      case ArtificialIntelligence[ArtificialIntelligence.RANDOM]:
+        if (aiParam === 'ai_red') {
+          storeSingleton.artificialIntelligenceGamerRed = AIRandomTurn;
+        }
+        if (aiParam === 'ai_yellow') {
+          storeSingleton.artificialIntelligenceGamerYellow = AIRandomTurn;
+        }
+        break;
+      case ArtificialIntelligence[ArtificialIntelligence.HEURISTIC_ROW]:
+        if (paramName === 'ai_red') {
+          storeSingleton.artificialIntelligenceGamerRed = AIHeuristicRow;
+        }
+        if (paramName === 'ai_yellow') {
+          storeSingleton.artificialIntelligenceGamerYellow = AIHeuristicRow;
+        }
+        console.log(storeSingleton);
+        break;
+      default:
+        console.warn('The URL param "' + aiParam +
+          '" has not an expected value.',
+          'Therefore the artificial intelligence used for the red gamer' +
+          'will be "heuristic_row"');
+    }
+  }
+};
+
 const parseUrlQueryParam: () => void = (): void => {
   if (document.location) {
     // See:
@@ -102,6 +141,8 @@ const parseUrlQueryParam: () => void = (): void => {
     const parsedUrl: URL = new URL(document.location.href);
     parseUrlQueryParamGamemode(parsedUrl);
     parseUrlQueryParamFirstGamer(parsedUrl);
+    parseUrlQueryParamArtificialIntelligenceGamerRed(parsedUrl, 'ai_red');
+    parseUrlQueryParamArtificialIntelligenceGamerRed(parsedUrl, 'ai_yellow');
     if (storeSingleton.gameMode === GameMode.VSCOMPUTER) {
       parseUrlQueryParamIsComputerToStart(parsedUrl);
     } else {
@@ -119,7 +160,7 @@ const triggerComputerGame: () => void = (): void => {
   document.addEventListener('keydown', (event: KeyboardEvent) => {
     const keyName: string = event.key;
     if (keyName === 'c') {
-      GameModeVsComputerComputerTurn();
+      ComputerTurn();
       return;
     }
   }, false);
@@ -201,9 +242,9 @@ export const main: () => void = (): void => {
 
   if (storeSingleton.gameMode === GameMode.VSCOMPUTER
         && storeSingleton.isComputerToPlay) {
-    GameModeVsComputerComputerTurn();
+    ComputerTurn();
   } else if (storeSingleton.gameMode === GameMode.ONLY_COMPUTER) {
-    GameModeComputerVsComputer();
+    ComputerTurn();
   }
 
 };

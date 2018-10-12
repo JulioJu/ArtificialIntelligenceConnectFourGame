@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Tue 25 Sep 2018 02:42:40 PM CEST
-  *       MODIFIED: Wed 10 Oct 2018 04:38:31 PM CEST
+  *       MODIFIED: Fri 12 Oct 2018 10:18:32 AM CEST
   *
   *          USAGE:
   *
@@ -17,6 +17,8 @@ interface IFormGame extends HTMLFormControlsCollection {
   gamemode: RadioNodeList;
   is_computer_to_start: RadioNodeList;
   first_gamer: RadioNodeList;
+  ai_red: RadioNodeList;
+  ai_yellow: RadioNodeList;
 }
 
 const submitForm: () => void = (): void => {
@@ -30,14 +32,14 @@ const submitForm: () => void = (): void => {
     (e: Event) => {
       e.preventDefault();
       const formElement: IFormGame = form.elements as IFormGame;
-      let url: string;
-      if (formElement.gamemode.value === 'vscomputer') {
-        url = 'connect-four-game.html?gamemode=' + formElement.gamemode.value +
+      let url: string = 'connect-four-game.html?gamemode='
+          + formElement.gamemode.value +
           '&first_gamer=' + formElement.first_gamer.value +
+          '&ai_red=' + formElement.ai_red.value +
+          '&ai_yellow=' + formElement.ai_yellow.value;
+      if (formElement.gamemode.value === 'vscomputer') {
+        url +=
           '&is_computer_to_start=' + formElement.is_computer_to_start.value;
-      } else {
-        url = 'connect-four-game.html?gamemode=' + formElement.gamemode.value +
-          '&first_gamer=' + formElement.first_gamer.value;
       }
       if (document.location) {
         document.location.assign(url);

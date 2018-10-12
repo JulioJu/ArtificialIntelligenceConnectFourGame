@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Sat 29 Sep 2018 03:38:08 PM CEST
-  *       MODIFIED: Wed 10 Oct 2018 02:09:14 PM CEST
+  *       MODIFIED: Fri 12 Oct 2018 04:10:58 PM CEST
   *
   *          USAGE:
   *
@@ -14,6 +14,8 @@
 import { GRID_COLUMN_LENGTH, GameMode, Checker } from './constants.js';
 import { Square } from './Square.js';
 
+import { AIRandomTurn } from './artificial-intelligence/ai-random-turn';
+
 interface IStoreSingleton {
   gameMode: GameMode;
   grid: Square[][];
@@ -22,6 +24,11 @@ interface IStoreSingleton {
   gameIsTerminated: boolean;
   squaresEmptyPlayable: Square[];
   numberOfClick: number;
+
+  // tslint:disable-next-line:prefer-method-signature
+  artificialIntelligenceGamerRed: () => Promise<Square>;
+  // tslint:disable-next-line:prefer-method-signature
+  artificialIntelligenceGamerYellow: () => Promise<Square>;
 
   styleSheet: CSSStyleSheet ;
 }
@@ -46,6 +53,9 @@ export const storeSingleton: IStoreSingleton = {
   gameIsTerminated: false,
   squaresEmptyPlayable: new Array(GRID_COLUMN_LENGTH),
   numberOfClick: 0,
+
+  artificialIntelligenceGamerRed: AIRandomTurn,
+  artificialIntelligenceGamerYellow: AIRandomTurn,
 
   styleSheet: instantiateStyleSheet()
 };

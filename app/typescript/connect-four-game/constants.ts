@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Fri 28 Sep 2018 09:07:45 AM CEST
-  *       MODIFIED: Sun 07 Oct 2018 02:57:57 PM CEST
+  *       MODIFIED: Fri 12 Oct 2018 09:52:27 AM CEST
   *
   *          USAGE:
   *
@@ -19,4 +19,5 @@ export const CHECKERS_ALIGN_TO_WIN: number  = 4;
 export enum GameMode { MULTIPLAYER, VSCOMPUTER, ONLY_COMPUTER }
 export enum Checker { EMPTY, RED, YELLOW }
 export enum ComputerGamer { FIRST_GAMER, SECOND_GAMER }
+export enum ArtificialIntelligence { RANDOM, HEURISTIC_ROW }
 // vim: ts=2 sw=2 et:

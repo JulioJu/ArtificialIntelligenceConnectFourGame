@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Sun 30 Sep 2018 10:17:56 AM CEST
-  *       MODIFIED: Wed 10 Oct 2018 02:10:21 PM CEST
+  *       MODIFIED: Fri 12 Oct 2018 04:35:44 PM CEST
   *
   *          USAGE:
   *
@@ -15,7 +15,7 @@ import { GRID_ROW_LENGTH, GameMode, Checker } from './constants.js';
 import { Square } from './Square.js';
 import { storeSingleton } from './store-singleton.js';
 import { AddCheckerInSquare } from './square-add-checker.js';
-import { AIHeuristic1 } from './artificial-intelligence/ai-heuristic1.js';
+import { ComputerTurn } from './computer-turn.js';
 
 export const CursorColor: () => void = (): void => {
   document.body.classList.remove('cursor-red');
@@ -29,26 +29,6 @@ export const CursorColor: () => void = (): void => {
             .toLowerCase();
     document.body.classList.add('cursor-' + gamerColor);
   }
-};
-
-export const GameModeVsComputerComputerTurn: () => void = (): void => {
-  AIHeuristic1()
-    .then((square: Square) => {
-      square.checkerHTMLElement.addEventListener(
-        'animationend', (eInner: Event) => {
-          eInner.preventDefault();
-          // After the animation time of the computer turn, the
-          // gamer can play again.
-          storeSingleton.isComputerToPlay = false;
-          CursorColor();
-        }
-        , false
-      );
-      AddCheckerInSquare(square);
-    })
-    // https://en.wikipedia.org/wiki/Defensive_programming
-    // Should never be triggered.
-    .catch((drawnMatches: Error) => console.info(drawnMatches.message));
 };
 
 // Should not be an arrow function, because `this'
@@ -90,7 +70,7 @@ export const SquareOnClick:
               'is terminated.');
             return;
           }
-          GameModeVsComputerComputerTurn();
+          ComputerTurn();
         }
         , false
       );

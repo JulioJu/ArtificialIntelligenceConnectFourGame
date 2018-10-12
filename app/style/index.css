@@ -14,7 +14,7 @@
 
 html, body {
   min-height: 100vh;
-  min-width: 100vh;
+  min-width: 100vw;
 }
 
 * {
@@ -42,6 +42,14 @@ form > * {
     overflow: hidden;
 }
 
+hr {
+    /* https://stackoverflow.com/questions/3906640/css-margins-overlap-problem */
+    display: block;
+    margin: 0;
+    border-width: 0em;
+    size: 0em;
+}
+
 fieldset {
     text-align: left;
     margin: 2em;
@@ -56,6 +64,10 @@ fieldset {
 
 fieldset:hover {
     background-image: linear-gradient(to bottom, #26759E, #133D5B);
+}
+
+fieldset > p {
+    margin-bottom: 1em;
 }
 
 button {
