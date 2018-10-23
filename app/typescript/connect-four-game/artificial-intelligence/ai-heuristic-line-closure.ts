@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Mon 15 Oct 2018 09:24:13 AM CEST
-  *       MODIFIED: Mon 15 Oct 2018 02:31:42 PM CEST
+  *       MODIFIED: Tue 23 Oct 2018 05:45:26 PM CEST
   *
   *          USAGE:
   *
@@ -47,7 +47,7 @@ export const AIHeuristicLineClosure:
         squareEmptyPlayableParsed[index] = parseLine(
           storeSingleton.squaresEmptyPlayable[index]
         );
-        console.log(squareEmptyPlayableParsed[index]);
+        console.debug(squareEmptyPlayableParsed[index]);
         if (squareEmptyPlayableParsed[index].gamerIsTheWinner) {
           resolve(squareEmptyPlayableParsed[index].square);
         }

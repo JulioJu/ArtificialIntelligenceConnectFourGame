@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Sat 29 Sep 2018 01:42:30 PM CEST
-  *       MODIFIED: Sat 06 Oct 2018 11:27:02 AM CEST
+  *       MODIFIED: Tue 23 Oct 2018 05:52:21 PM CEST
   *
   *          USAGE:
   *
@@ -18,9 +18,9 @@ import { Square } from './Square.js';
 
 export const PopulateSquareEmptyPlayables: () => Square[] = (): Square[] => {
   const squaresEmptyPlayable: Square[] = new Array<Square>(0);
-  for (let columnIndex: number = GRID_COLUMN_LENGTH - 1 ;
-    columnIndex >= 0 ;
-    columnIndex--) {
+  for (let columnIndex: number = 0 ;
+    columnIndex < GRID_COLUMN_LENGTH ;
+    columnIndex++) {
     for (let rowIndex: number = GRID_ROW_LENGTH - 1;
       rowIndex >= 0 ;
       rowIndex--) {
