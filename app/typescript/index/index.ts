@@ -3,13 +3,15 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Tue 25 Sep 2018 02:42:40 PM CEST
-  *       MODIFIED: Fri 12 Oct 2018 10:18:32 AM CEST
+  *       MODIFIED: Tue 23 Oct 2018 04:22:58 PM CEST
   *
   *          USAGE:
   *
   *    DESCRIPTION:
   * ============================================================================
   */
+
+import { ErrorFatal } from '../util/error_message.js';
 
 import { ShowHideElementTriggeredByRadioButton } from './hide-show.js';
 
@@ -45,9 +47,8 @@ const submitForm: () => void = (): void => {
         document.location.assign(url);
       } else {
         const messageError: string =
-          'FATAL ERROR. Can\'t access to the `document.location\' object';
-        alert (messageError);
-        console.error(messageError);
+          'can\'t access to the `document.location\' object.';
+        ErrorFatal(messageError);
       }
     },
     false);

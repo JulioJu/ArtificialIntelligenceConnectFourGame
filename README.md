@@ -15,6 +15,11 @@
                 or `npm browsersync`.
         * OR `firefox ./app/index.html` (or click on the file)
 
+* In queryParam, key is case sensitive, value isn't case sensitive.
+    * e.g:
+        * `connect-four-game.html?gamemode=multiplayer&first_gamer=red&ai_red=heuristic_column&ai_yellow=heuristic_column`
+        * `gamemode` is case sensitive, `multiplayer` isn't case sensitive.
+
 ### Google Chrome issues with history
 
 * Note before read this section: finally it seems our app does not need

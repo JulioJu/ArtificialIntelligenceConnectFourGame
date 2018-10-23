@@ -3,13 +3,15 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Wed 26 Sep 2018 01:11:08 PM CEST
- *       MODIFIED: Tue 23 Oct 2018 11:33:41 AM CEST
+ *       MODIFIED: Tue 23 Oct 2018 04:22:15 PM CEST
  *
  *          USAGE:
  *
  *    DESCRIPTION:
  * ============================================================================
  */
+
+import { ErrorFatal } from '../util/error_message.js';
 
 import { GRID_COLUMN_LENGTH, GRID_ROW_LENGTH, GameMode, ArtificialIntelligence,
       Checker }
@@ -29,39 +31,59 @@ import { ParseVertically } from
 import { AIHeuristicLineClosure }
     from './artificial-intelligence/ai-heuristic-line-closure.js';
 
+const infoParam: (paramName: string, paramValue: string | null) => void
+      = (paramName: string, paramValue: string | null): void => {
+  console.info('URL query param', paramName, '": ', paramValue + '.');
+};
+
+const incorrectQueryParam: (paramName: string, isExist: boolean,
+          messageDefaultValue: string) => void
+      = (paramName: string, isExist: boolean,
+          messageDefaultValue: string): void => {
+  if (isExist) {
+    console.warn('The URL param"', paramName, '"has not an expected value.',
+      'Therefore', messageDefaultValue);
+  } else {
+    console.warn('The URL param"', paramName, '"doesn\'t exist.',
+      'Therefore', messageDefaultValue);
+  }
+};
+
 const parseUrlQueryParamIsComputerToStart: (parsedUrl: URL) => void
       = (parsedUrl: URL): void => {
-  const isComputerToStartParam: string | null =
-          parsedUrl.searchParams.get('is_computer_to_start');
-  console.info('URL query param "is_computer_to_start": ',
-    isComputerToStartParam);
-  if (isComputerToStartParam) {
-    switch (isComputerToStartParam) {
-      case 'true':
+  const paramName: string = 'is_computer_to_start';
+  let paramValue: string | null =
+          parsedUrl.searchParams.get(paramName);
+  const messageDefaultValue: string =
+          'the first player will be the gamer and not the computer.';
+  infoParam(paramName, paramValue);
+  if (paramValue) {
+    paramValue = paramValue.toUpperCase();
+    switch (paramValue) {
+      case 'TRUE':
         storeSingleton.isComputerToPlay = true;
         break;
-      case 'false':
+      case 'FALSE':
         storeSingleton.isComputerToPlay = false;
         break;
       default:
-        console.warn('The URL param "is_computer_to_start',
-          'has not an expected value.',
-          'Therefore the first player will be the gamer and not the computer');
+        incorrectQueryParam(paramName, true, messageDefaultValue);
     }
   } else {
-    console.warn('The URL param "is_computer_to_start" doesn\'t exist.',
-      'Therefore the first player will be the gamer and not the computer');
+    incorrectQueryParam(paramName, false, messageDefaultValue);
   }
 };
 
 const parseUrlQueryParamFirstGamer: (parsedUrl: URL) => void
       = (parsedUrl: URL): void => {
-  let firstGamerParam: string | null =
-          parsedUrl.searchParams.get('first_gamer');
-  console.info('URL query param "first_gamer": ', firstGamerParam);
-  if (firstGamerParam) {
-    firstGamerParam = firstGamerParam.toUpperCase();
-    switch (firstGamerParam) {
+  const paramName: string = 'first_gamer';
+  let paramValue: string | null =
+          parsedUrl.searchParams.get(paramName);
+  const messageDefaultValue: string = 'the first player will be "red".';
+  infoParam(paramName, paramValue);
+  if (paramValue) {
+    paramValue = paramValue.toUpperCase();
+    switch (paramValue) {
       case Checker[Checker.RED]:
         storeSingleton.currentGamer = Checker.RED;
         break;
@@ -69,22 +91,23 @@ const parseUrlQueryParamFirstGamer: (parsedUrl: URL) => void
         storeSingleton.currentGamer = Checker.YELLOW;
         break;
       default:
-        console.warn('The URL param "first_gamer" has not an expected value.',
-          'Therefore the first player will be "red"');
+        incorrectQueryParam(paramName, true, messageDefaultValue);
     }
   } else {
-    console.warn('The URL param "first_gamer" doesn\'t exist.',
-      'Therefore the first player will be "red"');
+    incorrectQueryParam(paramName, false, messageDefaultValue);
   }
 };
 
 const parseUrlQueryParamGamemode: (parsedUrl: URL) => void
       = (parsedUrl: URL): void => {
-  let gameModeParam: string | null = parsedUrl.searchParams.get('gamemode');
-  console.info('URL query param "gamemode": ', gameModeParam);
-  if (gameModeParam) {
-    gameModeParam = gameModeParam.toUpperCase();
-    switch (gameModeParam) {
+  const paramName: string = 'gamemode';
+  let paramValue: string | null =
+          parsedUrl.searchParams.get(paramName);
+  const messageDefaultValue: string = 'the game will be "multiplayer"';
+  infoParam(paramName, paramValue);
+  if (paramValue) {
+    paramValue = paramValue.toUpperCase();
+    switch (paramValue) {
       case GameMode[GameMode.MULTIPLAYER]:
         storeSingleton.gameMode = GameMode.MULTIPLAYER;
         break;
@@ -95,12 +118,10 @@ const parseUrlQueryParamGamemode: (parsedUrl: URL) => void
         storeSingleton.gameMode = GameMode.ONLY_COMPUTER;
         break;
       default:
-        console.warn('The URL param "gamemode" has not an expected value.',
-          'Therefore the game will be "multiplayer"');
+        incorrectQueryParam(paramName, true, messageDefaultValue);
     }
   } else {
-    console.warn('The URL param "gamemode" doesn\'t exist.',
-      'Therefore the game will be "multiplayer"');
+    incorrectQueryParam(paramName, false, messageDefaultValue);
   }
 };
 
@@ -108,16 +129,20 @@ const parseUrlQueryParamArtificialIntelligenceGamerRed: (parsedUrl: URL,
       paramName: string)
           => void
       = (parsedUrl: URL, paramName: string): void => {
-  let aiParam: string | null = parsedUrl.searchParams.get(paramName);
-  console.info('URL query param "' + paramName + '": ', aiParam);
-  if (aiParam) {
-    aiParam = aiParam.toUpperCase();
-    switch (aiParam) {
+  let paramValue: string | null =
+          parsedUrl.searchParams.get(paramName);
+  const messageDefaultValue: string = 'the artificial intelligence ' +
+          // tslint:disable-next-line:no-magic-numbers
+          'used for the ' + paramName.substring(3) + ' gamer will be "random".';
+  infoParam(paramName, paramValue);
+  if (paramValue) {
+    paramValue = paramValue.toUpperCase();
+    switch (paramValue) {
       case ArtificialIntelligence[ArtificialIntelligence.RANDOM]:
-        if (aiParam === 'ai_red') {
+        if (paramName === 'ai_red') {
           storeSingleton.artificialIntelligenceGamerRed = AIRandomTurn;
         }
-        if (aiParam === 'ai_yellow') {
+        if (paramName === 'ai_yellow') {
           storeSingleton.artificialIntelligenceGamerYellow = AIRandomTurn;
         }
         break;
@@ -142,11 +167,10 @@ const parseUrlQueryParamArtificialIntelligenceGamerRed: (parsedUrl: URL,
         }
         break;
       default:
-        console.warn('The URL param "' + aiParam +
-          '" has not an expected value.',
-          'Therefore the artificial intelligence used for the red gamer' +
-          'will be "heuristic_row"');
+          incorrectQueryParam(paramName, true, messageDefaultValue);
     }
+  } else {
+    incorrectQueryParam(paramName, false, messageDefaultValue);
   }
 };
 
@@ -167,9 +191,8 @@ const parseUrlQueryParam: () => void = (): void => {
     }
   } else {
     const messageError: string =
-      'FATAL ERROR. Can\'t access to the `document.location\' object';
-    alert (messageError);
-    console.error(messageError);
+      'can\'t access to the `document.location\' object';
+    ErrorFatal(messageError);
   }
 };
 
