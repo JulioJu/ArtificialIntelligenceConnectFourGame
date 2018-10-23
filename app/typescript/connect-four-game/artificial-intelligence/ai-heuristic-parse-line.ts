@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Mon 15 Oct 2018 02:24:56 PM CEST
-  *       MODIFIED: Mon 15 Oct 2018 02:28:03 PM CEST
+  *       MODIFIED: Tue 23 Oct 2018 12:44:50 PM CEST
   *
   *          USAGE:
   *
@@ -48,14 +48,14 @@ const parseLineResultBlocBuild:
     } else if (storeSingleton.currentGamer === checkerOfLoop) {
       parseLineResult.score += CHECKERS_ALIGN_TO_WIN
         // tslint:disable-next-line:no-magic-numbers
-        - parseLineResultBloc.numberOfEmptySquare + 15;
+          - parseLineResultBloc.numberOfEmptySquare + 15;
     } else if (checkerOfLoop === Checker.EMPTY) {
       parseLineResult.score += CHECKERS_ALIGN_TO_WIN
-        // tslint:disable-next-line:no-magic-numbers
-        - parseLineResultBloc.numberOfEmptySquare + 10;
+          // tslint:disable-next-line:no-magic-numbers
+          - parseLineResultBloc.numberOfEmptySquare + 10;
     } else {
       parseLineResult.score += CHECKERS_ALIGN_TO_WIN
-        - parseLineResultBloc.numberOfEmptySquare + 1;
+          - parseLineResultBloc.numberOfEmptySquare + 1;
     }
   }
   return false;
@@ -80,7 +80,7 @@ export const ParseCurrentSquareOfTheLoop: (checkerOfLoop: Checker,
   if (checkerOfLoop !== Checker.EMPTY
       && parseLineResult.checkerAlreadyEncountredInThisSide
           === Checker.EMPTY) {
-    // Should be done one time by bloc
+    // Should be done one time by side
     parseLineResult.checkerAlreadyEncountredInThisSide = checkerOfLoop;
   }
 
@@ -91,3 +91,5 @@ export const ParseCurrentSquareOfTheLoop: (checkerOfLoop: Checker,
 
   return true;
 };
+
+// vim: ts=2 sw=2 et:

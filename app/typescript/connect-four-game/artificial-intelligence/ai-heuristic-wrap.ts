@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Mon 15 Oct 2018 02:56:40 PM CEST
-  *       MODIFIED: Tue 23 Oct 2018 11:01:57 AM CEST
+  *       MODIFIED: Tue 23 Oct 2018 12:37:32 PM CEST
   *
   *          USAGE:
   *
@@ -127,7 +127,7 @@ export const ParseWrap: (square: Square, firstSideLoop: Loop,
           parseLineResultBlocIndex--) {
       if (!ParseCurrentSquareOfTheLoop(checkerOfLoop, parseLineResult,
         parseLineResultBloc[parseLineResultBlocIndex])) {
-        break;
+        return parseLineResult;
       }
     }
 
