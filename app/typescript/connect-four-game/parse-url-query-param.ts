@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Tue 23 Oct 2018 04:25:08 PM CEST
-  *       MODIFIED: Tue 23 Oct 2018 04:27:31 PM CEST
+  *       MODIFIED: Tue 23 Oct 2018 05:28:17 PM CEST
   *
   *          USAGE:
   *
@@ -20,8 +20,14 @@ import { AIRandomTurn } from './artificial-intelligence/ai-random-turn.js';
 
 import { ParseHorizontally } from
     './artificial-intelligence/ai-heuristic-line-row.js';
+import { ParseDiagonalNorthWestSouthEast } from
+    // tslint:disable-next-line:max-line-length
+    './artificial-intelligence/ai-heuristic-line-diagonal-north-west-south-east.js';
 import { ParseVertically } from
     './artificial-intelligence/ai-heuristic-line-column.js';
+import { ParseDiagonalNorthEastSouthWest } from
+    // tslint:disable-next-line:max-line-length
+    './artificial-intelligence/ai-heuristic-line-diagonal-north-east-south-west.js';
 import { AIHeuristicLineClosure }
     from './artificial-intelligence/ai-heuristic-line-closure.js';
 
@@ -150,6 +156,17 @@ const parseUrlQueryParamArtificialIntelligenceGamerRed: (parsedUrl: URL,
             AIHeuristicLineClosure(ParseHorizontally);
         }
         break;
+      case ArtificialIntelligence[
+          ArtificialIntelligence.HEURISTIC_DIAGONAL_NORTH_WEST_SOUTH_EAST]:
+        if (paramName === 'ai_red') {
+          storeSingleton.artificialIntelligenceGamerRed =
+            AIHeuristicLineClosure(ParseDiagonalNorthWestSouthEast);
+        }
+        if (paramName === 'ai_yellow') {
+          storeSingleton.artificialIntelligenceGamerYellow =
+            AIHeuristicLineClosure(ParseDiagonalNorthWestSouthEast);
+        }
+        break;
       case ArtificialIntelligence[ArtificialIntelligence.HEURISTIC_COLUMN]:
         if (paramName === 'ai_red') {
           storeSingleton.artificialIntelligenceGamerRed =
@@ -158,6 +175,17 @@ const parseUrlQueryParamArtificialIntelligenceGamerRed: (parsedUrl: URL,
         if (paramName === 'ai_yellow') {
           storeSingleton.artificialIntelligenceGamerYellow =
             AIHeuristicLineClosure(ParseVertically);
+        }
+        break;
+      case ArtificialIntelligence[
+          ArtificialIntelligence.HEURISTIC_DIAGONAL_NORTH_EAST_SOUTH_WEST]:
+        if (paramName === 'ai_red') {
+          storeSingleton.artificialIntelligenceGamerRed =
+            AIHeuristicLineClosure(ParseDiagonalNorthEastSouthWest);
+        }
+        if (paramName === 'ai_yellow') {
+          storeSingleton.artificialIntelligenceGamerYellow =
+            AIHeuristicLineClosure(ParseDiagonalNorthEastSouthWest);
         }
         break;
       default:
