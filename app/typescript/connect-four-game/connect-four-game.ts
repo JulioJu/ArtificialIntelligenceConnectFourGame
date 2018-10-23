@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Wed 26 Sep 2018 01:11:08 PM CEST
- *       MODIFIED: Fri 12 Oct 2018 04:51:51 PM CEST
+ *       MODIFIED: Tue 23 Oct 2018 11:33:41 AM CEST
  *
  *          USAGE:
  *
@@ -21,7 +21,13 @@ import { storeSingleton } from './store-singleton.js';
 import { ComputerTurn } from './computer-turn.js';
 
 import { AIRandomTurn } from './artificial-intelligence/ai-random-turn.js';
-import { AIHeuristicRow } from './artificial-intelligence/ai-heuristic-row.js';
+
+import { ParseHorizontally } from
+    './artificial-intelligence/ai-heuristic-line-row.js';
+import { ParseVertically } from
+    './artificial-intelligence/ai-heuristic-line-column.js';
+import { AIHeuristicLineClosure }
+    from './artificial-intelligence/ai-heuristic-line-closure.js';
 
 const parseUrlQueryParamIsComputerToStart: (parsedUrl: URL) => void
       = (parsedUrl: URL): void => {
@@ -117,12 +123,23 @@ const parseUrlQueryParamArtificialIntelligenceGamerRed: (parsedUrl: URL,
         break;
       case ArtificialIntelligence[ArtificialIntelligence.HEURISTIC_ROW]:
         if (paramName === 'ai_red') {
-          storeSingleton.artificialIntelligenceGamerRed = AIHeuristicRow;
+          storeSingleton.artificialIntelligenceGamerRed =
+            AIHeuristicLineClosure(ParseHorizontally);
         }
         if (paramName === 'ai_yellow') {
-          storeSingleton.artificialIntelligenceGamerYellow = AIHeuristicRow;
+          storeSingleton.artificialIntelligenceGamerYellow =
+            AIHeuristicLineClosure(ParseHorizontally);
         }
-        console.log(storeSingleton);
+        break;
+      case ArtificialIntelligence[ArtificialIntelligence.HEURISTIC_COLUMN]:
+        if (paramName === 'ai_red') {
+          storeSingleton.artificialIntelligenceGamerRed =
+            AIHeuristicLineClosure(ParseVertically);
+        }
+        if (paramName === 'ai_yellow') {
+          storeSingleton.artificialIntelligenceGamerYellow =
+            AIHeuristicLineClosure(ParseVertically);
+        }
         break;
       default:
         console.warn('The URL param "' + aiParam +

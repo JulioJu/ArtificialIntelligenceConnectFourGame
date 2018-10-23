@@ -2,8 +2,8 @@
   *         AUTHOR: JulioJu
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
-  *        CREATED: Sat 06 Oct 2018 06:09:31 PM CEST
-  *       MODIFIED: Wed 10 Oct 2018 06:12:06 PM CEST
+  *        CREATED: Mon 15 Oct 2018 02:24:56 PM CEST
+  *       MODIFIED: Mon 15 Oct 2018 02:28:03 PM CEST
   *
   *          USAGE:
   *
@@ -11,12 +11,9 @@
   * ============================================================================
   */
 
-import { GRID_COLUMN_LENGTH, CHECKERS_ALIGN_TO_WIN, Checker }
-  from '../constants.js';
-import { Square } from '../Square.js';
+import { CHECKERS_ALIGN_TO_WIN, Checker } from '../constants.js';
 import { storeSingleton } from '../store-singleton.js';
-import { Direction, ParseLineResult }
-  from './ParseLineResult.js';
+import { ParseLineResult } from './ParseLineResult.js';
 import { ParseLineResultBloc } from './ParseLineResultBloc.js';
 
 const parseLineResultBlocBuild:
@@ -65,7 +62,7 @@ const parseLineResultBlocBuild:
 };
 
 /** See explanations at ./ParseLineResult.ts */
-const parseCurrentSquareOfTheLoop: (checkerOfLoop: Checker,
+export const ParseCurrentSquareOfTheLoop: (checkerOfLoop: Checker,
           parseLineResult: ParseLineResult,
           parseLineResultBloc: ParseLineResultBloc) => boolean
       =  (checkerOfLoop: Checker,
@@ -94,79 +91,3 @@ const parseCurrentSquareOfTheLoop: (checkerOfLoop: Checker,
 
   return true;
 };
-
-/** See explanations at ./ParseLineResult.ts */
-export const parseHorizontally: (square: Square) => ParseLineResult
-      = (square: Square): ParseLineResult => {
-
-  const parseLineResult: ParseLineResult =
-          new ParseLineResult(square, Direction.HORIZONTAL);
-
-  const parseLineResultBloc: ParseLineResultBloc[] =
-          new Array(1);
-
-  parseLineResultBloc[0] = new ParseLineResultBloc();
-  // Horizontal, on the west of the square
-  // tslint:disable-next-line:one-variable-per-declaration
-  for (let columnIndex: number = square.columnIndex - 1,
-          loopIndex: number = 0 ;
-      columnIndex >= 0
-          && loopIndex < CHECKERS_ALIGN_TO_WIN - 1;
-      // tslint:disable-next-line:ban-comma-operator
-      columnIndex--, loopIndex++) {
-    const checkerOfLoop: Checker =
-      storeSingleton.grid[columnIndex][square.rowIndex].squareValue;
-    parseLineResultBloc.length++;
-    parseLineResultBloc[parseLineResultBloc.length - 1] =
-      new ParseLineResultBloc(
-          // tslint:disable-next-line:no-magic-numbers
-            parseLineResultBloc[parseLineResultBloc.length - 2]);
-    if (!parseCurrentSquareOfTheLoop(checkerOfLoop, parseLineResult,
-        parseLineResultBloc[parseLineResultBloc.length - 1])) {
-      parseLineResultBloc.length--;
-      break;
-    }
-  }
-  if (parseLineResult.gamerIsTheWinner) {
-    // Because no need to continue the analyze !
-    // We know that if the current gamer add a checker it wins !!!
-    return parseLineResult;
-  }
-
-  if (parseLineResultBloc.length === CHECKERS_ALIGN_TO_WIN) {
-    parseLineResultBloc.length--;
-  }
-
-  // Horizontal, on the east of the square
-  // DO NOT FORGET TO INITIALIZE again some attributes;
-  parseLineResult.checkerAlreadyEncountredInThisSide = Checker.EMPTY;
-  // tslint:disable-next-line:one-variable-per-declaration
-  for (let columnIndex: number = square.columnIndex + 1,
-          loopIndex: number = 0;
-      columnIndex < GRID_COLUMN_LENGTH
-          && loopIndex < CHECKERS_ALIGN_TO_WIN - 1 ;
-      // tslint:disable-next-line:ban-comma-operator
-      columnIndex++, loopIndex++) {
-    const checkerOfLoop: Checker =
-        storeSingleton.grid[columnIndex][square.rowIndex].squareValue;
-    for (let parseLineResultBlocIndex: number
-              = parseLineResultBloc.length - 1;
-          parseLineResultBlocIndex >= 0 ;
-          parseLineResultBlocIndex--) {
-      if (!parseCurrentSquareOfTheLoop(checkerOfLoop, parseLineResult,
-        parseLineResultBloc[parseLineResultBlocIndex])) {
-        break;
-      }
-    }
-    if (parseLineResultBloc[parseLineResultBloc.length - 1].numberOfSquares
-          === CHECKERS_ALIGN_TO_WIN) {
-      if (parseLineResultBloc.length > 1) {
-        parseLineResultBloc.length--;
-      }
-    }
-  }
-
-  return parseLineResult;
-};
-
-// vim: ts=2 sw=2 et:

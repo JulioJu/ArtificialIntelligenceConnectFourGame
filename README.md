@@ -88,7 +88,7 @@
 
 * In Firefox, when page is loaded, we must close then open again
     DevTools to see TypeScript files in the console and Debugger. See also:
-    https://bugzilla.mozilla.org/show_bug.cgi?id=1443247:
+    https://bugzilla.mozilla.org/show_bug.cgi?id=1443247
 
 * Tested also with:
     `https://developer.mozilla.org/en-US/docs/Learn/Server-side/Node_server_without_framework`
