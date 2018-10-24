@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Mon 15 Oct 2018 02:56:40 PM CEST
-  *       MODIFIED: Tue 23 Oct 2018 12:37:32 PM CEST
+  *       MODIFIED: Wed 24 Oct 2018 11:50:01 AM CEST
   *
   *          USAGE:
   *
@@ -12,6 +12,9 @@
   */
 import { CHECKERS_ALIGN_TO_WIN, Checker }
   from '../constants.js';
+import { LoopExploreGridFromOneSquare }
+  from '../LoopExploreGridFromOneSquare.js';
+
 import { Square } from '../Square.js';
 import { storeSingleton } from '../store-singleton.js';
 import { Direction, ParseLineResult }
@@ -19,46 +22,14 @@ import { Direction, ParseLineResult }
 import { ParseLineResultBloc } from './ParseLineResultBloc.js';
 import { ParseCurrentSquareOfTheLoop } from './ai-heuristic-parse-line.js';
 
-export class Loop {
-
-  public constructor (
-    private readonly _columnIndexInit: number,
-    private readonly _rowIndexInit: number,
-    private readonly _loopWhile:
-        (columnIndex: number, rowIndex: number) => boolean,
-    private readonly _columnIndexIncrement: (columnIndex: number) => number,
-    private readonly _rowIndexIncrement: (rowIndex: number) => number
-  ) {
-
-  }
-
-  public get columnIndexInit(): number {
-    return this._columnIndexInit;
-  }
-
-  public get rowIndexInit(): number {
-    return this._rowIndexInit;
-  }
-
-  public get loopWhile(): (columnIndex: number, rowIndex: number) => boolean {
-    return this._loopWhile;
-  }
-
-  public get columnIndexIncrement(): (columnIndex: number) => number {
-    return this._columnIndexIncrement;
-  }
-
-  public get rowIndexIncrement(): (rowIndex: number) => number {
-    return this._rowIndexIncrement;
-  }
-
-}
-
 /** See explanations at ./ParseLineResult.ts */
-export const ParseWrap: (square: Square, firstSideLoop: Loop,
-          secondSideLoop: Loop) => ParseLineResult
-      = (square: Square, firstSideLoop: Loop, secondSideLoop: Loop):
-            ParseLineResult => {
+export const ParseWrap: (
+        square: Square,
+        firstSideLoop: LoopExploreGridFromOneSquare,
+        secondSideLoop: LoopExploreGridFromOneSquare) => ParseLineResult
+      = (square: Square,
+         firstSideLoop: LoopExploreGridFromOneSquare,
+         secondSideLoop: LoopExploreGridFromOneSquare): ParseLineResult => {
 
   const parseLineResult: ParseLineResult =
           new ParseLineResult(square, Direction.HORIZONTAL);

@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Tue 23 Oct 2018 04:55:31 PM CEST
-  *       MODIFIED: Tue 23 Oct 2018 05:26:16 PM CEST
+  *       MODIFIED: Wed 24 Oct 2018 11:55:36 AM CEST
   *
   *          USAGE:
   *
@@ -13,16 +13,19 @@
 
 import { GRID_COLUMN_LENGTH, GRID_ROW_LENGTH } from '../constants.js';
 import { Square } from '../Square.js';
-import { ParseLineResult } from './ParseLineResult.js';
+import { LoopExploreGridFromOneSquare }
+  from '../LoopExploreGridFromOneSquare.js';
 
-import { Loop, ParseWrap } from './ai-heuristic-wrap.js';
+import { ParseLineResult } from './ParseLineResult.js';
+import { ParseWrap } from './ai-heuristic-wrap.js';
 
 /** See explanations at ./ParseLineResult.ts */
 export const ParseDiagonalNorthWestSouthEast:
         (square: Square) => ParseLineResult
       = (square: Square): ParseLineResult => {
 
-  const firstSideLoop: Loop = new Loop (
+  const firstSideLoop: LoopExploreGridFromOneSquare
+          = new LoopExploreGridFromOneSquare (
     square.columnIndex - 1,
     square.rowIndex - 1,
     (columnIndex: number, rowIndex: number): boolean =>
@@ -31,7 +34,8 @@ export const ParseDiagonalNorthWestSouthEast:
     (rowIndex: number): number => rowIndex - 1
   );
 
-  const secondSideLoop: Loop = new Loop (
+  const secondSideLoop: LoopExploreGridFromOneSquare
+          = new LoopExploreGridFromOneSquare (
     square.columnIndex + 1,
     square.rowIndex + 1,
     (columnIndex: number, rowIndex: number): boolean =>
