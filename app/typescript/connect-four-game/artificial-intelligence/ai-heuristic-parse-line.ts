@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Mon 15 Oct 2018 02:24:56 PM CEST
-  *       MODIFIED: Tue 23 Oct 2018 12:44:50 PM CEST
+  *       MODIFIED: Wed 24 Oct 2018 04:56:55 PM CEST
   *
   *          USAGE:
   *
@@ -13,16 +13,19 @@
 
 import { CHECKERS_ALIGN_TO_WIN, Checker } from '../constants.js';
 import { storeSingleton } from '../store-singleton.js';
+import { Square } from '../Square.js';
 import { ParseLineResult } from './ParseLineResult.js';
 import { ParseLineResultBloc } from './ParseLineResultBloc.js';
 
 const parseLineResultBlocBuild:
     (parseLineResultBloc: ParseLineResultBloc,
-        checkerOfLoop: Checker,
+        squareOfLoop: Square,
         parseLineResult: ParseLineResult) => boolean
     = (parseLineResultBloc: ParseLineResultBloc,
-        checkerOfLoop: Checker,
+        squareOfLoop: Square,
         parseLineResult: ParseLineResult): boolean => {
+
+  const checkerOfLoop: Checker = squareOfLoop.squareValue;
 
   parseLineResultBloc.numberOfSquares++;
   if (checkerOfLoop !== Checker.EMPTY) {
@@ -31,6 +34,7 @@ const parseLineResultBlocBuild:
     parseLineResultBloc.numberOfEmptySquare++;
   }
   if (parseLineResultBloc.numberOfSquares === CHECKERS_ALIGN_TO_WIN) {
+
     if (parseLineResultBloc.numberOfEmptySquare === 1) {
       if (storeSingleton.currentGamer === checkerOfLoop) {
         parseLineResult.gamerIsTheWinner = true;
@@ -44,30 +48,44 @@ const parseLineResultBlocBuild:
           // tslint:disable-next-line:no-magic-numbers
           CHECKERS_ALIGN_TO_WIN - 2) {
       // tslint:disable-next-line:no-magic-numbers
-      parseLineResult.score += 25;
+      parseLineResult.score += 35;
     } else if (storeSingleton.currentGamer === checkerOfLoop) {
       parseLineResult.score += CHECKERS_ALIGN_TO_WIN
         // tslint:disable-next-line:no-magic-numbers
-          - parseLineResultBloc.numberOfEmptySquare + 15;
+          - parseLineResultBloc.numberOfEmptySquare + 25;
     } else if (checkerOfLoop === Checker.EMPTY) {
       parseLineResult.score += CHECKERS_ALIGN_TO_WIN
           // tslint:disable-next-line:no-magic-numbers
-          - parseLineResultBloc.numberOfEmptySquare + 10;
+          - parseLineResultBloc.numberOfEmptySquare + 20;
     } else {
       parseLineResult.score += CHECKERS_ALIGN_TO_WIN
           - parseLineResultBloc.numberOfEmptySquare + 1;
     }
+
   }
+
+  for (const square of storeSingleton.squaresEmptyPlayable) {
+    if (!squareOfLoop.equals(square)) {
+      // Could be logged several times
+      console.debug('Square no playable');
+      // tslint:disable-next-line:no-magic-numbers
+      parseLineResult.score = parseLineResult.score - 2;
+      break;
+    }
+  }
+
   return false;
 };
 
 /** See explanations at ./ParseLineResult.ts */
-export const ParseCurrentSquareOfTheLoop: (checkerOfLoop: Checker,
+export const ParseCurrentSquareOfTheLoop: (squareOfLoop: Square,
           parseLineResult: ParseLineResult,
           parseLineResultBloc: ParseLineResultBloc) => boolean
-      =  (checkerOfLoop: Checker,
+      =  (squareOfLoop: Square,
           parseLineResult: ParseLineResult,
           parseLineResultBloc: ParseLineResultBloc): boolean => {
+
+  const checkerOfLoop: Checker = squareOfLoop.squareValue;
 
   if (checkerOfLoop !== Checker.EMPTY
       && (parseLineResult.checkerAlreadyEncountredInThisSide
@@ -84,7 +102,7 @@ export const ParseCurrentSquareOfTheLoop: (checkerOfLoop: Checker,
     parseLineResult.checkerAlreadyEncountredInThisSide = checkerOfLoop;
   }
 
-  if (parseLineResultBlocBuild(parseLineResultBloc, checkerOfLoop,
+  if (parseLineResultBlocBuild(parseLineResultBloc, squareOfLoop,
           parseLineResult)) {
     return false;
   }

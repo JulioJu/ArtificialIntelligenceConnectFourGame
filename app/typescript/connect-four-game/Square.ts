@@ -3,7 +3,7 @@
  *         GITHUB: https://github.com/JulioJu
  *        LICENSE: MIT (https://opensource.org/licenses/MIT)
  *        CREATED: Thu 27 Sep 2018 08:00:30 AM CEST
- *       MODIFIED: Mon 22 Oct 2018 07:24:12 PM CEST
+ *       MODIFIED: Wed 24 Oct 2018 04:06:11 PM CEST
  *
  *          USAGE:
  *
@@ -19,6 +19,14 @@ export class Square {
       private readonly _rowIndex: number,
       private _squareValue: Checker,
       private readonly _checkerHTMLElement: HTMLElement) {
+  }
+
+  public equals(square: Square): boolean {
+    if (this._columnIndex === square._columnIndex
+          && this._rowIndex === square._rowIndex) {
+      return true;
+    }
+    return false;
   }
 
   public get rowIndex(): number {

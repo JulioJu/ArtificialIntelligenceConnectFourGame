@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Mon 15 Oct 2018 09:24:13 AM CEST
-  *       MODIFIED: Wed 24 Oct 2018 02:54:33 PM CEST
+  *       MODIFIED: Wed 24 Oct 2018 04:49:14 PM CEST
   *
   *          USAGE:
   *
@@ -30,25 +30,24 @@ import { ParseWrap } from './ai-heuristic-wrap.js';
 
 type heuristicCallbackType = (square: Square) => ParseLineResult;
 
-const bestSquare: { localScore: number;
-                    score: number;
-                    opponentIsTheWinnerFound: boolean;
-                    square: Square | undefined;
-                } = {
-  localScore: 0,
-  score: -1,
-  opponentIsTheWinnerFound: false,
-  square: undefined
-};
+class BestSquare {
+  public localScore: number = 0;
+  public score: number = -1;
+  public opponentIsTheWinnerFound: boolean = false;
+  public square: Square | undefined = undefined;
+}
 
 type parseLineCorePromiseType = (
   heuristicCallback: heuristicCallbackType,
-  squareParsed: Square) => boolean;
+  squareParsed: Square,
+  bestSquare: BestSquare) => boolean;
 const parseSquare: parseLineCorePromiseType =
       (
         heuristicCallback: heuristicCallbackType,
-        squareParsed: Square
+        squareParsed: Square,
+        bestSquare: BestSquare
       ): boolean => {
+
   const parseLineResult: ParseLineResult =  heuristicCallback(squareParsed);
   // console.debug(parseLineResult);
   if (parseLineResult.gamerIsTheWinner) {
@@ -104,6 +103,7 @@ export const AIHeuristicLineClosure:
       resolve: (square: Square) => void,
       reject: (drawnMatches: Error) => void
     ): void => {
+
       const squaresEmptyPlayable: Square[] =
             storeSingleton.squaresEmptyPlayable;
       if (squaresEmptyPlayable.length === 0) {
@@ -112,38 +112,45 @@ export const AIHeuristicLineClosure:
         reject(new Error('Drawn matches'));
       }
 
-      // Always reassign, because score = -1;
+      const bestSquare: BestSquare = new BestSquare();
       bestSquare.square = squaresEmptyPlayable[0];
 
       for (const square of squaresEmptyPlayable) {
         bestSquare.localScore = 0;
         if (heuristicCallback) {
-          if (parseSquare(heuristicCallback, square)) {
+          if (parseSquare(heuristicCallback, square, bestSquare)) {
             resolve(square);
           }
         } else {
           // HERE, WE ARE NOT IN A CLOSURE, BECAUSE THE FUNCTION IS CALLED
           // WITHOUT PARAMS
-          if (parseSquare(ParseHorizontally, square)) {
+          if (parseSquare(ParseHorizontally, square, bestSquare)) {
             resolve(square);
           }
-          if (parseSquare(ParseDiagnoalNorthWestSouthEast, square)) {
+          if (parseSquare(ParseDiagnoalNorthWestSouthEast, square,
+                bestSquare)) {
             resolve(square);
           }
-          if (parseSquare(ParseVertically, square)) {
+          if (parseSquare(ParseVertically, square, bestSquare)) {
             resolve(square);
           }
-          if (parseSquare(ParseDiagonalNorthEastSouthWest, square)) {
+          if (parseSquare(ParseDiagonalNorthEastSouthWest, square,
+                bestSquare)) {
             resolve(square);
           }
         }
-        if (! bestSquare.opponentIsTheWinnerFound) {
-            if (bestSquare.localScore > bestSquare.score) {
-              bestSquare.score = bestSquare.localScore;
-              bestSquare.square = square;
-            }
+        console.debug('Square playable parsed:' , square.checkerHTMLElement,
+          'Its score:', bestSquare.localScore);
+        if (! bestSquare.opponentIsTheWinnerFound
+              && bestSquare.localScore > bestSquare.score) {
+          bestSquare.score = bestSquare.localScore;
+          bestSquare.square = square;
         }
-        console.debug(bestSquare.square, bestSquare.localScore);
+        console.debug('Current best square:',
+              bestSquare.square.checkerHTMLElement,
+          'Its score:', bestSquare.score,
+          'opponentIsTheWinnerFound:', bestSquare.opponentIsTheWinnerFound
+        );
       }
 
       resolve(bestSquare.square);

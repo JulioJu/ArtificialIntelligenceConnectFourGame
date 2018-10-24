@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Mon 15 Oct 2018 02:56:40 PM CEST
-  *       MODIFIED: Wed 24 Oct 2018 01:49:33 PM CEST
+  *       MODIFIED: Wed 24 Oct 2018 04:10:46 PM CEST
   *
   *          USAGE:
   *
@@ -50,15 +50,15 @@ export const ParseWrap: (
           rowIndex = firstSideLoop.rowIndexIncrement(rowIndex),
           loopIndex++) {
 
-    const checkerOfLoop: Checker =
-      storeSingleton.grid[columnIndex][rowIndex].squareValue;
+    const squareOfLoop: Square =
+      storeSingleton.grid[columnIndex][rowIndex];
 
     parseLineResultBloc.length++;
     parseLineResultBloc[parseLineResultBloc.length - 1] =
       new ParseLineResultBloc(
           // tslint:disable-next-line:no-magic-numbers
             parseLineResultBloc[parseLineResultBloc.length - 2]);
-    if (!ParseCurrentSquareOfTheLoop(checkerOfLoop, parseLineResult,
+    if (!ParseCurrentSquareOfTheLoop(squareOfLoop, parseLineResult,
         parseLineResultBloc[parseLineResultBloc.length - 1])) {
       parseLineResultBloc.length--;
       break;
@@ -89,14 +89,14 @@ export const ParseWrap: (
           rowIndex = secondSideLoop.rowIndexIncrement(rowIndex),
           loopIndex++) {
 
-    const checkerOfLoop: Checker =
-        storeSingleton.grid[columnIndex][rowIndex].squareValue;
+    const squareOfLoop: Square =
+      storeSingleton.grid[columnIndex][rowIndex];
 
     for (let parseLineResultBlocIndex: number
               = parseLineResultBloc.length - 1;
           parseLineResultBlocIndex >= 0 ;
           parseLineResultBlocIndex--) {
-      if (!ParseCurrentSquareOfTheLoop(checkerOfLoop, parseLineResult,
+      if (!ParseCurrentSquareOfTheLoop(squareOfLoop, parseLineResult,
         parseLineResultBloc[parseLineResultBlocIndex])) {
         return parseLineResult;
       }
