@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Mon 15 Oct 2018 02:56:40 PM CEST
-  *       MODIFIED: Wed 24 Oct 2018 11:50:01 AM CEST
+  *       MODIFIED: Wed 24 Oct 2018 01:49:33 PM CEST
   *
   *          USAGE:
   *
@@ -13,7 +13,7 @@
 import { CHECKERS_ALIGN_TO_WIN, Checker }
   from '../constants.js';
 import { LoopExploreGridFromOneSquare }
-  from '../LoopExploreGridFromOneSquare.js';
+  from '../loop-explore-grid-from-one-square/LoopExploreGridFromOneSquare.js';
 
 import { Square } from '../Square.js';
 import { storeSingleton } from '../store-singleton.js';

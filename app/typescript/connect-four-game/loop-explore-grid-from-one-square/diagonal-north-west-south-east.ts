@@ -2,8 +2,8 @@
   *         AUTHOR: JulioJu
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
-  *        CREATED: Tue 23 Oct 2018 04:55:31 PM CEST
-  *       MODIFIED: Wed 24 Oct 2018 11:55:36 AM CEST
+  *        CREATED: Wed 24 Oct 2018 01:29:22 PM CEST
+  *       MODIFIED: Wed 24 Oct 2018 01:31:54 PM CEST
   *
   *          USAGE:
   *
@@ -12,20 +12,16 @@
   */
 
 import { GRID_COLUMN_LENGTH, GRID_ROW_LENGTH } from '../constants.js';
+
 import { Square } from '../Square.js';
+
 import { LoopExploreGridFromOneSquare }
-  from '../LoopExploreGridFromOneSquare.js';
+  from './LoopExploreGridFromOneSquare.js';
 
-import { ParseLineResult } from './ParseLineResult.js';
-import { ParseWrap } from './ai-heuristic-wrap.js';
-
-/** See explanations at ./ParseLineResult.ts */
-export const ParseDiagonalNorthWestSouthEast:
-        (square: Square) => ParseLineResult
-      = (square: Square): ParseLineResult => {
-
-  const firstSideLoop: LoopExploreGridFromOneSquare
-          = new LoopExploreGridFromOneSquare (
+export const DiagonalNorthWest:
+        (square: Square) => LoopExploreGridFromOneSquare
+      = (square: Square): LoopExploreGridFromOneSquare =>
+  new LoopExploreGridFromOneSquare (
     square.columnIndex - 1,
     square.rowIndex - 1,
     (columnIndex: number, rowIndex: number): boolean =>
@@ -34,8 +30,10 @@ export const ParseDiagonalNorthWestSouthEast:
     (rowIndex: number): number => rowIndex - 1
   );
 
-  const secondSideLoop: LoopExploreGridFromOneSquare
-          = new LoopExploreGridFromOneSquare (
+export const DiagonalSouthEast:
+        (square: Square) => LoopExploreGridFromOneSquare
+      = (square: Square): LoopExploreGridFromOneSquare =>
+  new LoopExploreGridFromOneSquare (
     square.columnIndex + 1,
     square.rowIndex + 1,
     (columnIndex: number, rowIndex: number): boolean =>
@@ -43,9 +41,5 @@ export const ParseDiagonalNorthWestSouthEast:
     (columnIndex: number): number => columnIndex + 1,
     (rowIndex: number): number => rowIndex + 1
   );
-
-  return ParseWrap(square, firstSideLoop, secondSideLoop);
-
-};
 
 // vim: ts=2 sw=2 et:

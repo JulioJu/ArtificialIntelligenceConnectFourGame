@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Tue 23 Oct 2018 04:25:08 PM CEST
-  *       MODIFIED: Wed 24 Oct 2018 11:07:50 AM CEST
+  *       MODIFIED: Wed 24 Oct 2018 02:57:59 PM CEST
   *
   *          USAGE:
   *
@@ -18,18 +18,13 @@ import { storeSingleton } from './store-singleton.js';
 
 import { AIRandomTurn } from './artificial-intelligence/ai-random-turn.js';
 
-import { ParseHorizontally } from
-    './artificial-intelligence/ai-heuristic-line-horizontal.js';
-import { ParseDiagonalNorthWestSouthEast }
-    // tslint:disable-next-line:max-line-length
-    from './artificial-intelligence/ai-heuristic-line-diagonal-north-west-south-east.js';
-import { ParseVertically } from
-    './artificial-intelligence/ai-heuristic-line-vertical.js';
-import { ParseDiagonalNorthEastSouthWest }
-    // tslint:disable-next-line:max-line-length
-    from './artificial-intelligence/ai-heuristic-line-diagonal-north-east-south-west.js';
-import { AIHeuristicLineClosure }
-    from './artificial-intelligence/ai-heuristic-line-closure.js';
+import {
+  ParseHorizontally,
+  ParseDiagnoalNorthWestSouthEast,
+  ParseVertically,
+  ParseDiagonalNorthEastSouthWest,
+  AIHeuristicLineClosure
+} from './artificial-intelligence/ai-heuristic.js';
 
 const infoParam: (paramName: string, paramValue: string | null) => void
       = (paramName: string, paramValue: string | null): void => {
@@ -160,11 +155,11 @@ const parseUrlQueryParamArtificialIntelligenceGamerRed: (parsedUrl: URL,
           ArtificialIntelligence.HEURISTIC_DIAGONAL_NORTH_WEST_SOUTH_EAST]:
         if (paramName === 'ai_red') {
           storeSingleton.artificialIntelligenceGamerRed =
-            AIHeuristicLineClosure(ParseDiagonalNorthWestSouthEast);
+            AIHeuristicLineClosure(ParseDiagnoalNorthWestSouthEast);
         }
         if (paramName === 'ai_yellow') {
           storeSingleton.artificialIntelligenceGamerYellow =
-            AIHeuristicLineClosure(ParseDiagonalNorthWestSouthEast);
+            AIHeuristicLineClosure(ParseDiagnoalNorthWestSouthEast);
         }
         break;
       case ArtificialIntelligence[ArtificialIntelligence.HEURISTIC_VERTICAL]:
@@ -190,6 +185,8 @@ const parseUrlQueryParamArtificialIntelligenceGamerRed: (parsedUrl: URL,
         break;
       case ArtificialIntelligence[
           ArtificialIntelligence.HEURISTIC_HORIZONTAL_VERTICAL_DIAGONALS]:
+        // HERE, AIHeuristicLineClosure IS NOT CALLED AS CLOSURE
+        // BECAUSE IT'S CALLED WITHOUT PARAMS
         if (paramName === 'ai_red') {
           storeSingleton.artificialIntelligenceGamerRed =
             AIHeuristicLineClosure();

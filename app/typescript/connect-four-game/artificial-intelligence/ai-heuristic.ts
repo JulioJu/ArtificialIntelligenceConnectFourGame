@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Mon 15 Oct 2018 09:24:13 AM CEST
-  *       MODIFIED: Wed 24 Oct 2018 11:11:21 AM CEST
+  *       MODIFIED: Wed 24 Oct 2018 02:54:33 PM CEST
   *
   *          USAGE:
   *
@@ -13,14 +13,20 @@
 
 import { Square } from '../Square.js';
 import { storeSingleton } from '../store-singleton.js';
-import { ParseLineResult } from './ParseLineResult.js';
 
-import { ParseHorizontally } from './ai-heuristic-line-horizontal.js';
-import { ParseDiagonalNorthWestSouthEast }
-    from './ai-heuristic-line-diagonal-north-west-south-east.js';
-import { ParseVertically } from './ai-heuristic-line-vertical.js';
-import { ParseDiagonalNorthEastSouthWest }
-    from './ai-heuristic-line-diagonal-north-east-south-west.js';
+import { HorizontalLeft, HorizontalRight }
+  from '../loop-explore-grid-from-one-square/horizontal.js';
+import { DiagonalNorthWest,
+  DiagonalSouthEast }
+  from '../loop-explore-grid-from-one-square/diagonal-north-west-south-east.js';
+import { VerticalNorth, VerticalSouth }
+  from '../loop-explore-grid-from-one-square/vertical.js';
+import { DiagonalNorthEast,
+  DiagonalSouthWest }
+  from '../loop-explore-grid-from-one-square/diagonal-north-east-south-west.js';
+
+import { ParseLineResult } from './ParseLineResult.js';
+import { ParseWrap } from './ai-heuristic-wrap.js';
 
 type heuristicCallbackType = (square: Square) => ParseLineResult;
 
@@ -60,6 +66,32 @@ const parseSquare: parseLineCorePromiseType =
   return false;
 };
 
+export const ParseHorizontally: (square: Square) => ParseLineResult
+      = (square: Square): ParseLineResult =>
+  ParseWrap(square,
+    HorizontalLeft(square),
+    HorizontalRight(square));
+
+export const ParseDiagnoalNorthWestSouthEast: (square: Square)
+          => ParseLineResult
+      = (square: Square): ParseLineResult =>
+  ParseWrap(square,
+    DiagonalNorthWest(square),
+    DiagonalSouthEast(square));
+
+export const ParseVertically: (square: Square) => ParseLineResult
+      = (square: Square): ParseLineResult =>
+  ParseWrap(square,
+    VerticalNorth(square),
+    VerticalSouth(square));
+
+export const ParseDiagonalNorthEastSouthWest: (square: Square)
+          => ParseLineResult
+      = (square: Square): ParseLineResult =>
+  ParseWrap(square,
+    DiagonalNorthEast(square),
+    DiagonalSouthWest(square));
+
 export const AIHeuristicLineClosure:
           (heuristicCallback?: heuristicCallbackType)
               => () => Promise<Square>
@@ -84,17 +116,18 @@ export const AIHeuristicLineClosure:
       bestSquare.square = squaresEmptyPlayable[0];
 
       for (const square of squaresEmptyPlayable) {
-        // There is no closures
         bestSquare.localScore = 0;
         if (heuristicCallback) {
           if (parseSquare(heuristicCallback, square)) {
             resolve(square);
           }
         } else {
+          // HERE, WE ARE NOT IN A CLOSURE, BECAUSE THE FUNCTION IS CALLED
+          // WITHOUT PARAMS
           if (parseSquare(ParseHorizontally, square)) {
             resolve(square);
           }
-          if (parseSquare(ParseDiagonalNorthWestSouthEast, square)) {
+          if (parseSquare(ParseDiagnoalNorthWestSouthEast, square)) {
             resolve(square);
           }
           if (parseSquare(ParseVertically, square)) {
