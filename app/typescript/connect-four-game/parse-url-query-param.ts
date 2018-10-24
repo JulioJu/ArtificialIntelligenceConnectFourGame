@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Tue 23 Oct 2018 04:25:08 PM CEST
-  *       MODIFIED: Tue 23 Oct 2018 05:28:17 PM CEST
+  *       MODIFIED: Wed 24 Oct 2018 11:07:50 AM CEST
   *
   *          USAGE:
   *
@@ -19,21 +19,21 @@ import { storeSingleton } from './store-singleton.js';
 import { AIRandomTurn } from './artificial-intelligence/ai-random-turn.js';
 
 import { ParseHorizontally } from
-    './artificial-intelligence/ai-heuristic-line-row.js';
-import { ParseDiagonalNorthWestSouthEast } from
+    './artificial-intelligence/ai-heuristic-line-horizontal.js';
+import { ParseDiagonalNorthWestSouthEast }
     // tslint:disable-next-line:max-line-length
-    './artificial-intelligence/ai-heuristic-line-diagonal-north-west-south-east.js';
+    from './artificial-intelligence/ai-heuristic-line-diagonal-north-west-south-east.js';
 import { ParseVertically } from
-    './artificial-intelligence/ai-heuristic-line-column.js';
-import { ParseDiagonalNorthEastSouthWest } from
+    './artificial-intelligence/ai-heuristic-line-vertical.js';
+import { ParseDiagonalNorthEastSouthWest }
     // tslint:disable-next-line:max-line-length
-    './artificial-intelligence/ai-heuristic-line-diagonal-north-east-south-west.js';
+    from './artificial-intelligence/ai-heuristic-line-diagonal-north-east-south-west.js';
 import { AIHeuristicLineClosure }
     from './artificial-intelligence/ai-heuristic-line-closure.js';
 
 const infoParam: (paramName: string, paramValue: string | null) => void
       = (paramName: string, paramValue: string | null): void => {
-  console.info('URL query param', paramName, '": ', paramValue + '.');
+  console.info('URL query param', paramName, '": ', paramValue);
 };
 
 const incorrectQueryParam: (paramName: string, isExist: boolean,
@@ -146,7 +146,7 @@ const parseUrlQueryParamArtificialIntelligenceGamerRed: (parsedUrl: URL,
           storeSingleton.artificialIntelligenceGamerYellow = AIRandomTurn;
         }
         break;
-      case ArtificialIntelligence[ArtificialIntelligence.HEURISTIC_ROW]:
+      case ArtificialIntelligence[ArtificialIntelligence.HEURISTIC_HORIZONTAL]:
         if (paramName === 'ai_red') {
           storeSingleton.artificialIntelligenceGamerRed =
             AIHeuristicLineClosure(ParseHorizontally);
@@ -167,7 +167,7 @@ const parseUrlQueryParamArtificialIntelligenceGamerRed: (parsedUrl: URL,
             AIHeuristicLineClosure(ParseDiagonalNorthWestSouthEast);
         }
         break;
-      case ArtificialIntelligence[ArtificialIntelligence.HEURISTIC_COLUMN]:
+      case ArtificialIntelligence[ArtificialIntelligence.HEURISTIC_VERTICAL]:
         if (paramName === 'ai_red') {
           storeSingleton.artificialIntelligenceGamerRed =
             AIHeuristicLineClosure(ParseVertically);
@@ -186,6 +186,17 @@ const parseUrlQueryParamArtificialIntelligenceGamerRed: (parsedUrl: URL,
         if (paramName === 'ai_yellow') {
           storeSingleton.artificialIntelligenceGamerYellow =
             AIHeuristicLineClosure(ParseDiagonalNorthEastSouthWest);
+        }
+        break;
+      case ArtificialIntelligence[
+          ArtificialIntelligence.HEURISTIC_HORIZONTAL_VERTICAL_DIAGONALS]:
+        if (paramName === 'ai_red') {
+          storeSingleton.artificialIntelligenceGamerRed =
+            AIHeuristicLineClosure();
+        }
+        if (paramName === 'ai_yellow') {
+          storeSingleton.artificialIntelligenceGamerYellow =
+            AIHeuristicLineClosure();
         }
         break;
       default:
@@ -217,3 +228,5 @@ export const ParseUrlQueryParam: () => void = (): void => {
     ErrorFatal(messageError);
   }
 };
+
+// vim: ts=2 sw=2 et:

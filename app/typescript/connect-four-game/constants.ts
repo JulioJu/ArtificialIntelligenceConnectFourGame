@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Fri 28 Sep 2018 09:07:45 AM CEST
-  *       MODIFIED: Tue 23 Oct 2018 05:07:57 PM CEST
+  *       MODIFIED: Tue 23 Oct 2018 06:14:48 PM CEST
   *
   *          USAGE:
   *
@@ -21,10 +21,11 @@ export enum Checker { EMPTY, RED, YELLOW }
 export enum ComputerGamer { FIRST_GAMER, SECOND_GAMER }
 export enum ArtificialIntelligence {
     RANDOM,
-    HEURISTIC_ROW,
+    HEURISTIC_HORIZONTAL,
     HEURISTIC_DIAGONAL_NORTH_EAST_SOUTH_WEST,
-    HEURISTIC_COLUMN,
-    HEURISTIC_DIAGONAL_NORTH_WEST_SOUTH_EAST
+    HEURISTIC_VERTICAL,
+    HEURISTIC_DIAGONAL_NORTH_WEST_SOUTH_EAST,
+    HEURISTIC_HORIZONTAL_VERTICAL_DIAGONALS
 }
 
 // vim: ts=2 sw=2 et:
