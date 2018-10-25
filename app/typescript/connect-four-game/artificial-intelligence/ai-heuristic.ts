@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Mon 15 Oct 2018 09:24:13 AM CEST
-  *       MODIFIED: Thu 25 Oct 2018 10:00:42 PM CEST
+  *       MODIFIED: Thu 25 Oct 2018 11:55:53 PM CEST
   *
   *          USAGE:
   *
@@ -120,23 +120,28 @@ export const AIHeuristicLineClosure:
         if (heuristicCallback) {
           if (parseSquare(heuristicCallback, square, bestSquare)) {
             resolve(square);
+            return;
           }
         } else {
           // HERE, WE ARE NOT IN A CLOSURE, BECAUSE THE FUNCTION IS CALLED
           // WITHOUT PARAMS
           if (parseSquare(ParseHorizontally, square, bestSquare)) {
             resolve(square);
+            return;
           }
           if (parseSquare(ParseDiagnoalNorthWestSouthEast, square,
                 bestSquare)) {
             resolve(square);
+            return;
           }
           if (parseSquare(ParseVertically, square, bestSquare)) {
             resolve(square);
+            return;
           }
           if (parseSquare(ParseDiagonalNorthEastSouthWest, square,
                 bestSquare)) {
             resolve(square);
+            return;
           }
           if (square.rowIndex - 1 > 0) {
             if (IsGamerWin(
@@ -167,8 +172,8 @@ export const AIHeuristicLineClosure:
           'opponentIsTheWinnerFound:', bestSquare.opponentIsTheWinnerFound
         );
       }
-
       resolve(bestSquare.square);
+      return;
     });
 
   return promiseReturn;
