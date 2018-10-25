@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Fri 28 Sep 2018 09:06:49 AM CEST
-  *       MODIFIED: Wed 24 Oct 2018 02:33:52 PM CEST
+  *       MODIFIED: Thu 25 Oct 2018 09:54:50 PM CEST
   *
   *          USAGE:
   *
@@ -11,8 +11,7 @@
   * ============================================================================
   */
 
-import { CHECKERS_ALIGN_TO_WIN }
-  from './constants.js';
+import { Checker, CHECKERS_ALIGN_TO_WIN } from './constants.js';
 import { Square } from './Square.js';
 import { storeSingleton } from './store-singleton.js';
 
@@ -29,12 +28,10 @@ import { DiagonalNorthEast,
   DiagonalSouthWest }
   from './loop-explore-grid-from-one-square/diagonal-north-east-south-west.js';
 
-type IsCurrentGamerWinType = (squareAdded: Square) => boolean;
-
-const isFourCheckerOfCurrentGamer: (
+const isFourCheckerOfGamer: (gamer: Checker,
         firstSideLoop: LoopExploreGridFromOneSquare,
         secondSideLoop?: LoopExploreGridFromOneSquare) => boolean
-      = (
+      = (gamer: Checker,
          firstSideLoop: LoopExploreGridFromOneSquare,
          secondSideLoop?: LoopExploreGridFromOneSquare): boolean => {
 
@@ -49,7 +46,7 @@ const isFourCheckerOfCurrentGamer: (
       columnIndex = firstSideLoop.columnIndexIncrement(columnIndex),
           rowIndex = firstSideLoop.rowIndexIncrement(rowIndex)) {
     if (storeSingleton.grid[columnIndex][rowIndex].squareValue
-          === storeSingleton.currentGamer) {
+          === gamer) {
       checkersAligned++;
     } else {
       break;
@@ -73,7 +70,7 @@ const isFourCheckerOfCurrentGamer: (
           rowIndex = secondSideLoop.rowIndexIncrement(rowIndex)) {
   // HorizontalLeft, on the east of the squareAdded
     if (storeSingleton.grid[columnIndex][rowIndex].squareValue
-          === storeSingleton.currentGamer) {
+          === gamer) {
       checkersAligned++;
     } else {
       break;
@@ -85,22 +82,25 @@ const isFourCheckerOfCurrentGamer: (
   return false;
 };
 
-export const IsCurrentGamerWin: IsCurrentGamerWinType
-      = (squareAdded: Square): boolean => {
-  if (isFourCheckerOfCurrentGamer(
+type IsGamerWinType = (squareAdded: Square, gamer: Checker)
+  => boolean;
+export const IsGamerWin: IsGamerWinType
+      = (squareAdded: Square, gamer: Checker): boolean => {
+  if (isFourCheckerOfGamer(gamer,
           HorizontalLeft(squareAdded),
           HorizontalRight(squareAdded))) {
     return true;
   }
-  if (isFourCheckerOfCurrentGamer(
+  if (isFourCheckerOfGamer(gamer,
           DiagonalNorthWest(squareAdded),
           DiagonalSouthEast(squareAdded))) {
     return true;
   }
-  if (isFourCheckerOfCurrentGamer(VerticalSouth(squareAdded))) {
+  if (isFourCheckerOfGamer(gamer,
+        VerticalSouth(squareAdded))) {
     return true;
   }
-  if (isFourCheckerOfCurrentGamer(
+  if (isFourCheckerOfGamer(gamer,
           DiagonalNorthEast(squareAdded),
           DiagonalSouthWest(squareAdded))) {
     return true;

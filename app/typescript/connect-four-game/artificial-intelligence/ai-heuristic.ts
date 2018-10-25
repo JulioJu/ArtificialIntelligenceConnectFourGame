@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Mon 15 Oct 2018 09:24:13 AM CEST
-  *       MODIFIED: Wed 24 Oct 2018 04:49:14 PM CEST
+  *       MODIFIED: Thu 25 Oct 2018 10:00:42 PM CEST
   *
   *          USAGE:
   *
@@ -13,6 +13,7 @@
 
 import { Square } from '../Square.js';
 import { storeSingleton } from '../store-singleton.js';
+import { IsGamerWin } from '../is-gamer-win.js';
 
 import { HorizontalLeft, HorizontalRight }
   from '../loop-explore-grid-from-one-square/horizontal.js';
@@ -28,14 +29,39 @@ import { DiagonalNorthEast,
 import { ParseLineResult } from './ParseLineResult.js';
 import { ParseWrap } from './ai-heuristic-wrap.js';
 
-type heuristicCallbackType = (square: Square) => ParseLineResult;
-
 class BestSquare {
   public localScore: number = 0;
   public score: number = -1;
   public opponentIsTheWinnerFound: boolean = false;
   public square: Square | undefined = undefined;
 }
+
+type heuristicCallbackType =
+  (square: Square, isSquareGamable?: boolean) => ParseLineResult;
+
+export const ParseHorizontally: heuristicCallbackType
+      = (square: Square): ParseLineResult =>
+  ParseWrap(square,
+    HorizontalLeft(square),
+    HorizontalRight(square));
+
+export const ParseDiagnoalNorthWestSouthEast: heuristicCallbackType
+      = (square: Square): ParseLineResult =>
+  ParseWrap(square,
+    DiagonalNorthWest(square),
+    DiagonalSouthEast(square));
+
+export const ParseVertically: heuristicCallbackType
+      = (square: Square): ParseLineResult =>
+  ParseWrap(square,
+    VerticalNorth(square),
+    VerticalSouth(square));
+
+export const ParseDiagonalNorthEastSouthWest: heuristicCallbackType
+      = (square: Square): ParseLineResult =>
+  ParseWrap(square,
+    DiagonalNorthEast(square),
+    DiagonalSouthWest(square));
 
 type parseLineCorePromiseType = (
   heuristicCallback: heuristicCallbackType,
@@ -64,32 +90,6 @@ const parseSquare: parseLineCorePromiseType =
 
   return false;
 };
-
-export const ParseHorizontally: (square: Square) => ParseLineResult
-      = (square: Square): ParseLineResult =>
-  ParseWrap(square,
-    HorizontalLeft(square),
-    HorizontalRight(square));
-
-export const ParseDiagnoalNorthWestSouthEast: (square: Square)
-          => ParseLineResult
-      = (square: Square): ParseLineResult =>
-  ParseWrap(square,
-    DiagonalNorthWest(square),
-    DiagonalSouthEast(square));
-
-export const ParseVertically: (square: Square) => ParseLineResult
-      = (square: Square): ParseLineResult =>
-  ParseWrap(square,
-    VerticalNorth(square),
-    VerticalSouth(square));
-
-export const ParseDiagonalNorthEastSouthWest: (square: Square)
-          => ParseLineResult
-      = (square: Square): ParseLineResult =>
-  ParseWrap(square,
-    DiagonalNorthEast(square),
-    DiagonalSouthWest(square));
 
 export const AIHeuristicLineClosure:
           (heuristicCallback?: heuristicCallbackType)
@@ -137,6 +137,21 @@ export const AIHeuristicLineClosure:
           if (parseSquare(ParseDiagonalNorthEastSouthWest, square,
                 bestSquare)) {
             resolve(square);
+          }
+          if (square.rowIndex - 1 > 0) {
+            if (IsGamerWin(
+                  storeSingleton.grid[square.columnIndex][square.rowIndex - 1],
+                  storeSingleton.opponentGamer())) {
+              // Better to try to avoid that the opponent will be the winner.
+              bestSquare.localScore = -1;
+              console.debug('Opponent will win if you play here');
+            } else if (IsGamerWin(
+                  storeSingleton.grid[square.columnIndex][square.rowIndex - 1],
+                  storeSingleton.currentGamer)) {
+              // tslint:disable-next-line:no-magic-numbers
+              bestSquare.localScore += 200;
+              console.debug('Next turn, play above.');
+            }
           }
         }
         console.debug('Square playable parsed:' , square.checkerHTMLElement,

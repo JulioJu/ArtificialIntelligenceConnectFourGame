@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Sat 29 Sep 2018 03:38:08 PM CEST
-  *       MODIFIED: Mon 15 Oct 2018 11:08:10 AM CEST
+  *       MODIFIED: Thu 25 Oct 2018 09:33:19 PM CEST
   *
   *          USAGE:
   *
@@ -20,6 +20,7 @@ interface IStoreSingleton {
   gameMode: GameMode;
   grid: Square[][];
   currentGamer: Checker;
+  opponentGamer(): Checker;
   isComputerToPlay: boolean;
   gameIsTerminated: boolean;
   squaresEmptyPlayable: Square[];
@@ -47,6 +48,12 @@ export const storeSingleton: IStoreSingleton = {
 
   // Values changed each time square-add-checker.ts is called:
   currentGamer: Checker.RED,
+  // tslint:disable-next-line:object-literal-shorthand
+  opponentGamer: function(): Checker {
+    return this.currentGamer === Checker.RED
+      ? Checker.YELLOW
+      : Checker.RED;
+  },
   isComputerToPlay: false,
   gameIsTerminated: false,
   squaresEmptyPlayable: new Array(GRID_COLUMN_LENGTH),

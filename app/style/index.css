@@ -70,6 +70,16 @@ fieldset > p {
     margin-bottom: 1em;
 }
 
+form > fieldset > div.radio > label  {
+    display: flex;
+    flex-direction: row;
+    margin: 0.5em;
+}
+
+form > fieldset > div.radio > label > input  {
+    margin-right: 0.5em;
+}
+
 button {
     /* border-radius: 23px; */
     box-shadow: #878787 0px 2px 2px;

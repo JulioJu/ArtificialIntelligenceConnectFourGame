@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Wed 03 Oct 2018 08:04:32 PM CEST
-  *       MODIFIED: Wed 10 Oct 2018 02:11:02 PM CEST
+  *       MODIFIED: Thu 25 Oct 2018 09:36:49 PM CEST
   *
   *          USAGE:
   *
@@ -15,7 +15,7 @@ import { GRID_ROW_LENGTH, Checker } from './constants.js';
 import { Square } from './Square.js';
 import { PopulateSquareEmptyPlayables } from
     './squares-empty-playable-populate.js';
-import { IsCurrentGamerWin } from './is-current-gamer-win.js';
+import { IsGamerWin } from './is-gamer-win.js';
 import { storeSingleton } from './store-singleton.js';
 
 const displayPopup: (callback: (contentHtmlElement: HTMLElement) => void)
@@ -80,16 +80,13 @@ const performAnimation: (squareWithCheckerAdded: Square,
   checkerAddedHTMLElement.classList.add(checkerColor);
   checkerAddedHTMLElement.style.animationName = animationName;
 
-  if (IsCurrentGamerWin(squareWithCheckerAdded)) {
+  if (IsGamerWin(squareWithCheckerAdded, storeSingleton.currentGamer)) {
     storeSingleton.gameIsTerminated = true;
     popupWin();
   }
 
   // Change gamer
-  storeSingleton.currentGamer =
-          storeSingleton.currentGamer === Checker.RED
-          ?  storeSingleton.currentGamer = Checker.YELLOW
-          :  storeSingleton.currentGamer = Checker.RED;
+  storeSingleton.currentGamer = storeSingleton.opponentGamer();
 
 };
 
