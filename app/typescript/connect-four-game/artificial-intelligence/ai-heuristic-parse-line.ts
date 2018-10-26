@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Mon 15 Oct 2018 02:24:56 PM CEST
-  *       MODIFIED: Fri 26 Oct 2018 12:14:52 AM CEST
+  *       MODIFIED: Fri 26 Oct 2018 10:48:11 AM CEST
   *
   *          USAGE:
   *
@@ -29,7 +29,11 @@ const parseLineResultBlocBuild:
 
   parseLineResultBloc.numberOfSquares++;
   if (checkerOfLoop !== Checker.EMPTY) {
-    parseLineResultBloc.checkerWiner = checkerOfLoop;
+    if (parseLineResultBloc.checkerWiner === Checker.EMPTY) {
+      parseLineResultBloc.checkerWiner = checkerOfLoop;
+    } else if (checkerOfLoop !== parseLineResultBloc.checkerWiner) {
+      return false;
+    }
   } else {
     parseLineResultBloc.numberOfEmptySquare++;
   }
