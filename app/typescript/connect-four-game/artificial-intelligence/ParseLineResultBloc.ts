@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Mon 08 Oct 2018 02:17:06 PM CEST
-  *       MODIFIED: Tue 09 Oct 2018 02:51:56 PM CEST
+  *       MODIFIED: Fri 26 Oct 2018 12:50:43 PM CEST
   *
   *          USAGE:
   *
@@ -43,6 +43,8 @@ export class ParseLineResultBloc {
 
   private _numberOfEmptySquare: number;
 
+  private _numberOfSquaresNotPlayable: number;
+
   /**
    *  Number between 1 and CHECKERS_ALIGN_TO_WIN
    *  A block is winable only if this._numberOfSquares === CHECKERS_ALIGN_TO_WIN
@@ -51,14 +53,18 @@ export class ParseLineResultBloc {
 
   public constructor(parseLineResultBloc?: ParseLineResultBloc) {
     if (parseLineResultBloc) {
-      this._checkerWiner = parseLineResultBloc.checkerWiner;
-      this._numberOfEmptySquare = parseLineResultBloc.numberOfEmptySquare;
-      this._numberOfSquares = parseLineResultBloc.numberOfSquares;
+      this._checkerWiner         = parseLineResultBloc.checkerWiner;
+      this._numberOfEmptySquare  = parseLineResultBloc.numberOfEmptySquare;
+      this._numberOfSquares      = parseLineResultBloc.numberOfSquares;
+      this._numberOfSquaresNotPlayable =
+        parseLineResultBloc.numberOfSquaresNotPlayable;
     } else {
-      this._checkerWiner         = Checker.EMPTY;
+      this._checkerWiner                = Checker.EMPTY;
       /** The square we want maybe add a new checker is empty */
-      this._numberOfEmptySquare  = 1;
-      this._numberOfSquares      = 1;
+      this._numberOfEmptySquare         = 1;
+      this._numberOfSquares             = 1;
+
+      this._numberOfSquaresNotPlayable  = 0;
     }
   }
 
@@ -86,6 +92,13 @@ export class ParseLineResultBloc {
     this._numberOfSquares = numberOfSquares;
   }
 
+  public get numberOfSquaresNotPlayable(): number {
+    return this._numberOfSquaresNotPlayable;
+  }
+
+  public set numberOfSquaresNotPlayable(numberOfSquaresNotPlayable: number) {
+    this._numberOfSquaresNotPlayable = numberOfSquaresNotPlayable;
+  }
 }
 
 // vim: ts=2 sw=2 et:

@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Mon 15 Oct 2018 02:24:56 PM CEST
-  *       MODIFIED: Fri 26 Oct 2018 12:22:58 PM CEST
+  *       MODIFIED: Fri 26 Oct 2018 01:10:51 PM CEST
   *
   *          USAGE:
   *
@@ -37,6 +37,11 @@ const parseLineResultBlocBuild:
   } else {
     parseLineResultBloc.numberOfEmptySquare++;
   }
+
+  if (!storeSingleton.squaresEmptyPlayableContains(squareOfLoop)) {
+    parseLineResultBloc.numberOfSquaresNotPlayable += 1;
+  }
+
   if (parseLineResultBloc.numberOfSquares === CHECKERS_ALIGN_TO_WIN) {
 
     if (parseLineResultBloc.numberOfEmptySquare === 1) {
@@ -66,13 +71,12 @@ const parseLineResultBlocBuild:
           - parseLineResultBloc.numberOfEmptySquare + 1;
     }
 
-  }
-
-  if (!storeSingleton.squaresEmptyPlayableContains(squareOfLoop)) {
-      console.debug('Square not playable tested: remove 2 points');
-        // squareOfLoop.checkerHTMLElement);
+    if (parseLineResult.score > -1) {
+      parseLineResult.score -=
       // tslint:disable-next-line:no-magic-numbers
-      parseLineResult.score = parseLineResult.score - 2;
+        parseLineResultBloc.numberOfSquaresNotPlayable * 7;
+    }
+
   }
 
   return false;
