@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Sat 29 Sep 2018 03:38:08 PM CEST
-  *       MODIFIED: Thu 25 Oct 2018 09:33:19 PM CEST
+  *       MODIFIED: Fri 26 Oct 2018 12:19:03 PM CEST
   *
   *          USAGE:
   *
@@ -24,6 +24,7 @@ interface IStoreSingleton {
   isComputerToPlay: boolean;
   gameIsTerminated: boolean;
   squaresEmptyPlayable: Square[];
+  squaresEmptyPlayableContains(square: Square): boolean;
   numberOfClick: number;
 
   artificialIntelligenceGamerRed(): Promise<Square>;
@@ -57,6 +58,17 @@ export const storeSingleton: IStoreSingleton = {
   isComputerToPlay: false,
   gameIsTerminated: false,
   squaresEmptyPlayable: new Array(GRID_COLUMN_LENGTH),
+  // tslint:disable-next-line:object-literal-shorthand
+  squaresEmptyPlayableContains: function(squareTested: Square): boolean {
+    let returnValue: boolean = false;
+    for (const squareOfLoop of this.squaresEmptyPlayable) {
+      if (squareOfLoop.equals(squareTested)) {
+        returnValue = true;
+        break;
+      }
+    }
+    return returnValue;
+  },
   numberOfClick: 0,
 
   artificialIntelligenceGamerRed: AIRandomTurn,
