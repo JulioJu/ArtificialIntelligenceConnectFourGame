@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Mon 15 Oct 2018 09:24:13 AM CEST
-  *       MODIFIED: Thu 25 Oct 2018 11:55:53 PM CEST
+  *       MODIFIED: Sat 27 Oct 2018 05:23:48 PM CEST
   *
   *          USAGE:
   *
@@ -143,13 +143,13 @@ export const AIHeuristicLineClosure:
             resolve(square);
             return;
           }
-          if (square.rowIndex - 1 > 0) {
+          if (square.rowIndex - 1 >= 0) {
             if (IsGamerWin(
                   storeSingleton.grid[square.columnIndex][square.rowIndex - 1],
                   storeSingleton.opponentGamer())) {
               // Better to try to avoid that the opponent will be the winner.
               bestSquare.localScore = -1;
-              console.debug('Opponent will win if you play here');
+              console.debug('Opponent will win if you play at:', square);
             } else if (IsGamerWin(
                   storeSingleton.grid[square.columnIndex][square.rowIndex - 1],
                   storeSingleton.currentGamer)) {
