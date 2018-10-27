@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Mon 15 Oct 2018 09:24:13 AM CEST
-  *       MODIFIED: Sat 27 Oct 2018 05:23:48 PM CEST
+  *       MODIFIED: Sat 27 Oct 2018 05:51:53 PM CEST
   *
   *          USAGE:
   *
@@ -63,11 +63,11 @@ export const ParseDiagonalNorthEastSouthWest: heuristicCallbackType
     DiagonalNorthEast(square),
     DiagonalSouthWest(square));
 
-type parseLineCorePromiseType = (
+type parseLineCoreType = (
   heuristicCallback: heuristicCallbackType,
   squareParsed: Square,
   bestSquare: BestSquare) => boolean;
-const parseSquare: parseLineCorePromiseType =
+const parseSquare: parseLineCoreType =
       (
         heuristicCallback: heuristicCallbackType,
         squareParsed: Square,
@@ -93,23 +93,18 @@ const parseSquare: parseLineCorePromiseType =
 
 export const AIHeuristicLineClosure:
           (heuristicCallback?: heuristicCallbackType)
-              => () => Promise<Square>
+              => () => Square | undefined
       = (heuristicCallback?: heuristicCallbackType):
-          () => Promise<Square> => {
+          () => Square | undefined => {
 
-  const promiseReturn: () => Promise<Square>
-        = async (): Promise<Square> => new Promise(
-    (
-      resolve: (square: Square) => void,
-      reject: (drawnMatches: Error) => void
-    ): void => {
-
+  const innerFunction: () => Square | undefined
+        = (): Square | undefined => {
       const squaresEmptyPlayable: Square[] =
             storeSingleton.squaresEmptyPlayable;
       if (squaresEmptyPlayable.length === 0) {
         // https://en.wikipedia.org/wiki/Defensive_programming
         // Should never be triggered.
-        reject(new Error('Drawn matches'));
+        return undefined;
       }
 
       const bestSquare: BestSquare = new BestSquare();
@@ -119,29 +114,24 @@ export const AIHeuristicLineClosure:
         bestSquare.localScore = 0;
         if (heuristicCallback) {
           if (parseSquare(heuristicCallback, square, bestSquare)) {
-            resolve(square);
-            return;
+            return square;
           }
         } else {
           // HERE, WE ARE NOT IN A CLOSURE, BECAUSE THE FUNCTION IS CALLED
           // WITHOUT PARAMS
           if (parseSquare(ParseHorizontally, square, bestSquare)) {
-            resolve(square);
-            return;
+            return square;
           }
           if (parseSquare(ParseDiagnoalNorthWestSouthEast, square,
                 bestSquare)) {
-            resolve(square);
-            return;
+            return square;
           }
           if (parseSquare(ParseVertically, square, bestSquare)) {
-            resolve(square);
-            return;
+            return square;
           }
           if (parseSquare(ParseDiagonalNorthEastSouthWest, square,
                 bestSquare)) {
-            resolve(square);
-            return;
+            return square;
           }
           if (square.rowIndex - 1 >= 0) {
             if (IsGamerWin(
@@ -172,11 +162,10 @@ export const AIHeuristicLineClosure:
           'opponentIsTheWinnerFound:', bestSquare.opponentIsTheWinnerFound
         );
       }
-      resolve(bestSquare.square);
-      return;
-    });
+      return bestSquare.square;
+    };
 
-  return promiseReturn;
+  return innerFunction;
 
 };
 

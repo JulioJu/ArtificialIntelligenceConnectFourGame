@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Thu 04 Oct 2018 08:46:56 PM CEST
-  *       MODIFIED: Fri 12 Oct 2018 04:36:27 PM CEST
+  *       MODIFIED: Sat 27 Oct 2018 05:58:32 PM CEST
   *
   *          USAGE:
   *
@@ -43,21 +43,21 @@ export const ComputerTurn: () => void = (): void => {
     return;
   }
   if (storeSingleton.currentGamer === Checker.RED) {
-    storeSingleton.artificialIntelligenceGamerRed()
-      .then((square: Square) => {
-        triggerNewTurn(square);
-      })
-      // https://en.wikipedia.org/wiki/Defensive_programming
-      // Should never be triggered.
-      .catch((drawnMatches: Error) => console.info(drawnMatches.message));
+    const square: Square | undefined =
+      storeSingleton.artificialIntelligenceGamerRed();
+    if (square) {
+      triggerNewTurn(square);
+    } else {
+      console.info('Drawn matches!');
+    }
   } else if (storeSingleton.currentGamer === Checker.YELLOW) {
-    storeSingleton.artificialIntelligenceGamerYellow()
-      .then((square: Square) => {
-        triggerNewTurn(square);
-      })
-      // https://en.wikipedia.org/wiki/Defensive_programming
-      // Should never be triggered.
-      .catch((drawnMatches: Error) => console.info(drawnMatches.message));
+    const square: Square | undefined =
+      storeSingleton.artificialIntelligenceGamerYellow();
+    if (square) {
+      triggerNewTurn(square);
+    } else {
+      console.info('Drawn matches!');
+    }
   }
 };
 

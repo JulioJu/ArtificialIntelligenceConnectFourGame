@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Sat 29 Sep 2018 03:38:08 PM CEST
-  *       MODIFIED: Fri 26 Oct 2018 12:19:03 PM CEST
+  *       MODIFIED: Sat 27 Oct 2018 05:52:49 PM CEST
   *
   *          USAGE:
   *
@@ -27,8 +27,8 @@ interface IStoreSingleton {
   squaresEmptyPlayableContains(square: Square): boolean;
   numberOfClick: number;
 
-  artificialIntelligenceGamerRed(): Promise<Square>;
-  artificialIntelligenceGamerYellow(): Promise<Square>;
+  artificialIntelligenceGamerRed(): Square | undefined;
+  artificialIntelligenceGamerYellow(): Square | undefined;
 
   styleSheet: CSSStyleSheet ;
 }
