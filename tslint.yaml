@@ -6,7 +6,8 @@
 # - node_modules/codelyzer
 extends:
   # See https://github.com/palantir/tslint/tree/master/src/configs
-  "tslint:all"
+  - "tslint:all"
+  - "tslint-sonarts"
 rules:
   # TSLINT
   # https://palantir.github.io/tslint/rules/
@@ -159,3 +160,12 @@ rules:
     - ban-keyword
     - allow-leading-underscore
     - allow-pascal-case
+
+  # =========================
+  # |   Sonar TS
+  # |   Static code analyzer for TypeScript detecting bugs and suspicious patterns in your code.
+  # |   https://github.com/SonarSource/SonarTS
+  # =========================
+
+  no-commented-code: false
+

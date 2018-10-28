@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Mon 15 Oct 2018 02:56:40 PM CEST
-  *       MODIFIED: Wed 24 Oct 2018 04:10:46 PM CEST
+  *       MODIFIED: Sun 28 Oct 2018 01:48:57 PM CET
   *
   *          USAGE:
   *
@@ -103,10 +103,8 @@ export const ParseWrap: (
     }
 
     if (parseLineResultBloc[parseLineResultBloc.length - 1].numberOfSquares
-          === CHECKERS_ALIGN_TO_WIN) {
-      if (parseLineResultBloc.length > 1) {
-        parseLineResultBloc.length--;
-      }
+          === CHECKERS_ALIGN_TO_WIN && parseLineResultBloc.length > 1) {
+      parseLineResultBloc.length--;
     }
 
   }

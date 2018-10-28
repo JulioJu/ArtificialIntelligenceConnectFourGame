@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Wed 03 Oct 2018 08:04:32 PM CEST
-  *       MODIFIED: Thu 25 Oct 2018 09:36:49 PM CEST
+  *       MODIFIED: Sun 28 Oct 2018 02:00:53 PM CET
   *
   *          USAGE:
   *
@@ -120,11 +120,7 @@ export const AddCheckerInSquare: (squareWithCheckerAdded: Square) => void
   //     .styleSheet.cssRules.length - 1] as CSSKeyframesRule;
   // console.debug(cssKeyframRules);
 
-  storeSingleton.currentGamer === Checker.RED
-      /* tslint:disable-next-line:no-void-expression */
-      ?  performAnimation(squareWithCheckerAdded, keyframeRuleName)
-      /* tslint:disable-next-line:no-void-expression */
-      : performAnimation(squareWithCheckerAdded, keyframeRuleName);
+  performAnimation(squareWithCheckerAdded, keyframeRuleName);
 
   storeSingleton.squaresEmptyPlayable = PopulateSquareEmptyPlayables();
   if (storeSingleton.squaresEmptyPlayable.length === 0) {
