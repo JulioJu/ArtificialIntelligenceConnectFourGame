@@ -80,6 +80,8 @@
                 https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS/Errors/CORSRequestNotHttp
             * and "`Module source URI is not allowed in this document:
                 “file:///home/julioju/DCISS/IA/ArtificialIntelligenceConnectFour/index.js”`"
+            * We could simply use Parcel to develop with module files
+                https://github.com/parcel-bundler/parcel
 
 * We could also use scripts defined in `./package.json`.
 
@@ -99,6 +101,7 @@
     `https://developer.mozilla.org/en-US/docs/Learn/Server-side/Node_server_without_framework`
     as for resolve AJAX errors with Chrome
     (https://developer.mozilla.org/en-US/docs/Learn/Server-side/Node_server_without_framework ). Without reslults.
+
 
 ## Cool functionality
 

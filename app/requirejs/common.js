@@ -6,9 +6,10 @@
 //except for 'app' ones, which are in a sibling
 //directory.
 requirejs.config({
-    baseUrl: './javascript/lib',
+    // folder "." ==== folder where the html file is
+    baseUrl: './javascript',
     paths: {
-        "javascript/connect-four-game": '../connect-four-game',
-        "javascript/index": '../index'
+        "javascript/index": './index',
+        "javascript/connect-four-game": './connect-four-game'
     }
 });

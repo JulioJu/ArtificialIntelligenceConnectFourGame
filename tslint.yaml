@@ -2,7 +2,7 @@
 # Add custom rules.
 # Rules already in tslint:latest and tslint:recommanded on 07-03-2018 not added.
 ---
-# rulesDirectory:
+rulesDirectory:
 # - node_modules/codelyzer
 extends:
   # See https://github.com/palantir/tslint/tree/master/src/configs
@@ -93,6 +93,18 @@ rules:
     #   # enable both options at the same time.
     # - allow-boolean-or-undefined
 
+  typedef:
+    - true
+    - call-signature
+    - arrow-call-signature
+    - parameter
+    - arrow-parameter
+    - property-declaration
+    # - variable-declaration
+    - member-variable-declaration
+    - object-destructuring
+    - array-destructuring
+
   # =========================
   # |   Maintainability
   # |   These rules make code maintenance easier:
@@ -133,6 +145,8 @@ rules:
 
   # Ensures proper spacing between import statement keywords
   import-spacing: false
+
+  increment-decrement: false
 
   file-name-casing:
     - true

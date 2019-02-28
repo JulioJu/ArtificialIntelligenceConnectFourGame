@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Wed 24 Oct 2018 01:17:58 PM CEST
-  *       MODIFIED: Wed 24 Oct 2018 01:25:17 PM CEST
+  *       MODIFIED: Thu 28 Feb 2019 03:56:05 PM CET
   *
   *          USAGE:
   *
@@ -17,6 +17,8 @@ import { Square } from '../Square.js';
 
 import { LoopExploreGridFromOneSquare }
   from './LoopExploreGridFromOneSquare.js';
+
+// tslint:disable:ban-ts-ignore
 
 export const VerticalNorth:
         (square: Square) => LoopExploreGridFromOneSquare

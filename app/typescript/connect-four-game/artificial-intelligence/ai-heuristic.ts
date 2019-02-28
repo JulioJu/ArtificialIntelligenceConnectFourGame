@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Mon 15 Oct 2018 09:24:13 AM CEST
-  *       MODIFIED: Sun 28 Oct 2018 01:57:32 PM CET
+  *       MODIFIED: Thu 28 Feb 2019 03:54:53 PM CET
   *
   *          USAGE:
   *
@@ -37,7 +37,7 @@ class BestSquare {
 }
 
 type heuristicCallbackType =
-  (square: Square, isSquareGamable?: boolean) => ParseLineResult;
+  (square: Square) => ParseLineResult;
 
 export const ParseHorizontally: heuristicCallbackType
       = (square: Square): ParseLineResult =>
