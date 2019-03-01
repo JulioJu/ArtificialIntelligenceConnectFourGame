@@ -11,9 +11,9 @@
   * ============================================================================
   */
 
-import { CHECKERS_ALIGN_TO_WIN, Checker } from '../constants.js';
-import { storeSingleton } from '../store-singleton.js';
-import { Square } from '../Square.js';
+import { CHECKERS_ALIGN_TO_WIN, Checker } from '../../constants.js';
+import { storeSingleton } from '../../store-singleton.js';
+import { Square } from '../../Square.js';
 import { ParseLineResult } from './ParseLineResult.js';
 import { ParseLineResultBloc } from './ParseLineResultBloc.js';
 

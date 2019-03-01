@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Tue 23 Oct 2018 04:25:08 PM CEST
-  *       MODIFIED: Wed 24 Oct 2018 02:57:59 PM CEST
+  *       MODIFIED: Fri 01 Mar 2019 04:21:07 PM CET
   *
   *          USAGE:
   *
@@ -16,7 +16,8 @@ import { ErrorFatal } from '../util/error_message.js';
 import { GameMode, ArtificialIntelligence, Checker } from './constants.js';
 import { storeSingleton } from './store-singleton.js';
 
-import { AIRandomTurn } from './artificial-intelligence/ai-random-turn.js';
+import { AIRandomTurn } from
+  './artificial-intelligence/random/ai-random-turn.js';
 
 import {
   ParseHorizontally,
@@ -24,7 +25,10 @@ import {
   ParseVertically,
   ParseDiagonalNorthEastSouthWest,
   AIHeuristicLineClosure
-} from './artificial-intelligence/ai-heuristic.js';
+} from './artificial-intelligence/heuristic/index.js';
+
+import { AIMinMaxTurn } from
+  './artificial-intelligence/min-max/min-max.js';
 
 const infoParam: (paramName: string, paramValue: string | null) => void
       = (paramName: string, paramValue: string | null): void => {
@@ -123,6 +127,7 @@ const parseUrlQueryParamGamemode: (parsedUrl: URL) => void
 const parseUrlQueryParamArtificialIntelligenceGamerRed: (parsedUrl: URL,
       paramName: string)
           => void
+      // tslint:disable-next-line:cyclomatic-complexity
       = (parsedUrl: URL, paramName: string): void => {
   let paramValue: string | null =
           parsedUrl.searchParams.get(paramName);
@@ -133,6 +138,9 @@ const parseUrlQueryParamArtificialIntelligenceGamerRed: (parsedUrl: URL,
   if (paramValue) {
     paramValue = paramValue.toUpperCase();
     switch (paramValue) {
+
+      // RANDOM
+      // ======
       case ArtificialIntelligence[ArtificialIntelligence.RANDOM]:
         if (paramName === 'ai_red') {
           storeSingleton.artificialIntelligenceGamerRed = AIRandomTurn;
@@ -141,6 +149,9 @@ const parseUrlQueryParamArtificialIntelligenceGamerRed: (parsedUrl: URL,
           storeSingleton.artificialIntelligenceGamerYellow = AIRandomTurn;
         }
         break;
+
+      // HEURISTIC
+      // =========
       case ArtificialIntelligence[ArtificialIntelligence.HEURISTIC_HORIZONTAL]:
         if (paramName === 'ai_red') {
           storeSingleton.artificialIntelligenceGamerRed =
@@ -196,8 +207,21 @@ const parseUrlQueryParamArtificialIntelligenceGamerRed: (parsedUrl: URL,
             AIHeuristicLineClosure();
         }
         break;
+
+      // MINMAX
+      // =======
+      case ArtificialIntelligence[ArtificialIntelligence.MINMAX]:
+        if (paramName === 'ai_red') {
+          storeSingleton.artificialIntelligenceGamerRed = AIMinMaxTurn;
+        }
+        if (paramName === 'ai_yellow') {
+          storeSingleton.artificialIntelligenceGamerYellow = AIMinMaxTurn;
+        }
+        break;
+
       default:
           incorrectQueryParam(paramName, true, messageDefaultValue);
+
     }
   } else {
     incorrectQueryParam(paramName, false, messageDefaultValue);

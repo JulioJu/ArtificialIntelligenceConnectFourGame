@@ -10,8 +10,8 @@
   *    DESCRIPTION:
   * ============================================================================
   */
-import { Square } from '../Square.js';
-import { Checker } from '../constants.js';
+import { Square } from '../../Square.js';
+import { Checker } from '../../constants.js';
 
 export enum Direction {
   HORIZONTAL, NORTH_WEST_SOUTH_EAST, NORTH_EAST_SOUTH_WEST, VERTICAL

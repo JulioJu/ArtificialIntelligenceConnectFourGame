@@ -11,7 +11,7 @@
   * ============================================================================
   */
 
-import { Checker } from '../constants.js';
+import { Checker } from '../../constants.js';
 
 /**
  *  Always instantiated in an array of length 4. But sometimes zero could be

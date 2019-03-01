@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Mon 15 Oct 2018 02:56:40 PM CEST
-  *       MODIFIED: Sun 28 Oct 2018 01:48:57 PM CET
+  *       MODIFIED: Fri 01 Mar 2019 04:22:59 PM CET
   *
   *          USAGE:
   *
@@ -11,12 +11,13 @@
   * ============================================================================
   */
 import { CHECKERS_ALIGN_TO_WIN, Checker }
-  from '../constants.js';
+  from '../../constants.js';
 import { LoopExploreGridFromOneSquare }
-  from '../loop-explore-grid-from-one-square/LoopExploreGridFromOneSquare.js';
+  from
+'../../loop-explore-grid-from-one-square/LoopExploreGridFromOneSquare.js';
 
-import { Square } from '../Square.js';
-import { storeSingleton } from '../store-singleton.js';
+import { Square } from '../../Square.js';
+import { storeSingleton } from '../../store-singleton.js';
 import { Direction, ParseLineResult }
   from './ParseLineResult.js';
 import { ParseLineResultBloc } from './ParseLineResultBloc.js';

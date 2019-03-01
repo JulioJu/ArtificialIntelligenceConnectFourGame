@@ -54,7 +54,7 @@
                 </label>
             </div>
         </fieldset>
-        <hr />
+        <hr class="fieldset-separator"/>
         <fieldset id="is_computer_to_start" class="collapsable">
             <div class="radio">
                 <label>
@@ -75,7 +75,7 @@
                 </label>
             </div>
         </fieldset>
-        <hr />
+        <hr class="fieldset-separator"/>
         <fieldset>
             <div class="radio">
                 <label>
@@ -96,7 +96,7 @@
                 </label>
             </div>
         </fieldset>
-        <hr />
+        <hr class="fieldset-separator"/>
         <fieldset>
             <p><em>
                 Artificial intelligence used for user Red (if applicable):
@@ -110,6 +110,7 @@
                     Play randomly (no artificial intelligence)
                 </label>
             </div>
+            <hr class="artificial-intelligence-separator"/>
             <div class="radio">
                 <label>
                     <input type="radio"
@@ -161,8 +162,18 @@
                     Check if the opponent or the gamer will win at next turn
                 </label>
             </div>
+            <hr class="artificial-intelligence-separator"/>
+            <div class="radio">
+                <label>
+                    <input type="radio"
+                        name="ai_red"
+                        value="minmax"
+                        />
+                    Artificial intelligence MinMax
+                </label>
+            </div>
         </fieldset>
-        <hr />
+        <hr class="fieldset-separator"/>
         <fieldset>
             <p><em>
                 Artificial intelligence used for user Yellow (if applicable):
@@ -176,6 +187,7 @@
                     Play randomly (no artificial intelligence)
                 </label>
             </div>
+            <hr class="artificial-intelligence-separator"/>
             <div class="radio">
                 <label>
                     <input type="radio"
@@ -225,6 +237,16 @@
                     and diagonals
                     <br />
                     Check if the opponent or the gamer will win at next turn
+                </label>
+            </div>
+            <hr class="artificial-intelligence-separator"/>
+            <div class="radio">
+                <label>
+                    <input type="radio"
+                        name="ai_yellow"
+                        value="minmax"
+                        />
+                    Artificial intelligence MinMax
                 </label>
             </div>
         </fieldset>

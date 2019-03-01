@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Sat 29 Sep 2018 03:38:08 PM CEST
-  *       MODIFIED: Sat 27 Oct 2018 05:52:49 PM CEST
+  *       MODIFIED: Fri 01 Mar 2019 02:37:01 PM CET
   *
   *          USAGE:
   *
@@ -14,7 +14,7 @@
 import { GRID_COLUMN_LENGTH, GameMode, Checker } from './constants.js';
 import { Square } from './Square.js';
 
-import { AIRandomTurn } from './artificial-intelligence/ai-random-turn';
+import { AIRandomTurn } from './artificial-intelligence/random/ai-random-turn';
 
 interface IStoreSingleton {
   gameMode: GameMode;

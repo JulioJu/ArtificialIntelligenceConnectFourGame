@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Mon 15 Oct 2018 09:24:13 AM CEST
-  *       MODIFIED: Thu 28 Feb 2019 03:54:53 PM CET
+  *       MODIFIED: Fri 01 Mar 2019 07:28:40 PM CET
   *
   *          USAGE:
   *
@@ -11,20 +11,22 @@
   * ============================================================================
   */
 
-import { Square } from '../Square.js';
-import { storeSingleton } from '../store-singleton.js';
-import { IsGamerWin } from '../is-gamer-win.js';
+import { Square } from '../../Square.js';
+import { storeSingleton } from '../../store-singleton.js';
+import { IsGamerWin } from '../../is-gamer-win.js';
 
 import { HorizontalLeft, HorizontalRight }
-  from '../loop-explore-grid-from-one-square/horizontal.js';
+  from '../../loop-explore-grid-from-one-square/horizontal.js';
 import { DiagonalNorthWest,
   DiagonalSouthEast }
-  from '../loop-explore-grid-from-one-square/diagonal-north-west-south-east.js';
+  from
+  '../../loop-explore-grid-from-one-square/diagonal-north-west-south-east.js';
 import { VerticalNorth, VerticalSouth }
-  from '../loop-explore-grid-from-one-square/vertical.js';
+  from '../../loop-explore-grid-from-one-square/vertical.js';
 import { DiagonalNorthEast,
   DiagonalSouthWest }
-  from '../loop-explore-grid-from-one-square/diagonal-north-east-south-west.js';
+  from
+  '../../loop-explore-grid-from-one-square/diagonal-north-east-south-west.js';
 
 import { ParseLineResult } from './ParseLineResult.js';
 import { ParseWrap } from './ai-heuristic-wrap.js';

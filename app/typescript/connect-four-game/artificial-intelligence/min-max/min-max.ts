@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Wed 03 Oct 2018 08:59:51 PM CEST
-  *       MODIFIED: Sun 28 Oct 2018 01:59:41 PM CET
+  *       MODIFIED: Fri 01 Mar 2019 04:15:49 PM CET
   *
   *          USAGE:
   *
@@ -11,19 +11,18 @@
   * ============================================================================
   */
 
-import { Square } from '../Square.js';
-import { storeSingleton } from '../store-singleton.js';
+import { Square } from '../../Square.js';
+import { storeSingleton } from '../../store-singleton.js';
 
-export const AIRandomTurn: () => Square | undefined
+export const AIMinMaxTurn: () => Square | undefined
       = (): Square | undefined => {
+    // TODO
   if (storeSingleton.squaresEmptyPlayable.length === 0) {
     // https://en.wikipedia.org/wiki/Defensive_programming
     // Should never be triggered.
     return undefined;
   }
-  return storeSingleton.squaresEmptyPlayable[
-    Math.floor(Math.random()
-        * Math.floor(storeSingleton.squaresEmptyPlayable.length))];
+  throw new Error('Not implemented exception.');
 };
 
 // vim: ts=2 sw=2 et:
