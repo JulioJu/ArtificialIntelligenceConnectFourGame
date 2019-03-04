@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Tue 23 Oct 2018 04:25:08 PM CEST
-  *       MODIFIED: Fri 01 Mar 2019 04:21:07 PM CET
+  *       MODIFIED: Mon 04 Mar 2019 03:53:15 PM CET
   *
   *          USAGE:
   *
@@ -16,19 +16,27 @@ import { ErrorFatal } from '../util/error_message.js';
 import { GameMode, ArtificialIntelligence, Checker } from './constants.js';
 import { storeSingleton } from './store-singleton.js';
 
-import { AIRandomTurn } from
-  './artificial-intelligence/random/ai-random-turn.js';
-
 import {
+  // RANDOM
+  // ======
+  AIRandomTurn,
+
+  // HEURISTIC WIN LOST RANDOM
+  // ======
+  AIHeuristicWinLostRandomTurn,
+
+  // HEURISTIC
+  // =========
   ParseHorizontally,
   ParseDiagnoalNorthWestSouthEast,
   ParseVertically,
   ParseDiagonalNorthEastSouthWest,
-  AIHeuristicLineClosure
-} from './artificial-intelligence/heuristic/index.js';
+  AIHeuristicLineClosure,
 
-import { AIMinMaxTurn } from
-  './artificial-intelligence/min-max/min-max.js';
+  // MINMAX
+  // ======
+  AIMinMaxTurn
+} from './artificial-intelligence/index.js';
 
 const infoParam: (paramName: string, paramValue: string | null) => void
       = (paramName: string, paramValue: string | null): void => {
@@ -147,6 +155,20 @@ const parseUrlQueryParamArtificialIntelligenceGamerRed: (parsedUrl: URL,
         }
         if (paramName === 'ai_yellow') {
           storeSingleton.artificialIntelligenceGamerYellow = AIRandomTurn;
+        }
+        break;
+
+      // HEURISTIC WIN LOST RANDOM
+      // ======
+      case ArtificialIntelligence[ArtificialIntelligence
+          .HEURISTIC_WIN_LOST_RANDOM]:
+        if (paramName === 'ai_red') {
+          storeSingleton.artificialIntelligenceGamerRed =
+            AIHeuristicWinLostRandomTurn;
+        }
+        if (paramName === 'ai_yellow') {
+          storeSingleton.artificialIntelligenceGamerYellow =
+            AIHeuristicWinLostRandomTurn;
         }
         break;
 

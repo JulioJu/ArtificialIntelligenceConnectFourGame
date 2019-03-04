@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Fri 28 Sep 2018 09:07:45 AM CEST
-  *       MODIFIED: Fri 01 Mar 2019 04:20:41 PM CET
+  *       MODIFIED: Mon 04 Mar 2019 03:44:12 PM CET
   *
   *          USAGE:
   *
@@ -20,12 +20,24 @@ export enum GameMode { MULTIPLAYER, VSCOMPUTER, ONLY_COMPUTER }
 export enum Checker { EMPTY, RED, YELLOW }
 export enum ComputerGamer { FIRST_GAMER, SECOND_GAMER }
 export enum ArtificialIntelligence {
+    // RANDOM
+    // ======
     RANDOM,
+
+    // HEURISTIC WIN LOST RANDOM
+    // ======
+    HEURISTIC_WIN_LOST_RANDOM,
+
+    // HEURISTIC
+    // =========
     HEURISTIC_HORIZONTAL,
     HEURISTIC_DIAGONAL_NORTH_EAST_SOUTH_WEST,
     HEURISTIC_VERTICAL,
     HEURISTIC_DIAGONAL_NORTH_WEST_SOUTH_EAST,
     HEURISTIC_HORIZONTAL_VERTICAL_DIAGONALS,
+
+    // MINMAX
+    // =========
     MINMAX
 }
 

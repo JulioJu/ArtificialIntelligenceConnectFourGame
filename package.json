@@ -7,10 +7,10 @@
     "scripts": {
         "compile": "rm -Rf ./app/javascript && node ./node_modules/.bin/tsc",
         "start": "firefox ./app/index.html",
-        "watch": "rm -Rf ./app/javascript && node ./node_modules/typescript/bin/tsc --watch",
+        "watch:compile": "rm -Rf ./app/javascript && node ./node_modules/typescript/bin/tsc --watch",
         "lint": "node ./node_modules/tslint/bin/tslint --project ./tsconfig.json --config \"./tslint.yaml\" \"app/**/*.ts\" --format verbose",
-        "watch:lint": "rm -Rf ./app/javascript && node ./node_modules/chokidar-cli/index.js 'app/**/*.ts' -c \"npm run lint\" --initial --verbose",
-        "compileAndLint": "npm-run-all --parallel watch:lint compileWatch",
+        "watch:lint": "node ./node_modules/chokidar-cli/index.js 'app/**/*.ts' -c \"npm run lint\" --initial --verbose",
+        "watch": "npm-run-all --parallel watch:compile watch:lint",
         "browsersync": "cd  app && ../node_modules/.bin/browser-sync start --server --index ./index.html --files ./"
     },
     "devDependencies": {
