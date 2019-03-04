@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Tue 23 Oct 2018 04:25:08 PM CEST
-  *       MODIFIED: Mon 04 Mar 2019 03:53:15 PM CET
+  *       MODIFIED: Mon 04 Mar 2019 05:54:35 PM CET
   *
   *          USAGE:
   *
@@ -21,9 +21,9 @@ import {
   // ======
   AIRandomTurn,
 
-  // HEURISTIC WIN LOST RANDOM
+  // WIN LOST RANDOM
   // ======
-  AIHeuristicWinLostRandomTurn,
+  AIWinLostRandomTurn,
 
   // HEURISTIC
   // =========
@@ -161,14 +161,14 @@ const parseUrlQueryParamArtificialIntelligenceGamerRed: (parsedUrl: URL,
       // HEURISTIC WIN LOST RANDOM
       // ======
       case ArtificialIntelligence[ArtificialIntelligence
-          .HEURISTIC_WIN_LOST_RANDOM]:
+          .WIN_LOST_RANDOM]:
         if (paramName === 'ai_red') {
           storeSingleton.artificialIntelligenceGamerRed =
-            AIHeuristicWinLostRandomTurn;
+            AIWinLostRandomTurn;
         }
         if (paramName === 'ai_yellow') {
           storeSingleton.artificialIntelligenceGamerYellow =
-            AIHeuristicWinLostRandomTurn;
+            AIWinLostRandomTurn;
         }
         break;
 
