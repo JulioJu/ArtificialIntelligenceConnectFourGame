@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Wed 03 Oct 2018 08:59:51 PM CEST
-  *       MODIFIED: Tue 12 Mar 2019 11:44:29 AM CET
+  *       MODIFIED: Tue 12 Mar 2019 01:52:08 PM CET
   *
   *          USAGE:
   *
@@ -177,10 +177,10 @@ const MinimaxRecursivity = (
  */
 const Minimax = (depthMax: number): number => {
   if (depthMax < 1) {
-    throw new Error('Min-max should have a max depth of 1 (include) or more.');
+    throw new Error('Minmax should have a max depth of 1 (include) or more.');
   }
   if (depthMax > 8) {
-    throw new Error('Min-max should have a max depth of 8 (include) or less.'
+    throw new Error('Minmax should have a max depth of 8 (include) or less.'
       + 'otherwise thake too long time .');
   }
   let squareToPlayIndex = 0;
@@ -225,9 +225,8 @@ export const AIMinimaxTurn: () => Square | undefined
     // Should never be triggered.
     return undefined;
   }
-  // Under Firefox 65, number 6 is a good number
-  // ACTUALLY WORKS ONLY WITH NUMBER 4
-  return storeSingleton.squaresEmptyPlayable[Minimax(4)];
+  // Under Firefox 65, number 8 is a good number
+  return storeSingleton.squaresEmptyPlayable[Minimax(8)];
 };
 
 // vim: ts=2 sw=2 et:
