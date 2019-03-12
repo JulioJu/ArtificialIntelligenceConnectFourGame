@@ -36,9 +36,9 @@ export enum ArtificialIntelligence {
     HEURISTIC_DIAGONAL_NORTH_WEST_SOUTH_EAST,
     HEURISTIC_HORIZONTAL_VERTICAL_DIAGONALS,
 
-    // MINMAX
+    // MINIMAX
     // =========
-    MINMAX
+    MINIMAX
 }
 
 // vim: ts=2 sw=2 et:

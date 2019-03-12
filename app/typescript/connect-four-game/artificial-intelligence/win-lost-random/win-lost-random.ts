@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Wed 03 Oct 2018 08:59:51 PM CEST
-  *       MODIFIED: Mon 04 Mar 2019 05:52:14 PM CET
+  *       MODIFIED: Wed 06 Mar 2019 03:24:18 PM CET
   *
   *          USAGE:
   *
@@ -33,8 +33,7 @@ export const AIWinLostRandomTurn: () => Square | undefined
     }
   }
   return storeSingleton.squaresEmptyPlayable[
-    Math.floor(Math.random()
-        * Math.floor(storeSingleton.squaresEmptyPlayable.length))];
+    Math.floor(Math.random() * storeSingleton.squaresEmptyPlayable.length)];
 };
 
 // vim: ts=2 sw=2 et:

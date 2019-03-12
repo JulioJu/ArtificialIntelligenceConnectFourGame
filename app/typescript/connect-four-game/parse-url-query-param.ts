@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Tue 23 Oct 2018 04:25:08 PM CEST
-  *       MODIFIED: Mon 04 Mar 2019 05:54:35 PM CET
+  *       MODIFIED: Tue 12 Mar 2019 11:46:19 AM CET
   *
   *          USAGE:
   *
@@ -33,9 +33,9 @@ import {
   ParseDiagonalNorthEastSouthWest,
   AIHeuristicLineClosure,
 
-  // MINMAX
+  // MINIMAX
   // ======
-  AIMinMaxTurn
+  AIMinimaxTurn
 } from './artificial-intelligence/index.js';
 
 const infoParam: (paramName: string, paramValue: string | null) => void
@@ -230,14 +230,14 @@ const parseUrlQueryParamArtificialIntelligenceGamerRed: (parsedUrl: URL,
         }
         break;
 
-      // MINMAX
+      // MINIMAX
       // =======
-      case ArtificialIntelligence[ArtificialIntelligence.MINMAX]:
+      case ArtificialIntelligence[ArtificialIntelligence.MINIMAX]:
         if (paramName === 'ai_red') {
-          storeSingleton.artificialIntelligenceGamerRed = AIMinMaxTurn;
+          storeSingleton.artificialIntelligenceGamerRed = AIMinimaxTurn;
         }
         if (paramName === 'ai_yellow') {
-          storeSingleton.artificialIntelligenceGamerYellow = AIMinMaxTurn;
+          storeSingleton.artificialIntelligenceGamerYellow = AIMinimaxTurn;
         }
         break;
 
