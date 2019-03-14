@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Sat 29 Sep 2018 03:38:08 PM CEST
-  *       MODIFIED: Fri 01 Mar 2019 02:37:01 PM CET
+  *       MODIFIED: Thu 14 Mar 2019 05:57:30 PM CET
   *
   *          USAGE:
   *
@@ -16,7 +16,31 @@ import { Square } from './Square.js';
 
 import { AIRandomTurn } from './artificial-intelligence/random/ai-random-turn';
 
+export class StatisticsTreeExploration {
+  public maxDepthEffectivelyExplored: number;
+  public numberOfNodes: number;
+  public numberOfLeaves: number;
+  public constructor(
+    // tslint:disable-next-line
+    // @ts-ignore
+    private readonly maxDepth: number
+  ) {
+    this.maxDepthEffectivelyExplored = 0;
+    this.numberOfNodes = 0;
+    this.numberOfLeaves = 0;
+  }
+}
+
+export interface ILogMessage {
+  checker: string;
+  timeSpan: number;
+  div?: HTMLElement;
+  statistics?: StatisticsTreeExploration;
+}
+
 interface IStoreSingleton {
+  // tslint:disable-next-line:no-any
+  [indexSignaure: string]: any;
   gameMode: GameMode;
   grid: Square[][];
   currentGamer: Checker;
@@ -28,7 +52,11 @@ interface IStoreSingleton {
   numberOfClick: number;
 
   artificialIntelligenceGamerRed(): Square | undefined;
+  artificialIntelligenceRedDeep: number;
   artificialIntelligenceGamerYellow(): Square | undefined;
+  artificialIntelligenceYellowDeep: number;
+
+  logMessages: { [key: number]: ILogMessage };
 
   styleSheet: CSSStyleSheet ;
 }
@@ -72,7 +100,11 @@ export const storeSingleton: IStoreSingleton = {
   numberOfClick: 0,
 
   artificialIntelligenceGamerRed: AIRandomTurn,
+  artificialIntelligenceRedDeep: 4,
   artificialIntelligenceGamerYellow: AIRandomTurn,
+  artificialIntelligenceYellowDeep: 4,
+
+  logMessages: {},
 
   styleSheet: instantiateStyleSheet()
 };

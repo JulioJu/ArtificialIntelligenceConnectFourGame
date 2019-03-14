@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Thu 04 Oct 2018 08:46:56 PM CEST
-  *       MODIFIED: Sat 27 Oct 2018 05:58:32 PM CEST
+  *       MODIFIED: Thu 14 Mar 2019 05:57:44 PM CET
   *
   *          USAGE:
   *
@@ -14,7 +14,7 @@
 import { Square } from './Square.js';
 import { AddCheckerInSquare } from './square-add-checker.js';
 import { GameMode, Checker } from './constants.js';
-import { storeSingleton } from './store-singleton.js';
+import { storeSingleton , ILogMessage } from './store-singleton.js';
 import { CursorColor } from './square-on-click.js';
 
 const triggerNewTurn: (square: Square) => void = (square: Square): void => {
@@ -34,6 +34,25 @@ const triggerNewTurn: (square: Square) => void = (square: Square): void => {
     , false
   );
   AddCheckerInSquare(square);
+  console.info(storeSingleton.logMessages);
+};
+
+const logMessage = (timeOne: number, div: HTMLElement): void => {
+  const logMessageVar: ILogMessage = {
+        checker: Checker[storeSingleton.currentGamer],
+        timeSpan: performance.now() - timeOne,
+        div
+      };
+  if (
+    storeSingleton.logMessages[storeSingleton.numberOfClick + 1]
+    && storeSingleton.logMessages[storeSingleton.numberOfClick + 1]
+        .statistics
+  ) {
+    logMessageVar.statistics =
+      storeSingleton.logMessages[storeSingleton.numberOfClick + 1]
+      .statistics;
+  }
+  storeSingleton.logMessages[storeSingleton.numberOfClick + 1] = logMessageVar;
 };
 
 export const ComputerTurn: () => void = (): void => {
@@ -42,22 +61,20 @@ export const ComputerTurn: () => void = (): void => {
       'is terminated.');
     return;
   }
-  if (storeSingleton.currentGamer === Checker.RED) {
-    const square: Square | undefined =
-      storeSingleton.artificialIntelligenceGamerRed();
-    if (square) {
-      triggerNewTurn(square);
-    } else {
-      console.info('Drawn matches!');
-    }
-  } else if (storeSingleton.currentGamer === Checker.YELLOW) {
-    const square: Square | undefined =
-      storeSingleton.artificialIntelligenceGamerYellow();
-    if (square) {
-      triggerNewTurn(square);
-    } else {
-      console.info('Drawn matches!');
-    }
+  const artificialIntelligenceGamer =
+    storeSingleton.currentGamer === Checker.RED
+    // tslint:disable-next-line:no-unbound-method
+    ? storeSingleton.artificialIntelligenceGamerRed
+    // tslint:disable-next-line:no-unbound-method
+    : storeSingleton.artificialIntelligenceGamerYellow;
+
+  const timeOne = performance.now();
+  const square: Square | undefined = artificialIntelligenceGamer();
+  if (square) {
+    logMessage(timeOne, square.checkerHTMLElement);
+    triggerNewTurn(square);
+  } else {
+    console.info('Drawn matches!');
   }
 };
 

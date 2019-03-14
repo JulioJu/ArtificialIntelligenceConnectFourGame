@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Wed 03 Oct 2018 08:59:51 PM CEST
-  *       MODIFIED: Tue 12 Mar 2019 01:52:08 PM CET
+k *       MODIFIED: Thu 14 Mar 2019 05:13:20 PM CET
   *
   *          USAGE:
   *
@@ -12,28 +12,16 @@
   */
 
 import { Square } from '../../Square.js';
-import { storeSingleton } from '../../store-singleton.js';
+import {
+  storeSingleton,
+  StatisticsTreeExploration
+} from '../../store-singleton.js';
 import { IsGamerWin } from '../../is-gamer-win.js';
 import { PopulateSquareEmptyPlayables }
   from '../../squares-empty-playable-populate.js';
 import { Checker } from '../../constants.js';
 
 // tslint:disable:no-magic-numbers max-classes-per-file
-
-class Statistics {
-  public maxDepthEffectivelyExplored: number;
-  public numberOfNodes: number;
-  public numberOfLeaves: number;
-  public constructor(
-    // tslint:disable-next-line
-    // @ts-ignore
-    private readonly maxDepth: number
-  ) {
-    this.maxDepthEffectivelyExplored = 0;
-    this.numberOfNodes = 0;
-    this.numberOfLeaves = 0;
-  }
-}
 
 class SquareDepthScore {
   public isOddDepth: boolean;
@@ -115,7 +103,7 @@ const returnMinOrMaxSquare = (squareDepthScore: SquareDepthScore[],
 };
 
 const MinimaxRecursivity = (
-  statistics: Statistics,
+  statistics: StatisticsTreeExploration,
   depthMax: number,
   squareDepthScore: SquareDepthScore
 ): void => {
@@ -177,15 +165,13 @@ const MinimaxRecursivity = (
  */
 const Minimax = (depthMax: number): number => {
   if (depthMax < 1) {
+    // https://en.wikipedia.org/wiki/Defensive_programming
+    // Should never be triggered.
     throw new Error('Minmax should have a max depth of 1 (include) or more.');
-  }
-  if (depthMax > 8) {
-    throw new Error('Minmax should have a max depth of 8 (include) or less.'
-      + 'otherwise thake too long time .');
   }
   let squareToPlayIndex = 0;
   let maxScore: SquareDepthScore | undefined;
-  const statistic = new Statistics(depthMax);
+  const statistics = new StatisticsTreeExploration(depthMax);
   for (let squareIndex: number = 0 ;
     squareIndex < storeSingleton.squaresEmptyPlayable.length ;
     squareIndex++
@@ -195,8 +181,12 @@ const Minimax = (depthMax: number): number => {
     const squareDepthScore = new SquareDepthScore(
       Checker[storeSingleton.currentGamer],
       squareAdded, 1);
-    MinimaxRecursivity(statistic, depthMax, squareDepthScore);
+    MinimaxRecursivity(statistics, depthMax, squareDepthScore);
     squareAdded.squareValue = Checker.EMPTY;
+
+    // VERY IMPORTANT TO CLEAR, OTHERWISE THE BROWSER CRASH IF
+    // THERE IS TOO MUCH LOGS.
+    console.clear();
 
     console.debug(squareAdded, squareDepthScore.score,
       'squareDepthScore:', squareDepthScore);
@@ -207,13 +197,17 @@ const Minimax = (depthMax: number): number => {
       continue;
     }
 
-    if (maxScore.score < squareDepthScore.score
-    ) {
+    if (maxScore.score < squareDepthScore.score) {
       maxScore = squareDepthScore;
       squareToPlayIndex = squareIndex;
     }
   }
-  console.debug(statistic);
+  console.debug(statistics);
+  storeSingleton.logMessages[storeSingleton.numberOfClick + 1] = {
+    checker: Checker[storeSingleton.currentGamer],
+    timeSpan: 0,
+    statistics
+  };
   return squareToPlayIndex;
 };
 
@@ -225,8 +219,12 @@ export const AIMinimaxTurn: () => Square | undefined
     // Should never be triggered.
     return undefined;
   }
-  // Under Firefox 65, number 8 is a good number
-  return storeSingleton.squaresEmptyPlayable[Minimax(8)];
+
+  const deep = storeSingleton.currentGamer === Checker.RED
+        ? storeSingleton.artificialIntelligenceRedDeep
+        : storeSingleton.artificialIntelligenceYellowDeep;
+
+  return storeSingleton.squaresEmptyPlayable[Minimax(deep)];
 };
 
 // vim: ts=2 sw=2 et:

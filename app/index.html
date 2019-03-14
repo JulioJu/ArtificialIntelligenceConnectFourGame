@@ -176,13 +176,26 @@
                 </label>
             </div>
             <hr class="artificial-intelligence-separator"/>
-            <div class="radio">
-                <label>
-                    <input type="radio"
-                        name="ai_red"
-                        value="minimax"
-                        />
+            <div class="radio-input">
+                <input id="minimaxredradio"
+                       type="radio"
+                       name="ai_red"
+                       value="minimax"
+                    />
+                <label for="minimaxredradio">
                     Artificial intelligence Minimax
+                </label>
+                <input
+                    min="1"
+                    max="10"
+                    id="minimaxredinput"
+                    type="number"
+                    name="ai_red_deep"
+                    value="4"
+                    required
+                    />
+                <label for="minimaxredinput">
+                    Deep
                 </label>
             </div>
         </fieldset>
@@ -266,13 +279,26 @@
                 </label>
             </div>
             <hr class="artificial-intelligence-separator"/>
-            <div class="radio">
-                <label>
-                    <input type="radio"
-                        name="ai_yellow"
-                        value="minimax"
-                        />
+            <div class="radio-input">
+                <input id="minimaxyellowradio"
+                       type="radio"
+                       name="ai_yellow"
+                       value="minimax"
+                    />
+                <label for="minimaxyellowradio">
                     Artificial intelligence Minimax
+                </label>
+                <input
+                    min="1"
+                    max="10"
+                    id="minimaxyellowinput"
+                    type="number"
+                    name="ai_yellow_deep"
+                    value="4"
+                    required
+                    />
+                <label for="minimaxyellowinput">
+                    Deep
                 </label>
             </div>
         </fieldset>

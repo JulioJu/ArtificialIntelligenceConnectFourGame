@@ -268,6 +268,77 @@
     they could be seen as an instantiated object. An example is
     `./app/typescript/connect-four-game/store-singleton.ts`.
 
+# Browser configuration
+
+## console.clear
+* Do not forget to use `console.clear` otherwise as we print objects very fat
+    with a very long tree the browser crashes.
+    * Same problem even if the Web Console isn't opened / displayed.
+
+* Do not forget to don't open too much softwares when you use this app.
+    Memory available in the Browser (before crash)
+    seems to depend of the global memory available in the computer
+    (it's logical).
+
+### Firefox
+* Firefox 65 has its tab that stop to work without any warning. Others
+    tabs continue to work.
+* Activate `Persitence log` in Firefox 65 bypass completely `console.clear`
+    instruction contrary to Chromium.
+
+### Chromium
+* Activate `Preserve log` in Chromium does not seems preserve all objects.
+    It preserve only what is already printed.
+* On Chromium, without `console.clear` added, with have an error message that
+    appears automatically with message
+    `Paused before potential out-of-memory crash`
+* When calculs are fat, animations are not rendered perfectly in Chromium
+    contrary to Firefox.
+
+## Timeout
+
+### Firefox
+
+* See https://support.mozilla.org/en-US/kb/warning-unresponsive-script
+    (see config: `dom.max_script_run_time`)
+
+### Chromium
+
+* ?????
+
+## performance.now accuracy
+
+* ***BIG WARNING: DUE TO SECURITY THREATS LIKE SPECTRE DO NOT
+    FORGET TO RESET ANY MODIFICATIONS!!!!***
+
+### Firefox
+
+* See https://developer.mozilla.org/en-US/docs/Web/API/Performance/now
+    (mainly see config `privacy.reduceTimerPrecision`)
+
+* See also https://wiki.mozilla.org/Privacy/Privacy_Task_Force/firefox_about_config_privacy_tweeks
+
+### Chromium
+
+* ??????
+
+# Artificial inteligence
+
+## Minimax
+
+Tested
+
+* Works well for a depth of 1, 2, 3, 4, 5 but not 7 and 8
+
+* When value is 9, Firefox 65 take to long time to respond
+    (at least more than 100s)
+
+### Performances
+
+* With deep 9,
+    when the first one checker is at D1 with this AI it takes
+    478730.4 millisecondes, therefore 7.9788 minutes.
+
 # TODO (not important for the teacher)
 * We must command all exported methods and remove in `./tslint.yaml` the rule
     `completed-docs: false`

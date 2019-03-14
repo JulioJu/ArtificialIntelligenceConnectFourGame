@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Tue 25 Sep 2018 02:42:40 PM CEST
-  *       MODIFIED: Tue 23 Oct 2018 04:22:58 PM CEST
+  *       MODIFIED: Wed 13 Mar 2019 06:49:00 PM CET
   *
   *          USAGE:
   *
@@ -21,6 +21,8 @@ interface IFormGame extends HTMLFormControlsCollection {
   first_gamer: RadioNodeList;
   ai_red: RadioNodeList;
   ai_yellow: RadioNodeList;
+  ai_red_deep?: HTMLInputElement;
+  ai_yellow_deep?: HTMLInputElement;
 }
 
 const submitForm: () => void = (): void => {
@@ -42,6 +44,18 @@ const submitForm: () => void = (): void => {
       if (formElement.gamemode.value === 'vscomputer') {
         url +=
           '&is_computer_to_start=' + formElement.is_computer_to_start.value;
+      }
+      if (
+        formElement.ai_yellow.value === 'minimax'
+        && formElement.ai_yellow_deep
+      ) {
+        url = `${url}&ai_yellow_deep=${formElement.ai_yellow_deep.value}`;
+      }
+      if (
+        formElement.ai_red.value === 'minimax'
+        && formElement.ai_red_deep
+      ) {
+        url = `${url}&ai_red_deep=${formElement.ai_red_deep.value}`;
       }
       if (document.location) {
         document.location.assign(url);

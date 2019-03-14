@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Tue 23 Oct 2018 04:25:08 PM CEST
-  *       MODIFIED: Tue 12 Mar 2019 11:46:19 AM CET
+  *       MODIFIED: Thu 14 Mar 2019 03:13:53 PM CET
   *
   *          USAGE:
   *
@@ -132,10 +132,9 @@ const parseUrlQueryParamGamemode: (parsedUrl: URL) => void
   }
 };
 
-const parseUrlQueryParamArtificialIntelligenceGamerRed: (parsedUrl: URL,
+const parseUrlQueryParamArtificialIntelligence: (parsedUrl: URL,
       paramName: string)
           => void
-      // tslint:disable-next-line:cyclomatic-complexity
       = (parsedUrl: URL, paramName: string): void => {
   let paramValue: string | null =
           parsedUrl.searchParams.get(paramName);
@@ -145,100 +144,59 @@ const parseUrlQueryParamArtificialIntelligenceGamerRed: (parsedUrl: URL,
   infoParam(paramName, paramValue);
   if (paramValue) {
     paramValue = paramValue.toUpperCase();
+    // tslint:disable-next-line
+    // @ts-ignore
+    const artificialIntelligenceGamer: string = paramName === 'ai_red'
+      ? 'artificialIntelligenceGamerRed'
+      : 'artificialIntelligenceGamerYellow';
     switch (paramValue) {
 
       // RANDOM
       // ======
       case ArtificialIntelligence[ArtificialIntelligence.RANDOM]:
-        if (paramName === 'ai_red') {
-          storeSingleton.artificialIntelligenceGamerRed = AIRandomTurn;
-        }
-        if (paramName === 'ai_yellow') {
-          storeSingleton.artificialIntelligenceGamerYellow = AIRandomTurn;
-        }
+        storeSingleton[artificialIntelligenceGamer] = AIRandomTurn;
         break;
 
       // HEURISTIC WIN LOST RANDOM
       // ======
       case ArtificialIntelligence[ArtificialIntelligence
           .WIN_LOST_RANDOM]:
-        if (paramName === 'ai_red') {
-          storeSingleton.artificialIntelligenceGamerRed =
-            AIWinLostRandomTurn;
-        }
-        if (paramName === 'ai_yellow') {
-          storeSingleton.artificialIntelligenceGamerYellow =
-            AIWinLostRandomTurn;
-        }
+        storeSingleton[artificialIntelligenceGamer] = AIWinLostRandomTurn;
         break;
 
       // HEURISTIC
       // =========
       case ArtificialIntelligence[ArtificialIntelligence.HEURISTIC_HORIZONTAL]:
-        if (paramName === 'ai_red') {
-          storeSingleton.artificialIntelligenceGamerRed =
-            AIHeuristicLineClosure(ParseHorizontally);
-        }
-        if (paramName === 'ai_yellow') {
-          storeSingleton.artificialIntelligenceGamerYellow =
-            AIHeuristicLineClosure(ParseHorizontally);
-        }
+        storeSingleton[artificialIntelligenceGamer] =
+          AIHeuristicLineClosure(ParseHorizontally);
         break;
       case ArtificialIntelligence[
           ArtificialIntelligence.HEURISTIC_DIAGONAL_NORTH_WEST_SOUTH_EAST]:
-        if (paramName === 'ai_red') {
-          storeSingleton.artificialIntelligenceGamerRed =
+        storeSingleton[artificialIntelligenceGamer] =
             AIHeuristicLineClosure(ParseDiagnoalNorthWestSouthEast);
-        }
-        if (paramName === 'ai_yellow') {
-          storeSingleton.artificialIntelligenceGamerYellow =
-            AIHeuristicLineClosure(ParseDiagnoalNorthWestSouthEast);
-        }
         break;
       case ArtificialIntelligence[ArtificialIntelligence.HEURISTIC_VERTICAL]:
-        if (paramName === 'ai_red') {
-          storeSingleton.artificialIntelligenceGamerRed =
-            AIHeuristicLineClosure(ParseVertically);
-        }
-        if (paramName === 'ai_yellow') {
-          storeSingleton.artificialIntelligenceGamerYellow =
-            AIHeuristicLineClosure(ParseVertically);
-        }
+        storeSingleton[artificialIntelligenceGamer] =
+          AIHeuristicLineClosure(ParseVertically);
         break;
       case ArtificialIntelligence[
           ArtificialIntelligence.HEURISTIC_DIAGONAL_NORTH_EAST_SOUTH_WEST]:
-        if (paramName === 'ai_red') {
-          storeSingleton.artificialIntelligenceGamerRed =
+        storeSingleton[artificialIntelligenceGamer] =
             AIHeuristicLineClosure(ParseDiagonalNorthEastSouthWest);
-        }
-        if (paramName === 'ai_yellow') {
-          storeSingleton.artificialIntelligenceGamerYellow =
-            AIHeuristicLineClosure(ParseDiagonalNorthEastSouthWest);
-        }
         break;
       case ArtificialIntelligence[
-          ArtificialIntelligence.HEURISTIC_HORIZONTAL_VERTICAL_DIAGONALS]:
+          ArtificialIntelligence.HEURISTIC_HORIZONTAL_VERTICAL_DIAGONALS
+      ]:
         // HERE, AIHeuristicLineClosure IS NOT CALLED AS CLOSURE
         // BECAUSE IT'S CALLED WITHOUT PARAMS
-        if (paramName === 'ai_red') {
-          storeSingleton.artificialIntelligenceGamerRed =
+        storeSingleton[artificialIntelligenceGamer] =
             AIHeuristicLineClosure();
-        }
-        if (paramName === 'ai_yellow') {
-          storeSingleton.artificialIntelligenceGamerYellow =
-            AIHeuristicLineClosure();
-        }
         break;
 
       // MINIMAX
       // =======
       case ArtificialIntelligence[ArtificialIntelligence.MINIMAX]:
-        if (paramName === 'ai_red') {
-          storeSingleton.artificialIntelligenceGamerRed = AIMinimaxTurn;
-        }
-        if (paramName === 'ai_yellow') {
-          storeSingleton.artificialIntelligenceGamerYellow = AIMinimaxTurn;
-        }
+        storeSingleton[artificialIntelligenceGamer] = AIMinimaxTurn;
         break;
 
       default:
@@ -250,6 +208,48 @@ const parseUrlQueryParamArtificialIntelligenceGamerRed: (parsedUrl: URL,
   }
 };
 
+const parseUrlQueryParamArtificialIntelligenceDeep
+      = (parsedUrl: URL, paramName: string): void => {
+  // tslint:disable-next-line
+  // @ts-ignore
+  let artificielIntelligenceDeep: string;
+  let artificialIntelligenceGamer: string;
+  if (
+    paramName === 'ai_red_deep'
+  ) {
+    artificialIntelligenceGamer = 'artificialIntelligenceGamerRed';
+    artificielIntelligenceDeep = 'artificialIntelligenceRedDeep';
+  } else {
+    artificialIntelligenceGamer = 'artificialIntelligenceGamerYellow';
+    artificielIntelligenceDeep = 'artificialIntelligenceYellowDeep';
+  }
+  if (
+    `${storeSingleton[artificialIntelligenceGamer]}`
+    !== `${AIMinimaxTurn}`
+  ) {
+    return;
+  }
+  let paramValue: string | null =
+    parsedUrl.searchParams.get(paramName);
+  infoParam(paramName, paramValue);
+  if (paramValue !== null) {
+    paramValue = paramValue.toUpperCase();
+    storeSingleton[artificielIntelligenceDeep] = parseInt(paramValue, 10);
+    if (isNaN(storeSingleton[artificielIntelligenceDeep] as number)) {
+      const error = new Error(`Invalid '${paramName}' URL query param`
+        + ` Can't parse ${paramValue} to number`);
+      ErrorFatal(error.message);
+      throw error;
+    }
+    if (storeSingleton[artificielIntelligenceDeep] as number < 1) {
+      const error = new Error(`Invalid '${paramName}' URL query param`
+        + ` It can't be < 1`);
+      ErrorFatal(error.message);
+      throw error;
+    }
+  }
+};
+
 export const ParseUrlQueryParam: () => void = (): void => {
   if (document.location) {
     // See:
@@ -258,8 +258,13 @@ export const ParseUrlQueryParam: () => void = (): void => {
     const parsedUrl: URL = new URL(document.location.href);
     parseUrlQueryParamGamemode(parsedUrl);
     parseUrlQueryParamFirstGamer(parsedUrl);
-    parseUrlQueryParamArtificialIntelligenceGamerRed(parsedUrl, 'ai_red');
-    parseUrlQueryParamArtificialIntelligenceGamerRed(parsedUrl, 'ai_yellow');
+
+    parseUrlQueryParamArtificialIntelligence(parsedUrl, 'ai_red');
+    parseUrlQueryParamArtificialIntelligenceDeep(parsedUrl, 'ai_red_deep');
+    parseUrlQueryParamArtificialIntelligence(parsedUrl, 'ai_yellow');
+    parseUrlQueryParamArtificialIntelligenceDeep(parsedUrl, 'ai_yellow_deep');
+    console.log(storeSingleton);
+
     if (storeSingleton.gameMode === GameMode.VSCOMPUTER) {
       parseUrlQueryParamIsComputerToStart(parsedUrl);
     } else {

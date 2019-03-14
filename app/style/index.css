@@ -87,6 +87,25 @@ form > fieldset > div.radio > label > input  {
     margin-right: 0.5em;
 }
 
+form > fieldset > div.radio-input {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+    justify-items: start;
+    justify-content: start;
+    grid-column-gap: 0.5em;
+    margin: 0.5em;
+}
+
+form > fieldset > div.radio-input input[type="number"]{
+    width: 2em;
+}
+
+form > fieldset > div.radio-input input[type="number"]{
+    background-color: rgba(0,128,128,1);
+    color: black;
+}
+
 button {
     /* border-radius: 23px; */
     box-shadow: #878787 0px 2px 2px;
