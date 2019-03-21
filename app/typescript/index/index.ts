@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Tue 25 Sep 2018 02:42:40 PM CEST
-  *       MODIFIED: Wed 13 Mar 2019 06:49:00 PM CET
+  *       MODIFIED: Thu 21 Mar 2019 01:12:27 PM CET
   *
   *          USAGE:
   *
@@ -46,13 +46,19 @@ const submitForm: () => void = (): void => {
           '&is_computer_to_start=' + formElement.is_computer_to_start.value;
       }
       if (
-        formElement.ai_yellow.value === 'minimax'
+        (
+          formElement.ai_yellow.value === 'minimaxnoheur'
+          || formElement.ai_yellow.value === 'alphabetanoheur'
+        )
         && formElement.ai_yellow_deep
       ) {
         url = `${url}&ai_yellow_deep=${formElement.ai_yellow_deep.value}`;
       }
       if (
-        formElement.ai_red.value === 'minimax'
+        (
+          formElement.ai_red.value === 'minimaxnoheur'
+          || formElement.ai_red.value === 'alphabetanoheur'
+        )
         && formElement.ai_red_deep
       ) {
         url = `${url}&ai_red_deep=${formElement.ai_red_deep.value}`;

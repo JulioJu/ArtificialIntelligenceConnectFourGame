@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Fri 28 Sep 2018 09:07:45 AM CEST
-  *       MODIFIED: Mon 04 Mar 2019 05:53:43 PM CET
+  *       MODIFIED: Thu 21 Mar 2019 01:17:43 PM CET
   *
   *          USAGE:
   *
@@ -36,9 +36,13 @@ export enum ArtificialIntelligence {
     HEURISTIC_DIAGONAL_NORTH_WEST_SOUTH_EAST,
     HEURISTIC_HORIZONTAL_VERTICAL_DIAGONALS,
 
-    // MINIMAX
+    // MINIMAXNOHEUR
     // =========
-    MINIMAX
+    MINIMAXNOHEUR,
+
+    // ALPHABETAPRUNING NO HEURISTIC
+    // =======
+    ALPHABETANOHEUR
 }
 
 // vim: ts=2 sw=2 et:

@@ -176,27 +176,41 @@
                 </label>
             </div>
             <hr class="artificial-intelligence-separator"/>
-            <div class="radio-input">
-                <input id="minimaxredradio"
-                       type="radio"
-                       name="ai_red"
-                       value="minimax"
-                    />
-                <label for="minimaxredradio">
-                    Artificial intelligence Minimax
-                </label>
+            <div class="deepAi" >
+
                 <input
+                    id="minimaxnoheurredradio"
+                    class="grid_input_one"
+                    type="radio"
+                    name="ai_red"
+                    value="minimaxnoheur"
+                    />
+                <label for="minimaxnoheurredradio">
+                    Artificial intelligence MinimaxNoHeur
+                </label>
+                <input id="alphabetanoheurredradio"
+                    type="radio"
+                    name="ai_red"
+                    value="alphabetanoheur"
+                    />
+                <label for="alphabetanoheurredradio">
+                    Artificial intelligence alphabetaNoHeur
+                </label>
+
+                <input
+                    id="alphabetanoheurredinput"
                     min="1"
                     max="10"
-                    id="minimaxredinput"
                     type="number"
                     name="ai_red_deep"
                     value="4"
                     required
                     />
-                <label for="minimaxredinput">
+                <label
+                    for="alphabetanoheurredinput">
                     Deep
                 </label>
+
             </div>
         </fieldset>
         <hr class="fieldset-separator"/>
@@ -279,27 +293,41 @@
                 </label>
             </div>
             <hr class="artificial-intelligence-separator"/>
-            <div class="radio-input">
-                <input id="minimaxyellowradio"
-                       type="radio"
-                       name="ai_yellow"
-                       value="minimax"
-                    />
-                <label for="minimaxyellowradio">
-                    Artificial intelligence Minimax
-                </label>
+            <div class="deepAi" >
+
                 <input
+                    id="minimaxnoheuryellowradio"
+                    class="grid_input_one"
+                    type="radio"
+                    name="ai_yellow"
+                    value="minimaxnoheur"
+                    />
+                <label for="minimaxnoheuryellowradio">
+                    Artificial intelligence MinimaxNoHeur
+                </label>
+                <input id="alphabetanoheuryellowradio"
+                    type="radio"
+                    name="ai_yellow"
+                    value="alphabetanoheur"
+                    />
+                <label for="alphabetanoheuryellowradio">
+                    Artificial intelligence alphabetaNoHeur
+                </label>
+
+                <input
+                    id="alphabetanoheuryellowinput"
                     min="1"
                     max="10"
-                    id="minimaxyellowinput"
                     type="number"
                     name="ai_yellow_deep"
                     value="4"
                     required
                     />
-                <label for="minimaxyellowinput">
+                <label
+                    for="alphabetanoheuryellowinput">
                     Deep
                 </label>
+
             </div>
         </fieldset>
         <p id="notice_for_human_gamer" class="collapsable">

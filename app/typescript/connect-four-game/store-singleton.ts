@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Sat 29 Sep 2018 03:38:08 PM CEST
-  *       MODIFIED: Thu 14 Mar 2019 05:57:30 PM CET
+  *       MODIFIED: Thu 21 Mar 2019 01:31:29 PM CET
   *
   *          USAGE:
   *
@@ -17,7 +17,7 @@ import { Square } from './Square.js';
 import { AIRandomTurn } from './artificial-intelligence/random/ai-random-turn';
 
 export class StatisticsTreeExploration {
-  public maxDepthEffectivelyExplored: number;
+  // public maxDepthEffectivelyExplored: number;
   public numberOfNodes: number;
   public numberOfLeaves: number;
   public constructor(
@@ -25,7 +25,7 @@ export class StatisticsTreeExploration {
     // @ts-ignore
     private readonly maxDepth: number
   ) {
-    this.maxDepthEffectivelyExplored = 0;
+    // this.maxDepthEffectivelyExplored = 0;
     this.numberOfNodes = 0;
     this.numberOfLeaves = 0;
   }
@@ -100,9 +100,9 @@ export const storeSingleton: IStoreSingleton = {
   numberOfClick: 0,
 
   artificialIntelligenceGamerRed: AIRandomTurn,
-  artificialIntelligenceRedDeep: 4,
+  artificialIntelligenceRedDeep: 1,
   artificialIntelligenceGamerYellow: AIRandomTurn,
-  artificialIntelligenceYellowDeep: 4,
+  artificialIntelligenceYellowDeep: 1,
 
   logMessages: {},
 

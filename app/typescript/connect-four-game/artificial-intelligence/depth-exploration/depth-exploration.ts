@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Wed 03 Oct 2018 08:59:51 PM CEST
-k *       MODIFIED: Thu 14 Mar 2019 05:13:20 PM CET
+k *       MODIFIED: Thu 21 Mar 2019 01:37:53 PM CET
   *
   *          USAGE:
   *
@@ -26,13 +26,21 @@ import { Checker } from '../../constants.js';
 class SquareDepthScore {
   public isOddDepth: boolean;
   public drawnMatch: boolean;
+  // TODO actually not copied in StatisticsTreeExploration
   public maxDepthReached: number;
   public score: number;
 
   /** Just for debug */
   public squareInheritedPath?: SquareDepthScore;
-  /** Just for debug */
-  public squareEmptyPlayableScores: SquareDepthScore[];
+  /**
+   *  type could be `undefined` only if `alphaBetaPruningOptimization === true`.
+   *    Otherwise never undefined.
+   *
+   *  type only `SquareDepthScore` if `alphaBetaPruningOptimization === false`
+   *
+   *  Just for debug.
+   */
+  public squareEmptyPlayableScores: Array<SquareDepthScore | undefined>;
 
   public constructor (
     /** Just for debug */
@@ -74,27 +82,43 @@ const calculateScore = (
  * @param squareDepthScore squareDepthScore.length > 0
  *
  */
-const returnMinOrMaxSquare = (squareDepthScore: SquareDepthScore[],
-  isOddDepth: boolean): SquareDepthScore | undefined => {
-  let minOrMaxSquare: SquareDepthScore = squareDepthScore[0];
+const returnMinOrMaxSquare = (
+  squareDepthScore: Array<SquareDepthScore | undefined>,
+  isOddDepth: boolean,
+  alphaBetaPruningOptimization: boolean
+): SquareDepthScore | undefined => {
+
+  // SquareDepthScore[0] is never undefined
+  let minOrMaxSquare: SquareDepthScore =
+    squareDepthScore[0] as SquareDepthScore;
+
   let allHasSameValue = true;
   const callback = isOddDepth
       // Search min
       ? (maxScoreC: number, score: number): boolean =>  maxScoreC > score
       // Search max
       : (maxScoreC: number, score: number): boolean => maxScoreC < score;
-  for (let squareIndex = 1 ;
-      squareIndex < squareDepthScore.length ;
-      squareIndex++) {
+  for (
+    let squareIndex = 1 ;
+    squareIndex < squareDepthScore.length ;
+    squareIndex++
+  ) {
     const square = squareDepthScore[squareIndex];
-    if (square.score !== squareDepthScore[squareIndex - 1].score) {
+    if (typeof square === 'undefined') {
+      break;
+    }
+    if (
+      square.score
+      // squareDepthScore[squareIndex - 1] is never `undefined`
+        !== (squareDepthScore[squareIndex - 1] as SquareDepthScore).score
+    ) {
       allHasSameValue = false;
     }
     if (callback(minOrMaxSquare.score, square.score)) {
       minOrMaxSquare = square;
     }
   }
-  if (allHasSameValue) {
+  if (allHasSameValue && ! alphaBetaPruningOptimization) {
     minOrMaxSquare.score = isOddDepth
       ? minOrMaxSquare.score - 0.0001
       : minOrMaxSquare.score + 0.0001;
@@ -102,10 +126,11 @@ const returnMinOrMaxSquare = (squareDepthScore: SquareDepthScore[],
   return minOrMaxSquare;
 };
 
-const MinimaxRecursivity = (
+const MinimaxNoHeurRecursivity = (
   statistics: StatisticsTreeExploration,
   depthMax: number,
-  squareDepthScore: SquareDepthScore
+  squareDepthScore: SquareDepthScore,
+  alphaBetaPruningOptimization: boolean
 ): void => {
 
   statistics.numberOfNodes++;
@@ -128,22 +153,40 @@ const MinimaxRecursivity = (
   }
 
   storeSingleton.currentGamer = storeSingleton.opponentGamer();
-  let squareEmptyPlayableScores;
-  squareEmptyPlayableScores = squareEmptyPlayable.map(
-    (squareAdded: Square): SquareDepthScore => {
-      const squareDepthScoreInner = new SquareDepthScore(
-        Checker[storeSingleton.currentGamer], squareAdded,
-        squareDepthScore.depth + 1);
-      squareAdded.squareValue = storeSingleton.currentGamer;
-      MinimaxRecursivity(statistics, depthMax, squareDepthScoreInner);
-      squareAdded.squareValue = Checker.EMPTY;
+  const squareEmptyPlayableScores: Array<SquareDepthScore | undefined> =
+    new Array(squareEmptyPlayable.length);
+  for (let index = 0 ; index < squareEmptyPlayableScores.length ; index++) {
+    const squareAdded = squareEmptyPlayable[index];
 
-      return squareDepthScoreInner;
-    });
+    const squareEmptyPlayableScore = new SquareDepthScore(
+      Checker[storeSingleton.currentGamer], squareAdded,
+      squareDepthScore.depth + 1
+    );
+    squareEmptyPlayableScores[index] = squareEmptyPlayableScore;
+
+    squareAdded.squareValue = storeSingleton.currentGamer;
+    MinimaxNoHeurRecursivity(
+      statistics,
+      depthMax,
+      squareEmptyPlayableScore,
+      alphaBetaPruningOptimization
+    );
+    squareAdded.squareValue = Checker.EMPTY;
+
+    if (
+      alphaBetaPruningOptimization
+      && squareEmptyPlayableScore.score !== 0
+    ) {
+      break;
+    }
+  }
   storeSingleton.currentGamer = storeSingleton.opponentGamer();
 
   squareDepthScore.squareInheritedPath = returnMinOrMaxSquare(
-    squareEmptyPlayableScores, squareDepthScore.isOddDepth);
+    squareEmptyPlayableScores,
+    squareDepthScore.isOddDepth,
+    alphaBetaPruningOptimization
+  );
 
   // TODO: comment it, just for debug
   squareDepthScore.squareEmptyPlayableScores = squareEmptyPlayableScores;
@@ -163,7 +206,8 @@ const MinimaxRecursivity = (
  *  @param depthMax should be > 0
  *
  */
-const Minimax = (depthMax: number): number => {
+const MinimaxNoHeur = (depthMax: number,
+    alphaBetaPruningOptimization: boolean): number => {
   if (depthMax < 1) {
     // https://en.wikipedia.org/wiki/Defensive_programming
     // Should never be triggered.
@@ -181,19 +225,27 @@ const Minimax = (depthMax: number): number => {
     const squareDepthScore = new SquareDepthScore(
       Checker[storeSingleton.currentGamer],
       squareAdded, 1);
-    MinimaxRecursivity(statistics, depthMax, squareDepthScore);
+    MinimaxNoHeurRecursivity(
+      statistics,
+      depthMax,
+      squareDepthScore,
+      alphaBetaPruningOptimization);
     squareAdded.squareValue = Checker.EMPTY;
 
     // VERY IMPORTANT TO CLEAR, OTHERWISE THE BROWSER CRASH IF
     // THERE IS TOO MUCH LOGS.
+    if (alphaBetaPruningOptimization || depthMax <= 5) {
     console.clear();
+    }
 
-    console.debug(squareAdded, squareDepthScore.score,
-      'squareDepthScore:', squareDepthScore);
+    console.debug(squareAdded, squareDepthScore.score);
 
     /* For the first one */
     if (typeof maxScore === 'undefined') {
       maxScore = squareDepthScore;
+      if (alphaBetaPruningOptimization && squareDepthScore.score === 1) {
+        break;
+      }
       continue;
     }
 
@@ -201,8 +253,10 @@ const Minimax = (depthMax: number): number => {
       maxScore = squareDepthScore;
       squareToPlayIndex = squareIndex;
     }
+    if (alphaBetaPruningOptimization && squareDepthScore.score === 1) {
+      break;
+    }
   }
-  console.debug(statistics);
   storeSingleton.logMessages[storeSingleton.numberOfClick + 1] = {
     checker: Checker[storeSingleton.currentGamer],
     timeSpan: 0,
@@ -211,20 +265,26 @@ const Minimax = (depthMax: number): number => {
   return squareToPlayIndex;
 };
 
-export const AIMinimaxTurn: () => Square | undefined
-      = (): Square | undefined => {
+export const AIDepthExplorationTurn
+  = (alphaBetaPruningOptimization: boolean): () => Square | undefined =>
+
+  (): Square | undefined => {
+
     // TODO
-  if (storeSingleton.squaresEmptyPlayable.length === 0) {
-    // https://en.wikipedia.org/wiki/Defensive_programming
-    // Should never be triggered.
-    return undefined;
-  }
+    if (storeSingleton.squaresEmptyPlayable.length === 0) {
+      // https://en.wikipedia.org/wiki/Defensive_programming
+      // Should never be triggered.
+      return undefined;
+    }
 
-  const deep = storeSingleton.currentGamer === Checker.RED
-        ? storeSingleton.artificialIntelligenceRedDeep
-        : storeSingleton.artificialIntelligenceYellowDeep;
+    const deep = storeSingleton.currentGamer === Checker.RED
+          ? storeSingleton.artificialIntelligenceRedDeep
+          : storeSingleton.artificialIntelligenceYellowDeep;
 
-  return storeSingleton.squaresEmptyPlayable[Minimax(deep)];
-};
+    return storeSingleton.squaresEmptyPlayable[
+      MinimaxNoHeur(deep, alphaBetaPruningOptimization)
+    ];
+
+  };
 
 // vim: ts=2 sw=2 et:
