@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Wed 03 Oct 2018 08:59:51 PM CEST
-k *       MODIFIED: Fri 22 Mar 2019 01:33:03 AM CET
+k *       MODIFIED: Fri 22 Mar 2019 05:55:52 PM CET
   *
   *          USAGE:
   *
@@ -88,7 +88,7 @@ const scoreIfGamerWin = (
 const returnMinOrMaxSquare = (
   squareDepthScore: SquareDepthScore[],
   isEvenDepth: boolean,
-  alphaBetaPruningOptimization: boolean
+  isMinimaxNoHeur: boolean
 ): SquareDepthScore  => {
 
   let minOrMaxSquare: SquareDepthScore = squareDepthScore[0];
@@ -106,7 +106,7 @@ const returnMinOrMaxSquare = (
   ) {
     const square = squareDepthScore[squareIndex];
     if (
-      ! alphaBetaPruningOptimization
+      isMinimaxNoHeur
       && (
         square.score
         !== (squareDepthScore[squareIndex - 1]).score
@@ -119,8 +119,8 @@ const returnMinOrMaxSquare = (
     }
   }
   if (
-    allHasSameValue
-    && ! alphaBetaPruningOptimization
+    isMinimaxNoHeur
+    && allHasSameValue
     && Math.abs(minOrMaxSquare.score) === SCORE_WIN
   ) {
     minOrMaxSquare.score = isEvenDepth
@@ -158,7 +158,11 @@ const recursivity = (
   if (squareDepthScore.depth === depthMax) {
     if (typeof heuristic !== 'undefined') {
       const score = heuristic().score;
-      squareDepthScore.score = (squareDepthScore.isEvenDepth) ? score : -score;
+      if (score !== 0) {
+        squareDepthScore.score = (squareDepthScore.isEvenDepth)
+          ? score + 999
+          : -score - 999;
+      }
     }
     statistics.numberOfLeaves++;
     return;
@@ -185,8 +189,8 @@ const recursivity = (
 
     if (alphaBetaPruningOptimization) {
       const scoreToBreak = squareDepthScore.isEvenDepth
-        ? SCORE_WIN
-        : -SCORE_WIN;
+        ? -SCORE_WIN
+        : SCORE_WIN;
       if (squareEmptyPlayableScore.score === scoreToBreak) {
         break;
       }
@@ -197,7 +201,8 @@ const recursivity = (
   squareDepthScore.squareInheritedPath = returnMinOrMaxSquare(
     squareEmptyPlayableScores,
     squareDepthScore.isEvenDepth,
-    alphaBetaPruningOptimization
+    // if minimax without heuristic
+    typeof heuristic === 'undefined' && ! alphaBetaPruningOptimization
   );
 
   // TODO: comment it, just for debug
@@ -248,12 +253,6 @@ const depthExploration = (
       heuristic
     );
     squareAdded.squareValue = Checker.EMPTY;
-
-    // VERY IMPORTANT TO CLEAR, OTHERWISE THE BROWSER CRASH IF
-    // THERE IS TOO MUCH LOGS.
-    if (! alphaBetaPruningOptimization && depthMax > 4) {
-      console.clear();
-    }
 
     console.debug(squareAdded, squareDepthScore.score);
     console.debug('squareDepthScore:', squareDepthScore);
@@ -307,6 +306,12 @@ export const AIDepthExplorationTurn = (
     const deep = storeSingleton.currentGamer === Checker.RED
       ? storeSingleton.artificialIntelligenceRedDeep
       : storeSingleton.artificialIntelligenceYellowDeep;
+
+    // VERY IMPORTANT TO CLEAR, OTHERWISE THE BROWSER CRASH IF
+    // THERE IS TOO MUCH LOGS.
+    if (! alphaBetaPruningOptimization && deep > 4) {
+      console.clear();
+    }
 
     return storeSingleton.squaresEmptyPlayable[
       depthExploration(deep, alphaBetaPruningOptimization, heuristic)

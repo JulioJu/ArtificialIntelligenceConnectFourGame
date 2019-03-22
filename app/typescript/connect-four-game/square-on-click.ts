@@ -76,7 +76,7 @@ export const SquareOnClick:
       );
     }
     AddCheckerInSquare(squareWithCheckerAdded);
-    if (storeSingleton.gameMode === GameMode.MULTIPLAYER) {
+    if (storeSingleton.gameMode === GameMode.MULTIGAMER) {
       CursorColor();
     }
   } else {

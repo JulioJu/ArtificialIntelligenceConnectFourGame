@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Sat 06 Oct 2018 06:21:24 PM CEST
-  *       MODIFIED: Tue 09 Oct 2018 12:48:27 PM CEST
+  *       MODIFIED: Fri 22 Mar 2019 02:21:26 AM CET
   *
   *          USAGE:
   *
@@ -125,8 +125,6 @@ export class ParseLineResult {
   public set gamerIsTheWinner(gamerIsTheWinner: boolean) {
     this._gamerIsTheWinner = gamerIsTheWinner;
   }
-
-  // this.opponentIsTheWinner
 
   public get opponentIsTheWinner(): boolean {
     return this._opponentIsTheWinner;

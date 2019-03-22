@@ -112,13 +112,13 @@ const parseUrlQueryParamGamemode: (parsedUrl: URL) => void
   const paramName: string = 'gamemode';
   let paramValue: string | null =
           parsedUrl.searchParams.get(paramName);
-  const messageDefaultValue: string = 'the game will be "multiplayer"';
+  const messageDefaultValue: string = 'the game will be "multigamer"';
   infoParam(paramName, paramValue);
   if (paramValue) {
     paramValue = paramValue.toUpperCase();
     switch (paramValue) {
-      case GameMode[GameMode.MULTIPLAYER]:
-        storeSingleton.gameMode = GameMode.MULTIPLAYER;
+      case GameMode[GameMode.MULTIGAMER]:
+        storeSingleton.gameMode = GameMode.MULTIGAMER;
         break;
       case GameMode[GameMode.VSCOMPUTER]:
         storeSingleton.gameMode = GameMode.VSCOMPUTER;

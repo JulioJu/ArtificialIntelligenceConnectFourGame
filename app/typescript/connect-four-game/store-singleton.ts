@@ -72,7 +72,7 @@ const instantiateStyleSheet: () => CSSStyleSheet = (): CSSStyleSheet => {
 export const storeSingleton: IStoreSingleton = {
 
   // Not changed during the game:
-  gameMode: GameMode.MULTIPLAYER,
+  gameMode: GameMode.MULTIGAMER,
   grid: new Array(GRID_COLUMN_LENGTH),
 
   // Values changed each time square-add-checker.ts is called:
