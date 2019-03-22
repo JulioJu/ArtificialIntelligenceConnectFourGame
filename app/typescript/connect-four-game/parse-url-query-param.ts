@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Tue 23 Oct 2018 04:25:08 PM CEST
-  *       MODIFIED: Thu 21 Mar 2019 01:46:54 PM CET
+  *       MODIFIED: Thu 21 Mar 2019 06:42:11 PM CET
   *
   *          USAGE:
   *
@@ -32,6 +32,8 @@ import {
   ParseVertically,
   ParseDiagonalNorthEastSouthWest,
   AIHeuristicLineClosure,
+
+  AIHeuristicLineScore,
 
   // MINIMAXNOHEUR
   // ======
@@ -193,17 +195,32 @@ const parseUrlQueryParamArtificialIntelligence: (parsedUrl: URL,
             AIHeuristicLineClosure();
         break;
 
-      // MINIMAXNOHEUR
+      // MINIMAX WITHOUT HEURISTIC
       // =======
       case ArtificialIntelligence[ArtificialIntelligence.MINIMAXNOHEUR]:
         storeSingleton[artificialIntelligenceGamer] =
           AIDepthExplorationTurn(false);
         break;
 
-      // ALPHABETAPRUNING NO HEURISTIC
+      // ALPHA-BETA PRUNING WITHOUT HEURISTIC
       // =======
       case ArtificialIntelligence[ArtificialIntelligence.ALPHABETANOHEUR]:
-        storeSingleton[artificialIntelligenceGamer] = AIDepthExplorationTurn(true);
+        storeSingleton[artificialIntelligenceGamer] =
+          AIDepthExplorationTurn(true);
+        break;
+
+      // MINIMAX WITH HEURISTIC
+      // =======
+      case ArtificialIntelligence[ArtificialIntelligence.MINIMAXHEUR]:
+        storeSingleton[artificialIntelligenceGamer] =
+          AIDepthExplorationTurn(false, AIHeuristicLineScore);
+        break;
+
+      // ALPHA-BETA PRUNING WITH HEURISTIC
+      // =======
+      case ArtificialIntelligence[ArtificialIntelligence.ALPHABETAHEUR]:
+        storeSingleton[artificialIntelligenceGamer] =
+          AIDepthExplorationTurn(true, AIHeuristicLineScore);
         break;
 
       default:

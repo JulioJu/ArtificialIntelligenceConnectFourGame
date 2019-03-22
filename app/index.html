@@ -124,6 +124,7 @@
                 </label>
             </div>
             <hr class="artificial-intelligence-separator"/>
+            <em> Heuristic no conventional (with minus scores) </em>
             <div class="radio">
                 <label>
                     <input type="radio"
@@ -186,7 +187,7 @@
                     value="minimaxnoheur"
                     />
                 <label for="minimaxnoheurredradio">
-                    Artificial intelligence MinimaxNoHeur
+                    minimax without heuristic
                 </label>
                 <input id="alphabetanoheurredradio"
                     type="radio"
@@ -194,11 +195,34 @@
                     value="alphabetanoheur"
                     />
                 <label for="alphabetanoheurredradio">
-                    Artificial intelligence alphabetaNoHeur
+                    alpha-beta pruning without heuristic
                 </label>
 
                 <input
-                    id="alphabetanoheurredinput"
+                    id="minimaxheurredradio"
+                    class="grid_input_one"
+                    type="radio"
+                    name="ai_red"
+                    value="minimaxheur"
+                    />
+                <label for="minimaxheurredradio">
+                    minimax with heuristic no conventional:
+                    <br />
+                    can't work well
+                </label>
+                <input id="alphabetaheurredradio"
+                    type="radio"
+                    name="ai_red"
+                    value="alphabetaheur"
+                    />
+                <label for="alphabetaheurredradio">
+                    alpha-beta pruning with heuristic no conventional:
+                    <br />
+                    can't work well
+                </label>
+
+                <input
+                    id="ai_red_deep"
                     min="1"
                     max="10"
                     type="number"
@@ -207,7 +231,7 @@
                     required
                     />
                 <label
-                    for="alphabetanoheurredinput">
+                    for="ai_red_deep">
                     Deep
                 </label>
 
@@ -241,6 +265,7 @@
                 </label>
             </div>
             <hr class="artificial-intelligence-separator"/>
+            <em> Heuristic no conventional (with minus scores) </em>
             <div class="radio">
                 <label>
                     <input type="radio"
@@ -303,7 +328,7 @@
                     value="minimaxnoheur"
                     />
                 <label for="minimaxnoheuryellowradio">
-                    Artificial intelligence MinimaxNoHeur
+                    minimax without heuristic
                 </label>
                 <input id="alphabetanoheuryellowradio"
                     type="radio"
@@ -311,11 +336,34 @@
                     value="alphabetanoheur"
                     />
                 <label for="alphabetanoheuryellowradio">
-                    Artificial intelligence alphabetaNoHeur
+                    alpha-beta pruning without heuristic
                 </label>
 
                 <input
-                    id="alphabetanoheuryellowinput"
+                    id="minimaxheuryellowradio"
+                    class="grid_input_one"
+                    type="radio"
+                    name="ai_yellow"
+                    value="minimaxheur"
+                    />
+                <label for="minimaxheuryellowradio">
+                    minimax with heuristic no conventional:
+                    <br />
+                    can't work well
+                </label>
+                <input id="alphabetaheuryellowradio"
+                    type="radio"
+                    name="ai_yellow"
+                    value="alphabetaheur"
+                    />
+                <label for="alphabetaheuryellowradio">
+                    alpha-beta pruning with heuristic no conventional:
+                    <br />
+                    can't work well
+                </label>
+
+                <input
+                    id="ai_yellow_deep"
                     min="1"
                     max="10"
                     type="number"
@@ -324,7 +372,7 @@
                     required
                     />
                 <label
-                    for="alphabetanoheuryellowinput">
+                    for="ai_yellow_deep">
                     Deep
                 </label>
 

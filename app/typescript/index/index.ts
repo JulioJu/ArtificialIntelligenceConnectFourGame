@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Tue 25 Sep 2018 02:42:40 PM CEST
-  *       MODIFIED: Thu 21 Mar 2019 01:12:27 PM CET
+  *       MODIFIED: Thu 21 Mar 2019 08:20:30 PM CET
   *
   *          USAGE:
   *
@@ -25,6 +25,13 @@ interface IFormGame extends HTMLFormControlsCollection {
   ai_yellow_deep?: HTMLInputElement;
 }
 
+const testIfDeepQueryParamIsUseful = (aiColor: RadioNodeList): boolean =>
+    aiColor.value === 'minimaxnoheur'
+    || aiColor.value === 'alphabetanoheur'
+    || aiColor.value === 'minimaxheur'
+    || aiColor.value === 'alphabetaheur'
+;
+
 const submitForm: () => void = (): void => {
   // Could be null. But don't crash if it's null (id deleted in source code)
   // If id is deleted in inspector, continue to work (event is already
@@ -45,20 +52,16 @@ const submitForm: () => void = (): void => {
         url +=
           '&is_computer_to_start=' + formElement.is_computer_to_start.value;
       }
+      console.log('coucou',
+      testIfDeepQueryParamIsUseful(formElement.ai_yellow));
       if (
-        (
-          formElement.ai_yellow.value === 'minimaxnoheur'
-          || formElement.ai_yellow.value === 'alphabetanoheur'
-        )
+        testIfDeepQueryParamIsUseful(formElement.ai_yellow)
         && formElement.ai_yellow_deep
       ) {
         url = `${url}&ai_yellow_deep=${formElement.ai_yellow_deep.value}`;
       }
       if (
-        (
-          formElement.ai_red.value === 'minimaxnoheur'
-          || formElement.ai_red.value === 'alphabetanoheur'
-        )
+        testIfDeepQueryParamIsUseful(formElement.ai_red)
         && formElement.ai_red_deep
       ) {
         url = `${url}&ai_red_deep=${formElement.ai_red_deep.value}`;
