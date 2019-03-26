@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Mon 15 Oct 2018 09:24:13 AM CEST
-  *       MODIFIED: Fri 22 Mar 2019 01:50:14 AM CET
+  *       MODIFIED: Fri 05 Apr 2019 01:22:01 PM CEST
   *
   *          USAGE:
   *
@@ -30,40 +30,40 @@ import {
 } from
   '../../loop-explore-grid-from-one-square/diagonal-north-east-south-west.js';
 
-import { ParseLineResult } from './ParseLineResult.js';
-import { ParseWrap } from './ai-heuristic-wrap.js';
+import { LineResult } from './LineResult.js';
+import { HeuristicLine } from './heuristic-line.js';
 
 export class BestSquare {
-  public localScore: number = 0;
+  public newTmpScore: number = 0;
   public score: number = -1;
   public opponentIsTheWinnerFound: boolean = false;
   public constructor (public square: Square) {}
 }
 
 type heuristicCallbackType =
-  (square: Square) => ParseLineResult;
+  (square: Square) => LineResult;
 
 export const ParseHorizontally: heuristicCallbackType
-      = (square: Square): ParseLineResult =>
-  ParseWrap(square,
+      = (square: Square): LineResult =>
+  HeuristicLine(square,
     HorizontalLeft(square),
     HorizontalRight(square));
 
 export const ParseDiagnoalNorthWestSouthEast: heuristicCallbackType
-      = (square: Square): ParseLineResult =>
-  ParseWrap(square,
+      = (square: Square): LineResult =>
+  HeuristicLine(square,
     DiagonalNorthWest(square),
     DiagonalSouthEast(square));
 
 export const ParseVertically: heuristicCallbackType
-      = (square: Square): ParseLineResult =>
-  ParseWrap(square,
+      = (square: Square): LineResult =>
+  HeuristicLine(square,
     VerticalNorth(square),
     VerticalSouth(square));
 
 export const ParseDiagonalNorthEastSouthWest: heuristicCallbackType
-      = (square: Square): ParseLineResult =>
-  ParseWrap(square,
+      = (square: Square): LineResult =>
+  HeuristicLine(square,
     DiagonalNorthEast(square),
     DiagonalSouthWest(square));
 
@@ -79,24 +79,24 @@ const parseSquare = (
   calledFromAIDepthExplorationTurn: boolean
 ): boolean => {
 
-  const parseLineResult: ParseLineResult =  heuristicCallback(squareParsed);
-  // console.debug(parseLineResult);
+  const lineResult: LineResult =  heuristicCallback(squareParsed);
+  // console.debug(lineResult);
 
   // Used only in AIHeuristicLineClosure
-  if (! calledFromAIDepthExplorationTurn && parseLineResult.gamerIsTheWinner) {
-    bestSquare.square = parseLineResult.square;
+  if (! calledFromAIDepthExplorationTurn && lineResult.gamerIsTheWinner) {
+    bestSquare.square = lineResult.square;
     return true;
   }
 
-  if (parseLineResult.opponentIsTheWinner) {
+  if (lineResult.opponentIsTheWinner) {
     // Used only in AIHeuristicLineClosure
     if (! calledFromAIDepthExplorationTurn) {
-      bestSquare.square = parseLineResult.square;
+      bestSquare.square = lineResult.square;
     }
     bestSquare.opponentIsTheWinnerFound = true;
   }
 
-  bestSquare.localScore += parseLineResult.score;
+  bestSquare.newTmpScore += lineResult.score;
 
   return false;
 };
@@ -133,35 +133,38 @@ const heuristicOnlyWithoutDeepSearch = (
       return true;
     }
     if (square.rowIndex - 1 >= 0) {
-      if (IsGamerWin(
-        storeSingleton.grid[square.columnIndex][square.rowIndex - 1],
-        storeSingleton.opponentGamer())) {
+      if (
+        IsGamerWin(
+          storeSingleton.grid[square.columnIndex][square.rowIndex - 1],
+          storeSingleton.opponentGamer()
+        )) {
         // Better to try to avoid that the opponent will be the winner.
-        bestSquare.localScore = -1;
+        bestSquare.newTmpScore = -1;
         console.debug('Opponent will win if you play at:', square);
-      } else if (IsGamerWin(
-        storeSingleton.grid[square.columnIndex][square.rowIndex - 1],
-        storeSingleton.currentGamer)) {
+      } else if (
+        IsGamerWin(
+          storeSingleton.grid[square.columnIndex][square.rowIndex - 1],
+          storeSingleton.currentGamer)
+      ) {
         // tslint:disable-next-line:no-magic-numbers
-        bestSquare.localScore += 200;
+        bestSquare.newTmpScore += 200;
         console.debug('Next turn, play above.');
       }
     }
   }
   console.debug('Square playable parsed:' , square.checkerHTMLElement,
-    'Its score:', bestSquare.localScore);
+    'Its score:', bestSquare.newTmpScore);
+  if (bestSquare.opponentIsTheWinnerFound) {
+    console.debug('The bestSquare stay because',
+      ' we must avoid that the opponent will win', bestSquare);
+  }
   if (
     ! bestSquare.opponentIsTheWinnerFound
-    && bestSquare.localScore > bestSquare.score
+    && bestSquare.newTmpScore > bestSquare.score
   ) {
-    bestSquare.score = bestSquare.localScore;
+    bestSquare.score = bestSquare.newTmpScore;
     bestSquare.square = square;
   }
-  console.debug('Current best square:',
-    bestSquare.square.checkerHTMLElement,
-    'Its score:', bestSquare.score,
-    'opponentIsTheWinnerFound:', bestSquare.opponentIsTheWinnerFound
-  );
   return false;
 };
 
@@ -183,15 +186,15 @@ export const AIHeuristicLineScore = (
   const bestSquare: BestSquare = new BestSquare(squaresEmptyPlayable[0]);
 
   for (const square of squaresEmptyPlayable) {
-    bestSquare.localScore = 0;
+    bestSquare.newTmpScore = 0;
     if (calledFromAIDepthExplorationTurn) {
       parseSquare(ParseHorizontally, square, bestSquare, true);
       parseSquare(ParseDiagnoalNorthWestSouthEast, square, bestSquare, true);
       parseSquare(ParseVertically, square, bestSquare, true);
       parseSquare(ParseDiagonalNorthEastSouthWest, square, bestSquare, true);
-      if (bestSquare.localScore > bestSquare.score
+      if (bestSquare.newTmpScore > bestSquare.score
       ) {
-        bestSquare.score = bestSquare.localScore;
+        bestSquare.score = bestSquare.newTmpScore;
         bestSquare.square = square;
       }
     } else {

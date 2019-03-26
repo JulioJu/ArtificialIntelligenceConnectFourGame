@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Fri 28 Sep 2018 09:07:45 AM CEST
-  *       MODIFIED: Fri 22 Mar 2019 12:56:22 PM CET
+  *       MODIFIED: Tue 02 Apr 2019 02:43:20 PM CEST
   *
   *          USAGE:
   *
@@ -53,6 +53,6 @@ export enum ArtificialIntelligence {
     ALPHABETAHEUR
 }
 
-export const SCORE_WIN  = 100000;
+export const SCORE_WIN = 200000;
 
 // vim: ts=2 sw=2 et:

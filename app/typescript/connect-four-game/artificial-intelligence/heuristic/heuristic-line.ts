@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Mon 15 Oct 2018 02:56:40 PM CEST
-  *       MODIFIED: Fri 01 Mar 2019 04:22:59 PM CET
+  *       MODIFIED: Sat 30 Mar 2019 03:14:24 PM CET
   *
   *          USAGE:
   *
@@ -18,27 +18,25 @@ import { LoopExploreGridFromOneSquare }
 
 import { Square } from '../../Square.js';
 import { storeSingleton } from '../../store-singleton.js';
-import { Direction, ParseLineResult }
-  from './ParseLineResult.js';
-import { ParseLineResultBloc } from './ParseLineResultBloc.js';
-import { ParseCurrentSquareOfTheLoop } from './ai-heuristic-parse-line.js';
+import { Direction, LineResult }
+  from './LineResult.js';
+import { BlocResult } from './BlocResult.js';
+import { BuildBlocResultWrap } from './build-BlocResult.js';
 
-/** See explanations at ./ParseLineResult.ts */
-export const ParseWrap: (
+/** See explanations at ./LineResult.ts */
+export const HeuristicLine: (
         square: Square,
         firstSideLoop: LoopExploreGridFromOneSquare,
-        secondSideLoop: LoopExploreGridFromOneSquare) => ParseLineResult
+        secondSideLoop: LoopExploreGridFromOneSquare) => LineResult
       = (square: Square,
          firstSideLoop: LoopExploreGridFromOneSquare,
-         secondSideLoop: LoopExploreGridFromOneSquare): ParseLineResult => {
+         secondSideLoop: LoopExploreGridFromOneSquare): LineResult => {
 
-  const parseLineResult: ParseLineResult =
-          new ParseLineResult(square, Direction.HORIZONTAL);
+  const lineResult: LineResult = new LineResult(square, Direction.HORIZONTAL);
 
-  const parseLineResultBloc: ParseLineResultBloc[] =
-          new Array(1);
+  const blocResult: BlocResult[] = new Array(1);
 
-  parseLineResultBloc[0] = new ParseLineResultBloc();
+  blocResult[0] = new BlocResult();
   // First side of the Square
   // tslint:disable-next-line:one-variable-per-declaration
   for (let columnIndex: number = firstSideLoop.columnIndexInit,
@@ -51,34 +49,32 @@ export const ParseWrap: (
           rowIndex = firstSideLoop.rowIndexIncrement(rowIndex),
           loopIndex++) {
 
-    const squareOfLoop: Square =
-      storeSingleton.grid[columnIndex][rowIndex];
+    const squareOfLoop: Square = storeSingleton.grid[columnIndex][rowIndex];
 
-    parseLineResultBloc.length++;
-    parseLineResultBloc[parseLineResultBloc.length - 1] =
-      new ParseLineResultBloc(
-          // tslint:disable-next-line:no-magic-numbers
-            parseLineResultBloc[parseLineResultBloc.length - 2]);
-    if (!ParseCurrentSquareOfTheLoop(squareOfLoop, parseLineResult,
-        parseLineResultBloc[parseLineResultBloc.length - 1])) {
-      parseLineResultBloc.length--;
+    blocResult.length++;
+    blocResult[blocResult.length - 1] =
+      // tslint:disable-next-line:no-magic-numbers
+      new BlocResult(blocResult[blocResult.length - 2]);
+    if (!BuildBlocResultWrap(squareOfLoop, lineResult,
+        blocResult[blocResult.length - 1])) {
+      blocResult.length--;
       break;
     }
 
   }
-  if (parseLineResult.gamerIsTheWinner) {
+  if (lineResult.gamerIsTheWinner) {
     // Because no need to continue the analyze !
     // We know that if the current gamer add a checker it wins !!!
-    return parseLineResult;
+    return lineResult;
   }
 
-  if (parseLineResultBloc.length === CHECKERS_ALIGN_TO_WIN) {
-    parseLineResultBloc.length--;
+  if (blocResult.length === CHECKERS_ALIGN_TO_WIN) {
+    blocResult.length--;
   }
 
   // Second side of the Square
   // DO NOT FORGET TO INITIALIZE again some attributes;
-  parseLineResult.checkerAlreadyEncountredInThisSide = Checker.EMPTY;
+  lineResult.checkerAlreadyEncountredInThisSide = Checker.EMPTY;
   // tslint:disable-next-line:one-variable-per-declaration
   for (let columnIndex: number = secondSideLoop.columnIndexInit,
           rowIndex: number = secondSideLoop.rowIndexInit ,
@@ -93,24 +89,24 @@ export const ParseWrap: (
     const squareOfLoop: Square =
       storeSingleton.grid[columnIndex][rowIndex];
 
-    for (let parseLineResultBlocIndex: number
-              = parseLineResultBloc.length - 1;
-          parseLineResultBlocIndex >= 0 ;
-          parseLineResultBlocIndex--) {
-      if (!ParseCurrentSquareOfTheLoop(squareOfLoop, parseLineResult,
-        parseLineResultBloc[parseLineResultBlocIndex])) {
-        return parseLineResult;
+    for (let blocResultIndex: number
+              = blocResult.length - 1;
+          blocResultIndex >= 0 ;
+          blocResultIndex--) {
+      if (!BuildBlocResultWrap(squareOfLoop, lineResult,
+        blocResult[blocResultIndex])) {
+        return lineResult;
       }
     }
 
-    if (parseLineResultBloc[parseLineResultBloc.length - 1].numberOfSquares
-          === CHECKERS_ALIGN_TO_WIN && parseLineResultBloc.length > 1) {
-      parseLineResultBloc.length--;
+    if (blocResult[blocResult.length - 1].numberOfSquares
+          === CHECKERS_ALIGN_TO_WIN && blocResult.length > 1) {
+      blocResult.length--;
     }
 
   }
 
-  return parseLineResult;
+  return lineResult;
 };
 
 // vim: ts=2 sw=2 et:

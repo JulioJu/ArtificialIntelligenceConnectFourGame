@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Sat 06 Oct 2018 06:21:24 PM CEST
-  *       MODIFIED: Fri 22 Mar 2019 02:21:26 AM CET
+  *       MODIFIED: Sat 30 Mar 2019 01:32:10 PM CET
   *
   *          USAGE:
   *
@@ -21,13 +21,13 @@ export enum Direction {
  *  This object is build thanks two loops. First loop if for a side
  *  of the Square, second loop is for the other side.
  */
-export class ParseLineResult {
+export class LineResult {
 
   /**
    *  It's the Square where the AI think about add a checker
    *  of the current gamer.
    *  It's the Square at the center of the analyse.
-   *  Therefore the current object (`parseLineResult`)
+   *  Therefore the current object (`lineResult`)
    *  record the parse of the line with a length
    *  of `((CHECKERS_ALIGN_TO_WIN - 1) * 2)` around this Square.
    */
@@ -44,7 +44,7 @@ export class ParseLineResult {
    *  ```
    *    if (checkerOfLoop !== Checker.EMPTY
    *        && checkerOfLoop
-   *            !== parseLineResult.checkerAlreadyEncountredInThisSide)
+   *            !== lineResult.checkerAlreadyEncountredInThisSide)
    *  ```
    *  the loop that build the current object is breaked.
    *  Initialize at `Checker.EMPTY`

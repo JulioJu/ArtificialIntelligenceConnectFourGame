@@ -1,3 +1,35 @@
+# Sommaire
+
+<!-- vim-markdown-toc GFM -->
+
+* [Further documentation](#further-documentation)
+* [Usage](#usage)
+        * [Google Chrome issues with history](#google-chrome-issues-with-history)
+        * [Note about es6 Modules in Browsers (deprecated)](#note-about-es6-modules-in-browsers-deprecated)
+    * [Cool functionality](#cool-functionality)
+* [Notes on code developed](#notes-on-code-developed)
+    * [Manipulate CSS Object Model (CSSOM)](#manipulate-css-object-model-cssom)
+        * [Animation (keyframes):](#animation-keyframes)
+        * [CSS colors / images](#css-colors--images)
+    * [Conventions](#conventions)
+* [Browser configuration](#browser-configuration)
+    * [console.clear](#consoleclear)
+        * [Firefox](#firefox)
+        * [Chromium](#chromium)
+    * [Timeout](#timeout)
+        * [Firefox](#firefox-1)
+        * [Chromium](#chromium-1)
+    * [performance.now accuracy](#performancenow-accuracy)
+        * [Firefox](#firefox-2)
+        * [Chromium](#chromium-2)
+* [TODO (not important for the teacher)](#todo-not-important-for-the-teacher)
+* [Credits](#credits)
+
+<!-- vim-markdown-toc -->
+
+# Further documentation
+**See ./rapport_ecrit/rapport.md**
+
 # Usage
 * To use it:
     1. Compile with the TypeScript compiler: `./node_modules/.bin/tsc`
@@ -281,8 +313,8 @@
     (it's logical).
 
 ### Firefox
-* Firefox 65 has its tab that stop to work without any warning. Others
-    tabs continue to work.
+* Firefox 65 has its tab that stop to work. Warning is in the Console.
+    Others tabs continue to work.
 * Activate `Persitence log` in Firefox 65 bypass completely `console.clear`
     instruction contrary to Chromium.
 
@@ -322,23 +354,6 @@
 
 * ??????
 
-# Artificial inteligence
-
-## Minimax
-
-Tested
-
-* Works well for a depth of 1, 2, 3, 4, 5 but not 7 and 8
-
-* When value is 9, Firefox 65 take to long time to respond
-    (at least more than 100s)
-
-### Performances
-
-* With deep 9,
-    when the first one checker is at D1 with this AI it takes
-    478730.4 millisecondes, therefore 7.9788 minutes.
-
 # TODO (not important for the teacher)
 * We must command all exported methods and remove in `./tslint.yaml` the rule
     `completed-docs: false`
@@ -357,6 +372,8 @@ Tested
     * Read https://developers.google.com/web/fundamentals/design-and-ux/animations/css-vs-javascript
 
 * Test the compilated version on IE 11.
+
+* All code is well factorized, except ./app/index.html
 
 # Credits
 

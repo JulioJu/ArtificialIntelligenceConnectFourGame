@@ -17,7 +17,7 @@ import { Checker } from '../../constants.js';
  *  Always instantiated in an array of length 4. But sometimes zero could be
  *  winable and sometimes only one could contain four checkers.
  */
-export class ParseLineResultBloc {
+export class BlocResult {
 
   /**
    *  legend: x === opponent / u === Checker.EMPTY
@@ -51,13 +51,13 @@ export class ParseLineResultBloc {
    */
   private _numberOfSquares: number;
 
-  public constructor(parseLineResultBloc?: ParseLineResultBloc) {
-    if (parseLineResultBloc) {
-      this._checkerWiner         = parseLineResultBloc.checkerWiner;
-      this._numberOfEmptySquare  = parseLineResultBloc.numberOfEmptySquare;
-      this._numberOfSquares      = parseLineResultBloc.numberOfSquares;
+  public constructor(blocResult?: BlocResult) {
+    if (blocResult) {
+      this._checkerWiner         = blocResult.checkerWiner;
+      this._numberOfEmptySquare  = blocResult.numberOfEmptySquare;
+      this._numberOfSquares      = blocResult.numberOfSquares;
       this._numberOfSquaresNotPlayable =
-        parseLineResultBloc.numberOfSquaresNotPlayable;
+        blocResult.numberOfSquaresNotPlayable;
     } else {
       this._checkerWiner                = Checker.EMPTY;
       /** The square we want maybe add a new checker is empty */

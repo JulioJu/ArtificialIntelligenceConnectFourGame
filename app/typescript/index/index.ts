@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Tue 25 Sep 2018 02:42:40 PM CEST
-  *       MODIFIED: Thu 21 Mar 2019 08:20:30 PM CET
+  *       MODIFIED: Sun 31 Mar 2019 08:03:29 AM CEST
   *
   *          USAGE:
   *
@@ -52,8 +52,6 @@ const submitForm: () => void = (): void => {
         url +=
           '&is_computer_to_start=' + formElement.is_computer_to_start.value;
       }
-      console.log('coucou',
-      testIfDeepQueryParamIsUseful(formElement.ai_yellow));
       if (
         testIfDeepQueryParamIsUseful(formElement.ai_yellow)
         && formElement.ai_yellow_deep

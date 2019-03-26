@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Sat 29 Sep 2018 03:38:08 PM CEST
-  *       MODIFIED: Thu 21 Mar 2019 01:31:29 PM CET
+  *       MODIFIED: Sat 30 Mar 2019 07:25:11 PM CET
   *
   *          USAGE:
   *
@@ -88,14 +88,12 @@ export const storeSingleton: IStoreSingleton = {
   squaresEmptyPlayable: new Array(GRID_COLUMN_LENGTH),
   // tslint:disable-next-line:object-literal-shorthand
   squaresEmptyPlayableContains: function(squareTested: Square): boolean {
-    let returnValue: boolean = false;
     for (const squareOfLoop of this.squaresEmptyPlayable) {
       if (squareOfLoop.equals(squareTested)) {
-        returnValue = true;
-        break;
+        return true;
       }
     }
-    return returnValue;
+    return false;
   },
   numberOfClick: 0,
 

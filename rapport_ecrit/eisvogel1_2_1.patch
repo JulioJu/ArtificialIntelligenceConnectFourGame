@@ -1,0 +1,18 @@
+--- eisvogel.tex	2019-04-02 16:00:08.429983079 +0200
++++ eisvogel.tex2	2019-03-27 16:43:02.370474197 +0100
+@@ -610,12 +610,15 @@
+ % https://en.wikibooks.org/wiki/LaTeX/Tables#.40-expressions
+ $endif$
+
++$if(indent)$
++$else$
+ %
+ % remove paragraph indention
+ %
+ \setlength{\parindent}{0pt}
+ \setlength{\parskip}{6pt plus 2pt minus 1pt}
+ \setlength{\emergencystretch}{3em}  % prevent overfull lines
++$endif$
+
+ %
+ %
